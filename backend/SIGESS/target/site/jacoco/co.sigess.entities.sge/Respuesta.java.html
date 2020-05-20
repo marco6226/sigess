@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Respuesta.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.sge</a> &gt; <span class="el_source">Respuesta.java</span></div><h1>Respuesta.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.sge;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Table(name = &quot;respuesta&quot;, schema = &quot;sge&quot;)
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;Respuesta.findAll&quot;, query = &quot;SELECT r FROM Respuesta r&quot;)})
+public class Respuesta implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @SequenceGenerator(name = &quot;respuesta_id_seq&quot;, schema = &quot;sge&quot;, sequenceName = &quot;respuesta_id_seq&quot;, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = &quot;respuesta_id_seq&quot;)
+    @Column(name = &quot;id&quot;)
+    private Integer id;
+    
+    @Size(max = 1024)
+    @Column(name = &quot;actividad&quot;)
+    private String actividad;
+    
+    @Size(max = 100)
+    @Column(name = &quot;responsable&quot;)
+    private String responsable;
+    
+    @Size(max = 512)
+    @Column(name = &quot;recursos&quot;)
+    private String recursos;
+    
+    @Size(max = 512)
+    @Column(name = &quot;meta&quot;)
+    private String meta;
+    
+    @JoinColumn(name = &quot;fk_evaluacion_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private Evaluacion evaluacion;
+    
+    @JoinColumn(name = &quot;fk_opcion_respuesta_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private OpcionRespuesta opcionRespuesta;
+
+<span class="nc" id="L73">    public Respuesta() {</span>
+<span class="nc" id="L74">    }</span>
+
+<span class="nc" id="L76">    public Respuesta(Integer id) {</span>
+<span class="nc" id="L77">        this.id = id;</span>
+<span class="nc" id="L78">    }</span>
+
+    public Integer getId() {
+<span class="nc" id="L81">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="nc" id="L85">        this.id = id;</span>
+<span class="nc" id="L86">    }</span>
+
+    public String getActividad() {
+<span class="nc" id="L89">        return actividad;</span>
+    }
+
+    public void setActividad(String actividad) {
+<span class="nc" id="L93">        this.actividad = actividad;</span>
+<span class="nc" id="L94">    }</span>
+
+    public String getResponsable() {
+<span class="nc" id="L97">        return responsable;</span>
+    }
+
+    public void setResponsable(String responsable) {
+<span class="nc" id="L101">        this.responsable = responsable;</span>
+<span class="nc" id="L102">    }</span>
+
+    public String getRecursos() {
+<span class="nc" id="L105">        return recursos;</span>
+    }
+
+    public void setRecursos(String recursos) {
+<span class="nc" id="L109">        this.recursos = recursos;</span>
+<span class="nc" id="L110">    }</span>
+
+    public String getMeta() {
+<span class="nc" id="L113">        return meta;</span>
+    }
+
+    public void setMeta(String meta) {
+<span class="nc" id="L117">        this.meta = meta;</span>
+<span class="nc" id="L118">    }</span>
+
+    @JsonIgnore
+    public Evaluacion getEvaluacion() {
+<span class="nc" id="L122">        return evaluacion;</span>
+    }
+
+    @JsonProperty(value = &quot;evaluacion&quot;)
+    public void setEvaluacion(Evaluacion evaluacion) {
+<span class="nc" id="L127">        this.evaluacion = evaluacion;</span>
+<span class="nc" id="L128">    }</span>
+
+    public OpcionRespuesta getOpcionRespuesta() {
+<span class="nc" id="L131">        return opcionRespuesta;</span>
+    }
+
+    public void setOpcionRespuesta(OpcionRespuesta opcionRespuesta) {
+<span class="nc" id="L135">        this.opcionRespuesta = opcionRespuesta;</span>
+<span class="nc" id="L136">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L140">        int hash = 0;</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L142">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        if (!(object instanceof Respuesta)) {</span>
+<span class="nc" id="L149">            return false;</span>
+        }
+<span class="nc" id="L151">        Respuesta other = (Respuesta) object;</span>
+<span class="nc bnc" id="L152" title="All 8 branches missed.">        if ((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id))) {</span>
+<span class="nc" id="L153">            return false;</span>
+        }
+<span class="nc" id="L155">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L160">        return &quot;co.sigess.entities.sge.Respuesta[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

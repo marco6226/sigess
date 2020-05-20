@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DesviacionSGEDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.sge.dto</a> &gt; <span class="el_source">DesviacionSGEDTO.java</span></div><h1>DesviacionSGEDTO.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.sge.dto;
+
+import java.io.Serializable;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.SqlResultSetMapping;
+
+/**
+ *
+ * @author fmoreno
+ */
+@NamedNativeQuery(
+        name = &quot;DesviacionesSGENativeQuery&quot;,
+        query = &quot;select &quot;
+        + &quot;respuesta_id AS respuesta_id, &quot;
+        + &quot;respuesta_actividad , &quot;
+        + &quot;respuesta_responsable , &quot;
+        + &quot;respuesta_recursos , &quot;
+        + &quot;respuesta_meta , &quot;
+        + &quot;elemento_codigo, &quot;
+        + &quot;elemento_nombre, &quot;
+        + &quot;descripcion_calificacion, &quot;
+        + &quot;despreciable, &quot;
+        + &quot;nombre_calificacion, &quot;
+        + &quot;calificacion, &quot;
+        + &quot;maximo_posible, &quot;
+        + &quot;ok &quot;
+        + &quot;from sge.informe_sge(?1) where ok = 'f';&quot;,
+        resultSetMapping = &quot;DesviacionSGEmapping&quot;
+)
+@SqlResultSetMapping(
+        name = &quot;DesviacionSGEmapping&quot;,
+        classes = @ConstructorResult(
+                targetClass = DesviacionSGEDTO.class,
+                columns = {
+                    @ColumnResult(name = &quot;respuesta_id&quot;)
+                    ,
+            @ColumnResult(name = &quot;respuesta_actividad&quot;, type = String.class)
+                    ,
+            @ColumnResult(name = &quot;respuesta_responsable&quot;, type = String.class)
+                    ,
+            @ColumnResult(name = &quot;respuesta_recursos&quot;, type = String.class)
+                    ,
+            @ColumnResult(name = &quot;respuesta_meta&quot;, type = String.class)
+                    ,
+            @ColumnResult(name = &quot;elemento_codigo&quot;, type = String.class)
+                    ,
+            @ColumnResult(name = &quot;elemento_nombre&quot;, type = String.class)
+                    ,
+            @ColumnResult(name = &quot;descripcion_calificacion&quot;, type = String.class)
+                    ,
+            @ColumnResult(name = &quot;despreciable&quot;, type = Boolean.class)
+                    ,
+            @ColumnResult(name = &quot;nombre_calificacion&quot;, type = String.class)
+                    ,
+            @ColumnResult(name = &quot;calificacion&quot;, type = Double.class)
+                    ,   
+            @ColumnResult(name = &quot;maximo_posible&quot;, type = Double.class)
+                    ,
+            @ColumnResult(name = &quot;ok&quot;, type = Boolean.class)}
+        )
+)
+@Entity
+public class DesviacionSGEDTO implements Serializable {
+
+    @Id
+    private Long respuestaId;    
+    private String actividad;
+    private String responsable;
+    private String recursos;
+    private String meta;
+    private String elementoCodigo;
+    private String elementoNombre;
+    private String descripcionCalificacion;
+    private Boolean despreciable;
+    private String nombreCalificacion;
+    private Double calificacion;
+    private Double maximoPosible;
+    private Boolean ok;
+
+<span class="nc" id="L89">    public DesviacionSGEDTO() {</span>
+<span class="nc" id="L90">    }</span>
+
+<span class="nc" id="L92">    public DesviacionSGEDTO(Long respuestaId, String actividad, String responsable, String recursos, String meta, String elementoCodigo, String elementoNombre, String descripcionCalificacion, Boolean despreciable, String nombreCalificacion, Double calificacion, Double maximoPosible, Boolean ok) {</span>
+<span class="nc" id="L93">        this.respuestaId = respuestaId;</span>
+<span class="nc" id="L94">        this.actividad = actividad;</span>
+<span class="nc" id="L95">        this.responsable = responsable;</span>
+<span class="nc" id="L96">        this.recursos = recursos;</span>
+<span class="nc" id="L97">        this.meta = meta;</span>
+<span class="nc" id="L98">        this.elementoCodigo = elementoCodigo;</span>
+<span class="nc" id="L99">        this.elementoNombre = elementoNombre;</span>
+<span class="nc" id="L100">        this.descripcionCalificacion = descripcionCalificacion;</span>
+<span class="nc" id="L101">        this.despreciable = despreciable;</span>
+<span class="nc" id="L102">        this.nombreCalificacion = nombreCalificacion;</span>
+<span class="nc" id="L103">        this.calificacion = calificacion;</span>
+<span class="nc" id="L104">        this.maximoPosible = maximoPosible;</span>
+<span class="nc" id="L105">        this.ok = ok;</span>
+<span class="nc" id="L106">    }</span>
+
+
+    public String getElementoCodigo() {
+<span class="nc" id="L110">        return elementoCodigo;</span>
+    }
+
+    public void setElementoCodigo(String elementoCodigo) {
+<span class="nc" id="L114">        this.elementoCodigo = elementoCodigo;</span>
+<span class="nc" id="L115">    }</span>
+
+    public String getElementoNombre() {
+<span class="nc" id="L118">        return elementoNombre;</span>
+    }
+
+    public void setElementoNombre(String elementoNombre) {
+<span class="nc" id="L122">        this.elementoNombre = elementoNombre;</span>
+<span class="nc" id="L123">    }</span>
+
+    public String getDescripcionCalificacion() {
+<span class="nc" id="L126">        return descripcionCalificacion;</span>
+    }
+
+    public void setDescripcionCalificacion(String descripcionCalificacion) {
+<span class="nc" id="L130">        this.descripcionCalificacion = descripcionCalificacion;</span>
+<span class="nc" id="L131">    }</span>
+
+    public Boolean getDespreciable() {
+<span class="nc" id="L134">        return despreciable;</span>
+    }
+
+    public void setDespreciable(Boolean despreciable) {
+<span class="nc" id="L138">        this.despreciable = despreciable;</span>
+<span class="nc" id="L139">    }</span>
+
+    public Long getRespuestaId() {
+<span class="nc" id="L142">        return respuestaId;</span>
+    }
+
+    public void setRespuestaId(Long respuestaId) {
+<span class="nc" id="L146">        this.respuestaId = respuestaId;</span>
+<span class="nc" id="L147">    }</span>
+
+    public String getNombreCalificacion() {
+<span class="nc" id="L150">        return nombreCalificacion;</span>
+    }
+
+    public void setNombreCalificacion(String nombreCalificacion) {
+<span class="nc" id="L154">        this.nombreCalificacion = nombreCalificacion;</span>
+<span class="nc" id="L155">    }</span>
+
+    public Double getCalificacion() {
+<span class="nc" id="L158">        return calificacion;</span>
+    }
+
+    public void setCalificacion(Double calificacion) {
+<span class="nc" id="L162">        this.calificacion = calificacion;</span>
+<span class="nc" id="L163">    }</span>
+
+    public Double getMaximoPosible() {
+<span class="nc" id="L166">        return maximoPosible;</span>
+    }
+
+    public void setMaximoPosible(Double maximoPosible) {
+<span class="nc" id="L170">        this.maximoPosible = maximoPosible;</span>
+<span class="nc" id="L171">    }</span>
+
+    public Boolean getOk() {
+<span class="nc" id="L174">        return ok;</span>
+    }
+
+    public void setOk(Boolean ok) {
+<span class="nc" id="L178">        this.ok = ok;</span>
+<span class="nc" id="L179">    }</span>
+
+    public String getActividad() {
+<span class="nc" id="L182">        return actividad;</span>
+    }
+
+    public void setActividad(String actividad) {
+<span class="nc" id="L186">        this.actividad = actividad;</span>
+<span class="nc" id="L187">    }</span>
+
+    public String getResponsable() {
+<span class="nc" id="L190">        return responsable;</span>
+    }
+
+    public void setResponsable(String responsable) {
+<span class="nc" id="L194">        this.responsable = responsable;</span>
+<span class="nc" id="L195">    }</span>
+
+    public String getRecursos() {
+<span class="nc" id="L198">        return recursos;</span>
+    }
+
+    public void setRecursos(String recursos) {
+<span class="nc" id="L202">        this.recursos = recursos;</span>
+<span class="nc" id="L203">    }</span>
+
+    public String getMeta() {
+<span class="nc" id="L206">        return meta;</span>
+    }
+
+    public void setMeta(String meta) {
+<span class="nc" id="L210">        this.meta = meta;</span>
+<span class="nc" id="L211">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

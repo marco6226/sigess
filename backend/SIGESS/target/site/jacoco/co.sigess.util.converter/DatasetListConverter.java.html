@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatasetListConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.util.converter</a> &gt; <span class="el_source">DatasetListConverter.java</span></div><h1>DatasetListConverter.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.util.converter;
+
+import co.sigess.entities.ind.Dataset;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Converter
+<span class="nc" id="L20">public class DatasetListConverter implements AttributeConverter&lt;List&lt;Dataset&gt;, String&gt; {</span>
+
+    
+    @Override
+    public String convertToDatabaseColumn(List&lt;Dataset&gt; attribute) {
+<span class="nc" id="L25">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    @Override
+    public List&lt;Dataset&gt; convertToEntityAttribute(String joined) {
+<span class="nc" id="L30">        return convertToEntity(joined);</span>
+    }
+
+    public static List&lt;Dataset&gt; convertToEntity(String joined) {
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        if (joined == null) {</span>
+<span class="nc" id="L35">            return null;</span>
+        }
+<span class="nc" id="L37">        String[] datasetArray = joined.split(&quot;\n&quot;);</span>
+<span class="nc" id="L38">        List&lt;Dataset&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        for (String strDataset : datasetArray) {</span>
+<span class="nc" id="L40">            String[] dataSplit = strDataset.split(&quot;#&quot;);</span>
+            
+<span class="nc" id="L42">            Dataset dataset = new Dataset();</span>
+<span class="nc" id="L43">            dataset.setLabel(dataSplit[0]);</span>
+<span class="nc" id="L44">            dataset.setData(new ArrayList&lt;&gt;());</span>
+            
+<span class="nc" id="L46">            String[] data = dataSplit[1].split(&quot;;&quot;);</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">            for (String strValue : data) {</span>
+<span class="nc" id="L48">                dataset.getData().add(Double.parseDouble(strValue));</span>
+            }
+<span class="nc" id="L50">            list.add(dataset);</span>
+        }
+        
+<span class="nc" id="L53">        return list;</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

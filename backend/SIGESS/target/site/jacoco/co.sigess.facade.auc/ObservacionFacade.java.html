@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ObservacionFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.auc</a> &gt; <span class="el_source">ObservacionFacade.java</span></div><h1>ObservacionFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.auc;
+
+import co.sigess.entities.ado.Documento;
+import co.sigess.entities.auc.Observacion;
+import co.sigess.entities.auc.Tarjeta;
+import co.sigess.entities.emp.Empleado;
+import co.sigess.facade.com.AbstractFacade;
+import co.sigess.facade.emp.EmpleadoFacade;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Stateless
+public class ObservacionFacade extends AbstractFacade&lt;Observacion&gt; {
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    @EJB
+    private TarjetaFacade tarjetaFacade;
+
+    @EJB
+    private EmpleadoFacade empleadoFacade;
+
+    @Override
+    protected EntityManager getEntityManager() {
+<span class="nc" id="L41">        return em;</span>
+    }
+
+    public ObservacionFacade() {
+<span class="nc" id="L45">        super(Observacion.class);</span>
+<span class="nc" id="L46">    }</span>
+
+    public Observacion create(Observacion observacion, int empresaId) throws Exception {
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        if (observacion.getTipoObservacion() == null) {</span>
+<span class="nc" id="L50">            throw new IllegalArgumentException(&quot;Debe especificar el tipo de observación&quot;);</span>
+        }
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (observacion.getDescripcion() == null) {</span>
+<span class="nc" id="L53">            throw new IllegalArgumentException(&quot;Debe especificar la descripción de la observación&quot;);</span>
+        }
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if (observacion.getImplicacionList() == null) {</span>
+<span class="nc" id="L56">            throw new IllegalArgumentException(&quot;Debe especificar al menos una implicación&quot;);</span>
+        }
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        if (observacion.getArea() == null) {</span>
+<span class="nc" id="L59">            throw new IllegalArgumentException(&quot;Debe especificar el área de la obsevación&quot;);</span>
+        }
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (observacion.getTarjeta() == null) {</span>
+<span class="nc" id="L62">            throw new IllegalArgumentException(&quot;Debe establecer una tarjeta para la observación a reportar&quot;);</span>
+        }
+
+<span class="nc" id="L65">        Tarjeta tarjeta = tarjetaFacade.find(observacion.getTarjeta().getId());</span>
+<span class="nc bnc" id="L66" title="All 4 branches missed.">        if (tarjeta == null || !tarjeta.getEmpresa().getId().equals(empresaId)) {</span>
+<span class="nc" id="L67">            throw new IllegalArgumentException(&quot;Se ha establecido una tarjeta no válida para la obsevación&quot;);</span>
+        }
+
+<span class="nc" id="L70">        observacion.setFechaObservacion(new Date());</span>
+<span class="nc" id="L71">        return super.create(observacion);</span>
+    }
+
+    public Observacion aceptarObservacion(Observacion observacion) throws Exception {
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        if(observacion.getId() == null){</span>
+<span class="nc" id="L76">            throw new IllegalArgumentException(&quot;No ha especificado el id de la observación a modificar&quot;);</span>
+        }
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        if(observacion.getUsuarioRevisa() == null){</span>
+<span class="nc" id="L79">            throw new IllegalArgumentException(&quot;Debe establecer el usuario que acepta la observación&quot;);</span>
+        }
+<span class="nc bnc" id="L81" title="All 4 branches missed.">        if(observacion.getCausaRaizAprobadaList() == null || observacion.getCausaRaizAprobadaList().isEmpty()){</span>
+<span class="nc" id="L82">            throw new IllegalArgumentException(&quot;Debe establecer las causas raiz aprobadas para la observación&quot;);</span>
+        }
+<span class="nc" id="L84">        Observacion observDB = this.find(observacion.getId());</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        if(observDB == null){</span>
+<span class="nc" id="L86">            throw new IllegalArgumentException(&quot;Ha especificado una observación inválida&quot;);</span>
+        }
+<span class="nc" id="L88">        observDB.setUsuarioRevisa(observacion.getUsuarioRevisa());</span>
+<span class="nc" id="L89">        observDB.setFechaRespuesta(new Date());</span>
+<span class="nc" id="L90">        observDB.setAceptada(Boolean.TRUE);</span>
+<span class="nc" id="L91">        observDB.setCausaRaizAprobadaList(observacion.getCausaRaizAprobadaList());</span>
+<span class="nc" id="L92">        return super.edit(observDB); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+    
+    public Observacion denegarObservacion(Observacion observacion) throws Exception {
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if(observacion.getId() == null){</span>
+<span class="nc" id="L97">            throw new IllegalArgumentException(&quot;No ha especificado el id de la observación a modificar&quot;);</span>
+        }
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        if(observacion.getUsuarioRevisa() == null){</span>
+<span class="nc" id="L100">            throw new IllegalArgumentException(&quot;Debe establecer el usuario que deniega la observación&quot;);</span>
+        }
+<span class="nc bnc" id="L102" title="All 4 branches missed.">        if(observacion.getMotivo()== null || observacion.getMotivo().isEmpty()){</span>
+<span class="nc" id="L103">            throw new IllegalArgumentException(&quot;Debe establecer el motivo de denegación de la observación&quot;);</span>
+        }
+<span class="nc" id="L105">        Observacion observDB = this.find(observacion.getId());</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        if(observDB == null){</span>
+<span class="nc" id="L107">            throw new IllegalArgumentException(&quot;Ha especificado una observación inválida&quot;);</span>
+        }
+<span class="nc" id="L109">        observDB.setUsuarioRevisa(observacion.getUsuarioRevisa());</span>
+<span class="nc" id="L110">        observDB.setFechaRespuesta(new Date());</span>
+<span class="nc" id="L111">        observDB.setAceptada(Boolean.FALSE);</span>
+<span class="nc" id="L112">        observDB.setMotivo(observacion.getMotivo());</span>
+<span class="nc" id="L113">        return super.edit(observDB); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+    
+//    public List&lt;Observacion&gt; findAllByUsuarioEmpresa(Integer usuarioId, Integer empresaId) {
+//        Empleado empleado = empleadoFacade.findByUsuario(usuarioId);
+//        if (empleado == null) {
+//            return this.findAllByEmpresa(empresaId);
+//        } else {
+//            return this.findAllByArea(empleado.getArea().getId());
+//        }
+//    }
+    
+    @Override
+    public List&lt;Observacion&gt; findAllByEmpresa(Integer empresaId){
+<span class="nc" id="L127">        Query q = this.em.createQuery(&quot;SELECT ob FROM Observacion ob WHERE ob.tarjeta.empresa.id = ?1 ORDER BY ob.fechaObservacion DESC&quot;);</span>
+<span class="nc" id="L128">        q.setParameter(1, empresaId);</span>
+<span class="nc" id="L129">        List&lt;Observacion&gt; list = (List&lt;Observacion&gt; )q.getResultList();</span>
+<span class="nc" id="L130">        return list;</span>
+    }
+    
+    public List&lt;Observacion&gt; findAllByArea(Long areaId){
+<span class="nc" id="L134">        Query q = this.em.createQuery(&quot;SELECT ob FROM Observacion ob WHERE ob.area.id = ?1 ORDER BY ob.fechaObservacion DESC&quot;);</span>
+<span class="nc" id="L135">        q.setParameter(1, areaId);</span>
+<span class="nc" id="L136">        List&lt;Observacion&gt; list = (List&lt;Observacion&gt; )q.getResultList();</span>
+<span class="nc" id="L137">        return list;</span>
+    }
+
+    public void relacionarDocumento(Documento documento, Long observacionId) throws Exception {
+<span class="nc" id="L141">        Observacion ad = this.find(observacionId);</span>
+<span class="nc" id="L142">        List&lt;Documento&gt; list = ad.getDocumentoList();</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">        if (list == null) {</span>
+<span class="nc" id="L144">            list = new ArrayList&lt;&gt;();</span>
+        }
+<span class="nc" id="L146">        list.add(documento);</span>
+<span class="nc" id="L147">        super.edit(ad);</span>
+<span class="nc" id="L148">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

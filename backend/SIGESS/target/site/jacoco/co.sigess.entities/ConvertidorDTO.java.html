@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ConvertidorDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities</a> &gt; <span class="el_source">ConvertidorDTO.java</span></div><h1>ConvertidorDTO.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities;
+
+import co.sigess.entities.sec.AnalisisDesviacion;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Map;
+
+/**
+ *
+ * @author fmoreno
+ */
+<span class="nc" id="L18">public class ConvertidorDTO {</span>
+
+    public static &lt;T, E&gt; E toDTO(T entity, Class&lt;E&gt; dtoClass) throws IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchFieldException {
+<span class="nc" id="L21">        E dtoInstance = dtoClass.newInstance();</span>
+<span class="nc" id="L22">        Class&lt;T&gt; clazz = (Class&lt;T&gt;) entity.getClass();</span>
+<span class="nc bnc" id="L23" title="All 2 branches missed.">        for (Method method : clazz.getMethods()) {</span>
+<span class="nc" id="L24">            CampoDTO cdto = method.getAnnotation(CampoDTO.class);</span>
+<span class="nc bnc" id="L25" title="All 2 branches missed.">            if (cdto != null) {</span>
+<span class="nc" id="L26">                Field dtoField = dtoClass.getDeclaredField(cdto.referencia());</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">                if (dtoField != null) {</span>
+<span class="nc" id="L28">                    dtoField.setAccessible(true);</span>
+<span class="nc" id="L29">                    dtoField.set(dtoInstance, method.invoke(entity));</span>
+                }
+            }
+        }
+<span class="nc" id="L33">        return dtoInstance;</span>
+    }
+
+    public static &lt;E, T&gt; T toEntity(E dtoInstance, Class&lt;T&gt; entityClass) throws IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchFieldException {
+<span class="nc" id="L37">        T entity = entityClass.newInstance();</span>
+<span class="nc" id="L38">        Class&lt;E&gt; clazz = (Class&lt;E&gt;) dtoInstance.getClass();</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        for (Method method : clazz.getMethods()) {</span>
+<span class="nc" id="L40">            CampoDTO cdto = method.getAnnotation(CampoDTO.class);</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">            if (cdto != null) {</span>
+<span class="nc" id="L42">                Field entityField = entityClass.getDeclaredField(cdto.referencia());</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">                if (entityField != null) {</span>
+<span class="nc" id="L44">                    entityField.setAccessible(true);</span>
+<span class="nc" id="L45">                    entityField.set(entity, method.invoke(dtoInstance));</span>
+                }
+            }
+        }
+<span class="nc" id="L49">        return entity;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

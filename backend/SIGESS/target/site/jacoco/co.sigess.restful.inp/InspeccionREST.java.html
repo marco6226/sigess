@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InspeccionREST.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.restful.inp</a> &gt; <span class="el_source">InspeccionREST.java</span></div><h1>InspeccionREST.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.restful.inp;
+
+import co.sigess.entities.emp.Empresa;
+import co.sigess.entities.inp.Inspeccion;
+import co.sigess.facade.inp.InspeccionFacade;
+import co.sigess.restful.FilterQuery;
+import co.sigess.restful.ServiceREST;
+import co.sigess.restful.security.Compress;
+import co.sigess.restful.security.Secured;
+import co.sigess.util.Util;
+import java.io.ByteArrayOutputStream;
+import java.util.Date;
+import javax.ejb.EJB;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Secured
+@Path(&quot;inspeccion&quot;)
+public class InspeccionREST extends ServiceREST {
+
+    @EJB
+    private InspeccionFacade inspeccionFacade;
+
+    public InspeccionREST() {
+<span class="nc" id="L41">        super(InspeccionFacade.class);</span>
+<span class="nc" id="L42">    }</span>
+
+    @Compress
+    @Override
+    public Response findWithFilter(FilterQuery filterQuery) {
+<span class="nc" id="L47">        return super.findWithFilter(filterQuery); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    @GET
+    @Path(&quot;{id}&quot;)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response find(@PathParam(&quot;id&quot;) Long id) {
+        try {
+<span class="nc" id="L55">            Inspeccion insp = inspeccionFacade.find(id);</span>
+<span class="nc" id="L56">            return Response.ok(insp).build();</span>
+<span class="nc" id="L57">        } catch (Exception ex) {</span>
+<span class="nc" id="L58">            return Util.manageException(ex, InspeccionREST.class);</span>
+        }
+    }
+
+    @GET
+    @Path(&quot;consolidado&quot;)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_OCTET_STREAM})
+    public Response consultarConsolidado(
+            @QueryParam(&quot;desde&quot;) Date desde,
+            @QueryParam(&quot;hasta&quot;) Date hasta,
+            @QueryParam(&quot;listaId&quot;) Integer listaId,
+            @QueryParam(&quot;listaVersion&quot;) Integer listaVersion
+    ) {
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        if (desde == null) {</span>
+<span class="nc" id="L72">            throw new IllegalArgumentException(&quot;Debe especificar la fecha de inicio de rango de consulta&quot;);</span>
+        }
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        if (hasta == null) {</span>
+<span class="nc" id="L75">            throw new IllegalArgumentException(&quot;Debe especificar la fecha de fin de rango de consulta&quot;);</span>
+        }
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (listaId == null) {</span>
+<span class="nc" id="L78">            throw new IllegalArgumentException(&quot;Debe especificar el id de la lista de inspeccion&quot;);</span>
+        }
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        if (listaVersion == null) {</span>
+<span class="nc" id="L81">            throw new IllegalArgumentException(&quot;Debe especificar la version de la lista de inspeccion&quot;);</span>
+        }
+        try {
+<span class="nc" id="L84">            ByteArrayOutputStream out = inspeccionFacade.consultarConsolidado(super.getEmpresaIdRequestContext(), desde, hasta, listaId, listaVersion);</span>
+<span class="nc" id="L85">            return Response.ok(out.toByteArray(), MediaType.APPLICATION_OCTET_STREAM_TYPE).build();</span>
+<span class="nc" id="L86">        } catch (Exception ex) {</span>
+<span class="nc" id="L87">            return Util.manageException(ex, InspeccionREST.class);</span>
+        }
+    }
+
+    @POST
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response create(Inspeccion inspeccion) {
+        try {
+<span class="nc" id="L95">            inspeccion.setEmpresa(new Empresa(super.getEmpresaIdRequestContext()));</span>
+<span class="nc" id="L96">            inspeccion.setUsuarioRegistra(super.getUsuarioRequestContext());</span>
+<span class="nc" id="L97">            inspeccion = inspeccionFacade.create(inspeccion);</span>
+<span class="nc" id="L98">            return Response.ok(inspeccion).build();</span>
+<span class="nc" id="L99">        } catch (Exception ex) {</span>
+<span class="nc" id="L100">            return Util.manageException(ex, InspeccionREST.class);</span>
+        }
+    }
+
+    @PUT
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response edit(Inspeccion inspeccion) {
+        try {
+<span class="nc" id="L108">            inspeccion.setUsuarioModifica(super.getUsuarioRequestContext());</span>
+<span class="nc" id="L109">            inspeccion = inspeccionFacade.edit(inspeccion);</span>
+<span class="nc" id="L110">            return Response.ok(inspeccion).build();</span>
+<span class="nc" id="L111">        } catch (Exception ex) {</span>
+<span class="nc" id="L112">            return Util.manageException(ex, InspeccionREST.class);</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

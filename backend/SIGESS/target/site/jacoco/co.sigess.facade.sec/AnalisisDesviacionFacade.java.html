@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AnalisisDesviacionFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.sec</a> &gt; <span class="el_source">AnalisisDesviacionFacade.java</span></div><h1>AnalisisDesviacionFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.sec;
+
+import co.sigess.entities.ado.Documento;
+import co.sigess.entities.com.TipoMensaje;
+import co.sigess.entities.sec.AnalisisDesviacion;
+import co.sigess.entities.sec.Desviacion;
+import co.sigess.entities.sec.EstadoTarea;
+import co.sigess.entities.sec.TareaDesviacion;
+import co.sigess.exceptions.UserMessageException;
+import co.sigess.facade.com.AbstractFacade;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Stateless
+public class AnalisisDesviacionFacade extends AbstractFacade&lt;AnalisisDesviacion&gt; {
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    @EJB
+    private TareaDesviacionFacade tareaDesvFacade;
+
+    @Override
+    protected EntityManager getEntityManager() {
+<span class="nc" id="L40">        return em;</span>
+    }
+
+    public AnalisisDesviacionFacade() {
+<span class="nc" id="L44">        super(AnalisisDesviacion.class);</span>
+<span class="nc" id="L45">    }</span>
+
+    @Override
+    public AnalisisDesviacion create(AnalisisDesviacion analisisDesviacion) throws Exception {
+<span class="nc bnc" id="L49" title="All 4 branches missed.">        if (analisisDesviacion.getDesviacionesList() == null || analisisDesviacion.getDesviacionesList().isEmpty()) {</span>
+<span class="nc" id="L50">            throw new UserMessageException(&quot;El análisis realizado debe contener al menos una desviación&quot;, &quot;&quot;, TipoMensaje.warn);</span>
+        }
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (analisisDesviacion.getAnalisisCosto() != null) {</span>
+<span class="nc" id="L53">            analisisDesviacion.getAnalisisCosto().setAnalisisDesviacion(analisisDesviacion);</span>
+        }
+
+        // Comprueba si al menos una de las desviaciones ya fue investigada
+<span class="nc" id="L57">        List&lt;String&gt; desvIdList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L58">        analisisDesviacion.getDesviacionesList().forEach((desv) -&gt; desvIdList.add(desv.getHashId()));</span>
+<span class="nc" id="L59">        Query q = this.em.createQuery(&quot;SELECT desv FROM Desviacion desv WHERE desv.hashId IN ?1 AND desv.analisisId IS NOT NULL&quot;);</span>
+<span class="nc" id="L60">        q.setParameter(1, desvIdList);</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (!q.getResultList().isEmpty()) {</span>
+<span class="nc" id="L62">            throw new UserMessageException(</span>
+                    &quot;Investigación previa existente&quot;,
+                    &quot;Ya se encuentra registrada una investigación de los hallazgos a registrar&quot;,
+                    TipoMensaje.info
+            );
+        }
+
+<span class="nc" id="L69">        super.create(analisisDesviacion);</span>
+
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        if (analisisDesviacion.getTareaDesviacionList() != null) {</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">            for (TareaDesviacion tarea : analisisDesviacion.getTareaDesviacionList()) {</span>
+<span class="nc" id="L73">                tarea.setAnalisisDesviacionList(new ArrayList&lt;&gt;());</span>
+<span class="nc" id="L74">                tarea.getAnalisisDesviacionList().add(analisisDesviacion);</span>
+<span class="nc" id="L75">                tarea.setEmpresa(analisisDesviacion.getEmpresa());</span>
+<span class="nc" id="L76">                tareaDesvFacade.create(tarea);</span>
+<span class="nc" id="L77">            }</span>
+        }
+
+<span class="nc" id="L80">        return analisisDesviacion;</span>
+    }
+
+    @Override
+    public AnalisisDesviacion edit(AnalisisDesviacion anDesv) throws Exception {
+<span class="nc bnc" id="L85" title="All 4 branches missed.">        if (anDesv.getDesviacionesList() == null || anDesv.getDesviacionesList().isEmpty()) {</span>
+<span class="nc" id="L86">            throw new UserMessageException(&quot;El análisis realizado debe contener al menos una desviación&quot;, &quot;&quot;, TipoMensaje.warn);</span>
+        }
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if (anDesv.getAnalisisCosto() != null) {</span>
+<span class="nc" id="L89">            anDesv.getAnalisisCosto().setAnalisisDesviacionId(anDesv.getId());</span>
+<span class="nc" id="L90">            anDesv.getAnalisisCosto().setAnalisisDesviacion(anDesv);</span>
+        }
+<span class="nc" id="L92">        AnalisisDesviacion adDB = this.find(anDesv.getId());</span>
+<span class="nc" id="L93">        adDB.setAnalisisCosto(anDesv.getAnalisisCosto());</span>
+<span class="nc" id="L94">        adDB.setCausaInmediataList(anDesv.getCausaInmediataList());</span>
+<span class="nc" id="L95">        adDB.setCausaRaizList(anDesv.getCausaRaizList());</span>
+<span class="nc" id="L96">        adDB.setCausasAdminList(anDesv.getCausasAdminList());</span>
+<span class="nc" id="L97">        adDB.setFechaModificacion(new Date());</span>
+<span class="nc" id="L98">        adDB.setDesviacionesList(anDesv.getDesviacionesList());</span>
+<span class="nc" id="L99">        adDB.setObservacion(anDesv.getObservacion());</span>
+<span class="nc" id="L100">        adDB.setParticipantes(anDesv.getParticipantes());</span>
+<span class="nc" id="L101">        adDB.setUsuarioModificaId(anDesv.getUsuarioModificaId());</span>
+<span class="nc" id="L102">        adDB.setEmpresa(anDesv.getEmpresa());</span>
+<span class="nc" id="L103">        adDB = super.edit(adDB); //To change body of generated methods, choose Tools | Templates.</span>
+
+        // Si el listado de tareas es null se inicializa con un array vacio para evitar NullPointerException
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        if (anDesv.getTareaDesviacionList() == null) {</span>
+<span class="nc" id="L107">            anDesv.setTareaDesviacionList(new ArrayList&lt;&gt;());</span>
+        }
+
+        // Busca tareas en DB que no esten en la lista de tareas recibidas,
+        // y las elimina solo si estan en estado NUEVO
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        for (TareaDesviacion tareaDB : adDB.getTareaDesviacionList()) {</span>
+<span class="nc bnc" id="L113" title="All 4 branches missed.">            if (tareaDB.getEstado().equals(EstadoTarea.NUEVO) &amp;&amp; !anDesv.getTareaDesviacionList().contains(tareaDB)) {</span>
+<span class="nc" id="L114">                tareaDesvFacade.remove(tareaDB);</span>
+            }
+<span class="nc" id="L116">        }</span>
+
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        for (TareaDesviacion tarea : anDesv.getTareaDesviacionList()) {</span>
+            // Si la tarea tiene id = null, se asume como una tarea nueva y se crea
+<span class="nc bnc" id="L120" title="All 2 branches missed.">            if (tarea.getId() == null) {</span>
+<span class="nc" id="L121">                tarea.setAnalisisDesviacionList(new ArrayList&lt;&gt;());</span>
+<span class="nc" id="L122">                tarea.getAnalisisDesviacionList().add(adDB);</span>
+<span class="nc" id="L123">                tarea.setEmpresa(adDB.getEmpresa());</span>
+<span class="nc" id="L124">                tareaDesvFacade.create(tarea);</span>
+            } else {
+                // Si la tarea tiene id, se asume como ya creada y se intenta actualizar
+<span class="nc" id="L127">                int idx = adDB.getTareaDesviacionList().indexOf(tarea);</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">                if (idx &gt; -1) {</span>
+                    // Si la tarea existe en DB, se actualizan los datos de la version en BD
+<span class="nc" id="L130">                    TareaDesviacion tareaDB = adDB.getTareaDesviacionList().get(idx);</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">                    if (tareaDB.getEstado().equals(EstadoTarea.NUEVO)) {</span>
+<span class="nc" id="L132">                        tareaDB.setAreaResponsable(tarea.getAreaResponsable());</span>
+<span class="nc" id="L133">                        tareaDB.setDescripcion(tarea.getDescripcion());</span>
+<span class="nc" id="L134">                        tareaDB.setFechaProyectada(tarea.getFechaProyectada());</span>
+<span class="nc" id="L135">                        tareaDB.setNombre(tarea.getNombre());</span>
+<span class="nc" id="L136">                        tareaDB.setTipoAccion(tarea.getTipoAccion());</span>
+<span class="nc" id="L137">                        tareaDesvFacade.edit(tareaDB);</span>
+                    }
+                }
+            }
+<span class="nc" id="L141">        }</span>
+
+<span class="nc" id="L143">        return anDesv;</span>
+    }
+
+    public List&lt;AnalisisDesviacion&gt; findByEmpresa(Integer empresId) {
+<span class="nc" id="L147">        Query query = this.em.createQuery(&quot;SELECT ad FROM AnalisisDesviacion ad WHERE ad.empresa.id = ?1 ORDER BY ad.fechaElaboracion DESC&quot;);</span>
+<span class="nc" id="L148">        query.setParameter(1, empresId);</span>
+<span class="nc" id="L149">        List&lt;AnalisisDesviacion&gt; list = (List&lt;AnalisisDesviacion&gt;) query.getResultList();</span>
+<span class="nc" id="L150">        return list;</span>
+    }
+
+    public List&lt;AnalisisDesviacion&gt; findByTarea(Integer tareaId, Integer empresaId) {
+<span class="nc" id="L154">        Query query = this.em.createQuery(&quot;SELECT ad FROM AnalisisDesviacion ad JOIN ad.tareaDesviacionList tdl WHERE ad.empresa.id = ?1 AND tdl.id = ?2 ORDER BY ad.fechaElaboracion DESC&quot;);</span>
+<span class="nc" id="L155">        query.setParameter(1, empresaId);</span>
+<span class="nc" id="L156">        query.setParameter(2, tareaId);</span>
+<span class="nc" id="L157">        List&lt;AnalisisDesviacion&gt; list = (List&lt;AnalisisDesviacion&gt;) query.getResultList();</span>
+<span class="nc" id="L158">        return list;</span>
+    }
+
+    public void relacionarDocumento(Documento documento, Integer analisisId) throws Exception {
+<span class="nc" id="L162">        AnalisisDesviacion ad = this.find(analisisId);</span>
+<span class="nc" id="L163">        List&lt;Documento&gt; list = ad.getDocumentosList();</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">        if (list == null) {</span>
+<span class="nc" id="L165">            list = new ArrayList&lt;&gt;();</span>
+        }
+<span class="nc" id="L167">        list.add(documento);</span>
+<span class="nc" id="L168">        super.edit(ad);</span>
+<span class="nc" id="L169">    }</span>
+
+    public void retirarDocumento(Documento documento) throws Exception {
+<span class="nc" id="L172">        Query q = this.em.createQuery(&quot;SELECT c FROM AnalisisDesviacion c JOIN c.documentosList d WHERE d.id = ?1 &quot;);</span>
+<span class="nc" id="L173">        q.setParameter(1, documento.getId());</span>
+<span class="nc" id="L174">        AnalisisDesviacion analisis = (AnalisisDesviacion) q.getSingleResult();</span>
+<span class="nc" id="L175">        analisis.getDocumentosList().remove(documento);</span>
+<span class="nc" id="L176">        super.edit(analisis);</span>
+<span class="nc" id="L177">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

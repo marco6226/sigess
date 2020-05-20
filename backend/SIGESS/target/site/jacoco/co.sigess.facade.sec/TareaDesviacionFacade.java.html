@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TareaDesviacionFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.sec</a> &gt; <span class="el_source">TareaDesviacionFacade.java</span></div><h1>TareaDesviacionFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.sec;
+
+import co.sigess.entities.com.TipoMensaje;
+import co.sigess.entities.emp.Usuario;
+import co.sigess.entities.sec.EstadoTarea;
+import co.sigess.entities.sec.TareaDesviacion;
+import co.sigess.exceptions.UserMessageException;
+import co.sigess.facade.com.AbstractFacade;
+import java.util.Date;
+import java.util.List;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Stateless
+public class TareaDesviacionFacade extends AbstractFacade&lt;TareaDesviacion&gt; {
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+<span class="nc" id="L33">        return em;</span>
+    }
+
+    public TareaDesviacionFacade() {
+<span class="nc" id="L37">        super(TareaDesviacion.class);</span>
+<span class="nc" id="L38">    }</span>
+
+    @Override
+    public TareaDesviacion create(TareaDesviacion tareaDesviacion) throws Exception {
+<span class="nc" id="L42">        tareaDesviacion.setEstado(EstadoTarea.NUEVO);</span>
+<span class="nc" id="L43">        tareaDesviacion = super.create(tareaDesviacion);</span>
+<span class="nc" id="L44">        return tareaDesviacion;</span>
+    }
+
+    public List&lt;TareaDesviacion&gt; findByAnalisisEmpresa(Integer analisisId, Integer empresaId) {
+<span class="nc" id="L48">        Query query = this.em.createQuery(&quot;SELECT td FROM TareaDesviacion td INNER JOIN td.analisisDesviacionList anaDesv WHERE td.empresa.id = ?1 AND anaDesv.id = ?2 ORDER BY td.id DESC&quot;);</span>
+<span class="nc" id="L49">        query.setParameter(1, empresaId);</span>
+<span class="nc" id="L50">        query.setParameter(2, analisisId);</span>
+<span class="nc" id="L51">        List&lt;TareaDesviacion&gt; list = (List&lt;TareaDesviacion&gt;) query.getResultList();</span>
+<span class="nc" id="L52">        return list;</span>
+    }
+
+    public TareaDesviacion remove(Integer tareaId) throws Exception {
+<span class="nc" id="L56">        TareaDesviacion tarea = this.find(tareaId);</span>
+<span class="nc bnc" id="L57" title="All 4 branches missed.">        if (tarea.getEstado() == null || tarea.getEstado().equals(EstadoTarea.NUEVO)) {</span>
+<span class="nc" id="L58">            super.remove(tarea);</span>
+<span class="nc" id="L59">            return tarea;</span>
+        } else {
+<span class="nc" id="L61">            throw new UserMessageException(&quot;No es posible eliminar la tarea&quot;, &quot;La tarea se encuentra en un estado en el que no es posible eliminar&quot;, TipoMensaje.warn);</span>
+        }
+    }
+
+    @Override
+    public TareaDesviacion edit(TareaDesviacion entity) throws Exception {
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        if (entity.getId() == null) {</span>
+<span class="nc" id="L68">            throw new IllegalArgumentException(&quot;Entity update without id is not possible&quot;);</span>
+        }
+<span class="nc" id="L70">        TareaDesviacion tareaDB = this.find(entity.getId());</span>
+
+<span class="nc bnc" id="L72" title="All 4 branches missed.">        if (tareaDB.getEstado() != null &amp;&amp; !tareaDB.getEstado().equals(EstadoTarea.NUEVO)) {</span>
+<span class="nc" id="L73">            throw new UserMessageException(&quot;No es posible actualizar la tarea&quot;, &quot;La tarea se encuentra en un estado en el que no es posible actualizar&quot;, TipoMensaje.warn);</span>
+        }
+
+<span class="nc" id="L76">        tareaDB.setNombre(entity.getNombre());</span>
+<span class="nc" id="L77">        tareaDB.setDescripcion(entity.getDescripcion());</span>
+<span class="nc" id="L78">        tareaDB.setTipoAccion(entity.getTipoAccion());</span>
+<span class="nc" id="L79">        tareaDB.setFechaProyectada(entity.getFechaProyectada());</span>
+<span class="nc" id="L80">        tareaDB.setAreaResponsable(entity.getAreaResponsable());</span>
+<span class="nc" id="L81">        return super.edit(tareaDB); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    public List&lt;TareaDesviacion&gt; findByUsuarioEmpresa(Integer usuarioId, Integer empresaId) {
+<span class="nc" id="L85">        String sql = &quot;select t.*\n&quot;</span>
+                + &quot;	from sec.tarea_desviacion t\n&quot;
+                + &quot;	inner join emp.empleado e on e.fk_area_id = t.fk_area_responsable_id\n&quot;
+                + &quot;	where t.fk_empresa_id = ?1 and e.fk_usuario_id = ?2	\n&quot;
+                + &quot;union\n&quot;
+                + &quot;select t.*\n&quot;
+                + &quot;	from sec.tarea_desviacion t\n&quot;
+                + &quot;	inner join emp.usuario_empresa ue on ue.pk_empresa_id = ?1\n&quot;
+                + &quot;	inner join emp.usuario u on u.id = ue.pk_usuario_id\n&quot;
+                + &quot;	left join emp.empleado e on e.fk_usuario_id = u.id\n&quot;
+                + &quot;	where t.fk_empresa_id = ?1 and e.id is null and u.id = ?2&quot;;
+<span class="nc" id="L96">        Query query = this.em.createNativeQuery(sql, TareaDesviacion.class);</span>
+<span class="nc" id="L97">        query.setParameter(1, empresaId);</span>
+<span class="nc" id="L98">        query.setParameter(2, usuarioId);</span>
+<span class="nc" id="L99">        List&lt;TareaDesviacion&gt; list = (List&lt;TareaDesviacion&gt;) query.getResultList();</span>
+<span class="nc" id="L100">        return list;</span>
+    }
+
+    public TareaDesviacion reportarCumplimiento(TareaDesviacion tarea, Usuario usuario) throws Exception {
+<span class="nc" id="L104">        TareaDesviacion tareaDB = super.find(tarea.getId());</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">        if (tareaDB == null) {</span>
+<span class="nc" id="L106">            throw new UserMessageException(&quot;No es posible reportar la tarea&quot;, &quot;La tarea que intenta reportar no existe&quot;, TipoMensaje.warn);</span>
+        }
+<span class="nc" id="L108">        tareaDB.setEstado(EstadoTarea.REALIZADA);</span>
+<span class="nc" id="L109">        tareaDB.setUsuarioRealiza(usuario);</span>
+<span class="nc" id="L110">        tareaDB.setRealizada(Boolean.TRUE);</span>
+<span class="nc" id="L111">        tareaDB.setFechaRealizacion(new Date());</span>
+<span class="nc" id="L112">        tareaDB.setObservacionesRealizacion(tarea.getObservacionesRealizacion());</span>
+
+<span class="nc" id="L114">        tareaDB = super.edit(tareaDB);</span>
+<span class="nc" id="L115">        return tareaDB;</span>
+    }
+
+    public TareaDesviacion reportarVerificacion(TareaDesviacion tarea, Usuario usuario) throws Exception {
+<span class="nc" id="L119">        TareaDesviacion tareaDB = super.find(tarea.getId());</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        if (tareaDB == null) {</span>
+<span class="nc" id="L121">            throw new UserMessageException(&quot;No es posible verificar la tarea&quot;, &quot;La tarea que intenta verificar no existe&quot;, TipoMensaje.warn);</span>
+        }
+<span class="nc" id="L123">        tareaDB.setEstado(EstadoTarea.FINALIZADA);</span>
+<span class="nc" id="L124">        tareaDB.setUsuarioVerifica(usuario);</span>
+<span class="nc" id="L125">        tareaDB.setVerificada(Boolean.TRUE);</span>
+<span class="nc" id="L126">        tareaDB.setFechaVerificacion(new Date());</span>
+<span class="nc" id="L127">        tareaDB.setObservacionesVerificacion(tarea.getObservacionesVerificacion());</span>
+
+<span class="nc" id="L129">        tareaDB = super.edit(tareaDB);</span>
+<span class="nc" id="L130">        return tareaDB;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

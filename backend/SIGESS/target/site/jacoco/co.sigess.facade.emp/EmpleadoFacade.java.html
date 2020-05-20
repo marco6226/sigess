@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EmpleadoFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.emp</a> &gt; <span class="el_source">EmpleadoFacade.java</span></div><h1>EmpleadoFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.emp;
+
+import co.sigess.entities.ado.Documento;
+import co.sigess.entities.com.Mensaje;
+import co.sigess.entities.com.TipoMensaje;
+import co.sigess.facade.com.AbstractFacade;
+import co.sigess.entities.emp.Empleado;
+import co.sigess.entities.emp.EstadoUsuario;
+import co.sigess.entities.emp.Usuario;
+import co.sigess.exceptions.UserMessageException;
+import co.sigess.restful.CriteriaFilter;
+import co.sigess.restful.Filter;
+import co.sigess.restful.FilterQuery;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.ejb.EJB;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author fmoreno
+ */
+@javax.ejb.Stateless
+public class EmpleadoFacade extends AbstractFacade&lt;Empleado&gt; {
+
+    @EJB
+    private UsuarioFacade usuarioFacade;
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+<span class="nc" id="L45">        return em;</span>
+    }
+
+    public EmpleadoFacade() {
+<span class="nc" id="L49">        super(Empleado.class);</span>
+<span class="nc" id="L50">    }</span>
+
+    public List&lt;Empleado&gt; findByEmpresa(Integer empresaId) {
+<span class="nc" id="L53">        Query query = this.em.createQuery(&quot;SELECT e from Empleado e WHERE e.cargo.empresa.id = :empresaId&quot;);</span>
+<span class="nc" id="L54">        query.setParameter(&quot;empresaId&quot;, empresaId);</span>
+<span class="nc" id="L55">        List&lt;Empleado&gt; list = (List&lt;Empleado&gt;) query.getResultList();</span>
+<span class="nc" id="L56">        return list;</span>
+    }
+
+    public Empleado create(Empleado empleado, Integer empresaId) throws Exception {
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (empleado.getUsuario() == null) {</span>
+<span class="nc" id="L61">            throw new IllegalArgumentException(&quot;El empleado a crear no contiene un usuario&quot;);</span>
+        }
+<span class="nc bnc" id="L63" title="All 4 branches missed.">        if (empleado.getUsuario().getEmail() == null || empleado.getUsuario().getEmail().isEmpty()) {</span>
+<span class="nc" id="L64">            throw new IllegalArgumentException(&quot;El campo email es necesario&quot;);</span>
+        }
+
+<span class="nc" id="L67">        usuarioFacade.create(empleado.getUsuario(), empresaId);</span>
+<span class="nc" id="L68">        super.create(empleado);</span>
+<span class="nc" id="L69">        return empleado;</span>
+    }
+
+    @Override
+    public Empleado edit(Empleado empleado) throws Exception {
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        if (empleado.getId() == null) {</span>
+<span class="nc" id="L75">            throw new IllegalArgumentException(&quot;No ha establecido un id para el empleado a actualizar&quot;);</span>
+        }
+<span class="nc" id="L77">        Empleado empDB = this.find(empleado.getId());</span>
+<span class="nc" id="L78">        empleado.setUsuario(empDB.getUsuario());</span>
+<span class="nc" id="L79">        empleado.setEstado(empDB.getEstado());</span>
+<span class="nc" id="L80">        super.edit(empleado);</span>
+//        empleado = this.find(empleado.getId());
+<span class="nc" id="L82">        return empleado;</span>
+    }
+
+    public void remove(Integer empleadoId) throws Exception {
+<span class="nc" id="L86">        Empleado empleadoDB = this.find(empleadoId);</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (empleadoDB == null) {</span>
+<span class="nc" id="L88">            return;</span>
+        }
+<span class="nc" id="L90">        empleadoDB.setEstado(EstadoUsuario.ELIMINADO);</span>
+<span class="nc" id="L91">        super.edit(empleadoDB);</span>
+        
+<span class="nc" id="L93">        Usuario usuario = empleadoDB.getUsuario();</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        if (usuario != null) {</span>
+<span class="nc" id="L95">            usuario.setEstado(EstadoUsuario.ELIMINADO);</span>
+<span class="nc" id="L96">            usuarioFacade.edit(usuario);</span>
+        }
+<span class="nc" id="L98">    }</span>
+
+    public Empleado findByUsuario(Integer usuarioId) {
+<span class="nc" id="L101">        Query q = this.em.createQuery(&quot;SELECT emp FROM Empleado emp WHERE emp.usuario.id = ?1 &quot;);</span>
+<span class="nc" id="L102">        q.setParameter(1, usuarioId);</span>
+        try {
+<span class="nc" id="L104">            Empleado empleado = (Empleado) q.getSingleResult();</span>
+<span class="nc" id="L105">            return empleado;</span>
+<span class="nc" id="L106">        } catch (NoResultException nre) {</span>
+<span class="nc" id="L107">            return null;</span>
+        }
+    }
+
+    public List&lt;Empleado&gt; buscar(String parametro, Integer empresaId) {
+<span class="nc" id="L112">        Query q = this.em.createQuery(&quot;SELECT e FROM Empleado AS e WHERE e.cargo.empresa.id = ?2 AND (e.usuario.email LIKE ?1 OR e.numeroIdentificacion LIKE ?1 OR e.primerApellido LIKE ?1 OR e.primerNombre LIKE ?1 OR e.segundoApellido LIKE ?1 OR e.segundoNombre LIKE ?1)&quot;);</span>
+<span class="nc" id="L113">        q.setParameter(1, &quot;%&quot; + parametro + &quot;%&quot;);</span>
+<span class="nc" id="L114">        q.setParameter(2, empresaId);</span>
+<span class="nc" id="L115">        List&lt;Empleado&gt; list = (List&lt;Empleado&gt;) q.getResultList();</span>
+<span class="nc" id="L116">        return list;</span>
+    }
+
+    public void relacionarDocumento(Documento documento, Integer empleadoId) throws Exception {
+<span class="nc" id="L120">        Empleado emp = this.find(empleadoId);</span>
+<span class="nc" id="L121">        emp.getDocumentosList().add(documento);</span>
+<span class="nc" id="L122">        super.edit(emp);</span>
+<span class="nc" id="L123">    }</span>
+
+    public void retirarDocumento(Documento documento) throws Exception {
+<span class="nc" id="L126">        Query q = this.em.createQuery(&quot;SELECT e FROM Empleado e JOIN e.documentosList doc WHERE doc.id = ?1 &quot;);</span>
+<span class="nc" id="L127">        q.setParameter(1, documento.getId());</span>
+<span class="nc" id="L128">        Empleado emp = (Empleado) q.getSingleResult();</span>
+<span class="nc" id="L129">        emp.getDocumentosList().remove(documento);</span>
+<span class="nc" id="L130">        super.edit(emp);</span>
+<span class="nc" id="L131">    }</span>
+
+    public List&lt;Mensaje&gt; loadAll(List&lt;Empleado&gt; list, Integer empresaId) throws Exception {
+<span class="nc" id="L134">        StringBuilder sbFilter = new StringBuilder();</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">        for (Empleado emp : list) {</span>
+<span class="nc" id="L136">            sbFilter.append(emp.getNumeroIdentificacion()).append(&quot;,&quot;);</span>
+<span class="nc" id="L137">        }</span>
+<span class="nc" id="L138">        String valueFilter = sbFilter.substring(0, sbFilter.length() - 1);</span>
+<span class="nc" id="L139">        FilterQuery fq = new FilterQuery();</span>
+<span class="nc" id="L140">        List&lt;Filter&gt; fl = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L141">        Filter filter = new Filter(&quot;numeroIdentificacion&quot;, valueFilter, null, CriteriaFilter.CONTAINS);</span>
+<span class="nc" id="L142">        fl.add(filter);</span>
+<span class="nc" id="L143">        fq.setFilterList(fl);</span>
+<span class="nc" id="L144">        List&lt;Empleado&gt; dbList = this.findWithFilter(fq);</span>
+<span class="nc" id="L145">        Map&lt;String, Empleado&gt; empMap = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">        for (Empleado dbEmp : dbList) {</span>
+<span class="nc" id="L147">            empMap.put(dbEmp.getNumeroIdentificacion(), dbEmp);</span>
+<span class="nc" id="L148">        }</span>
+
+<span class="nc" id="L150">        List&lt;Mensaje&gt; listErrors = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">        for (Empleado emp : list) {</span>
+            try {
+<span class="nc" id="L153">                Empleado empComun = empMap.get(emp.getNumeroIdentificacion());</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">                if (empComun == null) {</span>
+<span class="nc" id="L155">                    this.create(emp, empresaId);</span>
+                } else {
+<span class="nc" id="L157">                    emp.setId(empComun.getId());</span>
+<span class="nc" id="L158">                    emp.setUsuario(empComun.getUsuario());</span>
+<span class="nc" id="L159">                    super.edit(emp);</span>
+                }
+<span class="nc" id="L161">            } catch (Exception e) {</span>
+<span class="nc" id="L162">                Mensaje mu = new Mensaje(&quot;Error al procesar el empleado: &quot; + emp.getNumeroIdentificacion(), e.getMessage(), TipoMensaje.error);</span>
+<span class="nc" id="L163">                listErrors.add(mu);</span>
+<span class="nc" id="L164">            }</span>
+<span class="nc" id="L165">        }</span>
+<span class="nc" id="L166">        return listErrors;</span>
+    }
+
+    public Empleado update(Empleado empleado, Usuario usuario) {
+<span class="nc" id="L170">        Empleado empDb = this.find(empleado.getId());</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">        if (empDb.getUsuario().getId().equals(usuario.getId())) {</span>
+<span class="nc" id="L172">            empDb.setPrimerNombre(empleado.getPrimerNombre());</span>
+<span class="nc" id="L173">            empDb.setSegundoNombre(empleado.getSegundoNombre());</span>
+<span class="nc" id="L174">            empDb.setPrimerApellido(empleado.getPrimerApellido());</span>
+<span class="nc" id="L175">            empDb.setSegundoApellido(empleado.getSegundoApellido());</span>
+<span class="nc" id="L176">            empDb.setTipoIdentificacion(empleado.getTipoIdentificacion());</span>
+<span class="nc" id="L177">            empDb.setNumeroIdentificacion(empleado.getNumeroIdentificacion());</span>
+<span class="nc" id="L178">            empDb.setDireccion(empleado.getDireccion());</span>
+<span class="nc" id="L179">            empDb.setTelefono1(empleado.getTelefono1());</span>
+<span class="nc" id="L180">            empDb.setTelefono2(empleado.getTelefono2());</span>
+<span class="nc" id="L181">            empDb.setFechaNacimiento(empleado.getFechaNacimiento());</span>
+<span class="nc" id="L182">            empDb.setCiudad(empleado.getCiudad());</span>
+<span class="nc" id="L183">            empDb.setGenero(empleado.getGenero());</span>
+<span class="nc" id="L184">            return empleado;</span>
+        } else {
+<span class="nc" id="L186">            throw new UserMessageException(&quot;Operación no permitida&quot;, &quot;No puede editar datos de empleado diferente al suyo&quot;, TipoMensaje.error);</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

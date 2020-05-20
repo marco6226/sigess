@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IndicadorSge.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.ind</a> &gt; <span class="el_source">IndicadorSge.java</span></div><h1>IndicadorSge.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.ind;
+
+import co.sigess.util.converter.DoubleListConverter;
+import co.sigess.util.converter.StringListConverter;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlRootElement;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@Table(name = &quot;vw_indicador_sge&quot;, schema = &quot;sge&quot;)
+@XmlRootElement
+public class IndicadorSge {
+
+    @Id
+    @Column(name = &quot;id&quot;)
+    private Integer id;
+
+    @Temporal(javax.persistence.TemporalType.DATE)
+    @Column(name = &quot;fecha_evaluacion&quot;)
+    private Date fechaEvaluacion;
+
+    @Convert(converter = StringListConverter.class)
+    @Column(name = &quot;elementos&quot;)
+    private List&lt;String&gt; elementos;
+ 
+    @Convert(converter = DoubleListConverter.class)
+    @Column(name = &quot;valores&quot;)
+    private List&lt;Double&gt; valores;
+
+    @Column(name = &quot;promedio&quot;)
+    private Double promedio;
+
+    @Column(name = &quot;fk_empresa_id&quot;)
+    private Integer empresaId;
+
+    @Column(name = &quot;fk_sistema_gestion_id&quot;)
+    private Integer sgeId;
+
+    @Column(name = &quot;fk_sistema_gestion_version&quot;)
+    private Integer sgeVersion;
+
+<span class="nc" id="L57">    public IndicadorSge() {</span>
+<span class="nc" id="L58">    }</span>
+
+    public Integer getId() {
+<span class="nc" id="L61">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="nc" id="L65">        this.id = id;</span>
+<span class="nc" id="L66">    }</span>
+
+    public Date getFechaEvaluacion() {
+<span class="nc" id="L69">        return fechaEvaluacion;</span>
+    }
+
+    public void setFechaEvaluacion(Date fechaEvaluacion) {
+<span class="nc" id="L73">        this.fechaEvaluacion = fechaEvaluacion;</span>
+<span class="nc" id="L74">    }</span>
+
+    public List&lt;String&gt; getElementos() {
+<span class="nc" id="L77">        return elementos;</span>
+    }
+
+    public void setElementos(List&lt;String&gt; elementos) {
+<span class="nc" id="L81">        this.elementos = elementos;</span>
+<span class="nc" id="L82">    }</span>
+//
+
+    public List&lt;Double&gt; getValores() {
+<span class="nc" id="L86">        return valores;</span>
+    }
+
+    public void setValores(List&lt;Double&gt; valores) {
+<span class="nc" id="L90">        this.valores = valores;</span>
+<span class="nc" id="L91">    }</span>
+
+    public Double getPromedio() {
+<span class="nc" id="L94">        return promedio;</span>
+    }
+
+    public void setPromedio(Double promedio) {
+<span class="nc" id="L98">        this.promedio = promedio;</span>
+<span class="nc" id="L99">    }</span>
+
+    public Integer getEmpresaId() {
+<span class="nc" id="L102">        return empresaId;</span>
+    }
+
+    public void setEmpresaId(Integer empresaId) {
+<span class="nc" id="L106">        this.empresaId = empresaId;</span>
+<span class="nc" id="L107">    }</span>
+
+    public Integer getSgeId() {
+<span class="nc" id="L110">        return sgeId;</span>
+    }
+
+    public void setSgeId(Integer sgeId) {
+<span class="nc" id="L114">        this.sgeId = sgeId;</span>
+<span class="nc" id="L115">    }</span>
+
+    public Integer getSgeVersion() {
+<span class="nc" id="L118">        return sgeVersion;</span>
+    }
+
+    public void setSgeVersion(Integer sgeVersion) {
+<span class="nc" id="L122">        this.sgeVersion = sgeVersion;</span>
+<span class="nc" id="L123">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.sge</a> &gt; <span class="el_source">AbstractFacade.java</span></div><h1>AbstractFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.sge;
+
+import java.util.List;
+import javax.persistence.EntityManager;
+
+/**
+ *
+ * @author fmoreno
+ */
+public abstract class AbstractFacade&lt;T&gt; {
+
+    private Class&lt;T&gt; entityClass;
+
+<span class="nc" id="L19">    public AbstractFacade(Class&lt;T&gt; entityClass) {</span>
+<span class="nc" id="L20">        this.entityClass = entityClass;</span>
+<span class="nc" id="L21">    }</span>
+
+    protected abstract EntityManager getEntityManager();
+
+    public T create(T entity) {
+<span class="nc" id="L26">        getEntityManager().persist(entity);</span>
+<span class="nc" id="L27">        return entity;</span>
+    }
+
+    public T edit(T entity) {
+<span class="nc" id="L31">        getEntityManager().merge(entity);</span>
+<span class="nc" id="L32">        return entity;</span>
+    }
+
+    public void remove(T entity) {
+<span class="nc" id="L36">        getEntityManager().remove(getEntityManager().merge(entity));</span>
+<span class="nc" id="L37">    }</span>
+
+    public T find(Object id) {
+<span class="nc" id="L40">        return getEntityManager().find(entityClass, id);</span>
+    }
+
+    public List&lt;T&gt; findAll() {
+<span class="nc" id="L44">        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();</span>
+<span class="nc" id="L45">        cq.select(cq.from(entityClass));</span>
+<span class="nc" id="L46">        return getEntityManager().createQuery(cq).getResultList();</span>
+    }
+
+    public List&lt;T&gt; findRange(int[] range) {
+<span class="nc" id="L50">        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();</span>
+<span class="nc" id="L51">        cq.select(cq.from(entityClass));</span>
+<span class="nc" id="L52">        javax.persistence.Query q = getEntityManager().createQuery(cq);</span>
+<span class="nc" id="L53">        q.setMaxResults(range[1] - range[0] + 1);</span>
+<span class="nc" id="L54">        q.setFirstResult(range[0]);</span>
+<span class="nc" id="L55">        return q.getResultList();</span>
+    }
+
+    public int count() {
+<span class="nc" id="L59">        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();</span>
+<span class="nc" id="L60">        javax.persistence.criteria.Root&lt;T&gt; rt = cq.from(entityClass);</span>
+<span class="nc" id="L61">        cq.select(getEntityManager().getCriteriaBuilder().count(rt));</span>
+<span class="nc" id="L62">        javax.persistence.Query q = getEntityManager().createQuery(cq);</span>
+<span class="nc" id="L63">        return ((Long) q.getSingleResult()).intValue();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

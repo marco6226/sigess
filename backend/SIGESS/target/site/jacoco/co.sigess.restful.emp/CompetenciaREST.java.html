@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CompetenciaREST.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.restful.emp</a> &gt; <span class="el_source">CompetenciaREST.java</span></div><h1>CompetenciaREST.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.restful.emp;
+
+import co.sigess.entities.emp.Cargo;
+import co.sigess.entities.emp.Competencia;
+import co.sigess.entities.emp.Empresa;
+import co.sigess.facade.emp.CargoFacade;
+import co.sigess.facade.emp.CompetenciaFacade;
+import co.sigess.restful.ServiceREST;
+import co.sigess.restful.security.Secured;
+import co.sigess.util.Util;
+import javax.ejb.EJB;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Secured
+@Path(&quot;competencia&quot;)
+public class CompetenciaREST extends ServiceREST{
+
+    @EJB
+    private CompetenciaFacade competenciaFacade;
+    
+    public CompetenciaREST() {
+<span class="nc" id="L38">        super(CompetenciaFacade.class);</span>
+<span class="nc" id="L39">    }</span>
+
+    @POST
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response create(Competencia comp) {
+        try {
+<span class="nc" id="L45">            comp.setEmpresa(new Empresa(super.getEmpresaIdRequestContext()));</span>
+<span class="nc" id="L46">            competenciaFacade.create(comp);</span>
+<span class="nc" id="L47">            return Response.ok(comp).build();</span>
+<span class="nc" id="L48">        } catch (Exception ex) {</span>
+<span class="nc" id="L49">            return Util.manageException(ex, CompetenciaREST.class);</span>
+        }
+    }
+
+    @PUT
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response edit(Competencia comp) {
+        try {
+<span class="nc" id="L57">            competenciaFacade.edit(comp);</span>
+<span class="nc" id="L58">            return Response.ok(comp).build();</span>
+<span class="nc" id="L59">        } catch (Exception ex) {</span>
+<span class="nc" id="L60">            return Util.manageException(ex, CompetenciaREST.class);</span>
+        }
+    }
+
+    @DELETE
+    @Path(&quot;{competenciaId}&quot;)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response delete(@PathParam(&quot;competenciaId&quot;) Long competenciaId) {
+        try {
+<span class="nc" id="L69">            Competencia comp = competenciaFacade.eliminar(competenciaId);</span>
+<span class="nc" id="L70">            return Response.ok(comp).build();</span>
+<span class="nc" id="L71">        } catch (Exception ex) {</span>
+<span class="nc" id="L72">            return Util.manageException(ex, CompetenciaREST.class);</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

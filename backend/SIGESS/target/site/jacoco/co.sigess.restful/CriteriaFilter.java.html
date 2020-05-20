@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CriteriaFilter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.restful</a> &gt; <span class="el_source">CriteriaFilter.java</span></div><h1>CriteriaFilter.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.restful;
+
+/**
+ *
+ * @author fmoreno
+ */
+<span class="nc" id="L12">public enum CriteriaFilter {</span>
+<span class="nc" id="L13">    EQUALS(&quot;eq&quot;),</span>
+<span class="nc" id="L14">    NOT_EQUALS(&quot;ne&quot;),</span>
+<span class="nc" id="L15">    CONTAINS(&quot;ct&quot;),</span>
+<span class="nc" id="L16">    NOT_CONTAINS(&quot;nc&quot;),</span>
+<span class="nc" id="L17">    GREATER_THAN(&quot;gt&quot;),</span>
+<span class="nc" id="L18">    LOWER_THAN(&quot;lt&quot;),</span>
+<span class="nc" id="L19">    LESS_THAN_OR_EQUAL(&quot;le&quot;),</span>
+<span class="nc" id="L20">    GREATER_THAN_OR_EQUAL(&quot;ge&quot;),</span>
+<span class="nc" id="L21">    BETWEEN(&quot;bt&quot;),</span>
+<span class="nc" id="L22">    IS_NOT_NULL(&quot;isnn&quot;),</span>
+<span class="nc" id="L23">    LIKE(&quot;lk&quot;),</span>
+<span class="nc" id="L24">    IS_NULL(&quot;isn&quot;);</span>
+
+    private String code;
+
+<span class="nc" id="L28">    private CriteriaFilter(String code) {</span>
+<span class="nc" id="L29">        this.code = code;</span>
+<span class="nc" id="L30">    }</span>
+
+    public static CriteriaFilter valueFromCode(String code) {
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        for (CriteriaFilter enumeration : CriteriaFilter.values()) {</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">            if (enumeration.code.equalsIgnoreCase(code)) {</span>
+<span class="nc" id="L35">                return enumeration;</span>
+            }
+        }
+<span class="nc" id="L38">        throw new IllegalArgumentException(&quot;code &quot; + code + &quot; not exist in enumeration &quot; + CriteriaFilter.class.getName());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

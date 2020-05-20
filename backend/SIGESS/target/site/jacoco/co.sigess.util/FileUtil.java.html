@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.util</a> &gt; <span class="el_source">FileUtil.java</span></div><h1>FileUtil.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.util;
+
+import co.sigess.restful.security.FileEncryption;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ *
+ * @author fmoreno
+ */
+<span class="nc" id="L25">public class FileUtil {</span>
+
+    public static final String RELATIVE_PATH = &quot;RELATIVE_PATH&quot;;
+    public static final String FILE_SIZE = &quot;FILE_SIZE&quot;;
+    public static final String SEF_EXT = &quot;sef&quot;;
+<span class="nc" id="L30">    public static final String ROOT_DIR = System.getProperty(&quot;user.home&quot;) + File.separator + &quot;sigess_fs&quot; + File.separator;</span>
+
+    static {
+<span class="nc" id="L33">        File rootDir = new File(ROOT_DIR);</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        if (!rootDir.exists()) {</span>
+<span class="nc" id="L35">            rootDir.mkdirs();</span>
+        }
+<span class="nc" id="L37">        rootDir = null;</span>
+<span class="nc" id="L38">    }</span>
+
+    public static Map&lt;String, Object&gt; saveInVirtualFS(InputStream fileInputStream) throws FileNotFoundException, IOException, Exception {
+
+<span class="nc" id="L42">        String pathfile = Util.getFechaId() + &quot;.&quot; + SEF_EXT;</span>
+<span class="nc" id="L43">        File outFile = new File(ROOT_DIR + File.separator + pathfile);</span>
+<span class="nc" id="L44">        FileOutputStream fos = new FileOutputStream(outFile);</span>
+<span class="nc" id="L45">        FileEncryption.getInstance().encrypt(fileInputStream, fos);</span>
+
+<span class="nc" id="L47">        Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L48">        map.put(RELATIVE_PATH, pathfile);</span>
+<span class="nc" id="L49">        map.put(FILE_SIZE, outFile.length());</span>
+<span class="nc" id="L50">        return map;</span>
+    }
+
+    public static boolean removeFromVirtualFS(String ruta) throws FileNotFoundException, IOException {
+<span class="nc" id="L54">        File documento = new File(ROOT_DIR + ruta);</span>
+<span class="nc" id="L55">        Files.deleteIfExists(documento.toPath());</span>
+<span class="nc" id="L56">        int lastIndex = ruta.lastIndexOf(File.separator);</span>
+        
+        // Si el indice es menor que cero, indica que el documento se encuentra en la raíz de sistema de archivos del sistema
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        if (lastIndex &lt; 0) {</span>
+<span class="nc" id="L60">            return true;</span>
+        } else {
+            // En caso contrario, significa que estaba alojado en un directorio que debe ser eliminado
+<span class="nc" id="L63">            ruta = ruta.substring(0, lastIndex);</span>
+<span class="nc" id="L64">            File directorio = new File(ROOT_DIR + ruta);</span>
+<span class="nc" id="L65">            String[] files = directorio.list();</span>
+<span class="nc bnc" id="L66" title="All 4 branches missed.">            if (files == null || files.length &lt;= 0) {</span>
+<span class="nc" id="L67">                Files.deleteIfExists(directorio.toPath());</span>
+            }
+<span class="nc" id="L69">            return true;</span>
+        }
+    }
+
+    public static OutputStream getFromVirtualFS(String relativePath) throws FileNotFoundException, Exception {
+<span class="nc" id="L74">        InputStream fis = new FileInputStream(ROOT_DIR + relativePath);</span>
+<span class="nc" id="L75">        OutputStream fos = new ByteArrayOutputStream();</span>
+<span class="nc" id="L76">        FileEncryption.getInstance().decrypt(fis, fos);</span>
+<span class="nc" id="L77">        return fos;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

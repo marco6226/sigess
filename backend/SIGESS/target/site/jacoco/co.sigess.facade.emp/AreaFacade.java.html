@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AreaFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.emp</a> &gt; <span class="el_source">AreaFacade.java</span></div><h1>AreaFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.emp;
+
+import co.sigess.facade.com.AbstractFacade;
+import co.sigess.entities.emp.Area;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author fmoreno
+ */
+@javax.ejb.Stateless
+public class AreaFacade extends AbstractFacade&lt;Area&gt; {
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+<span class="nc" id="L27">        return em;</span>
+    }
+
+    public AreaFacade() {
+<span class="nc" id="L31">        super(Area.class);</span>
+<span class="nc" id="L32">    }</span>
+
+    public List&lt;Area&gt; findByEmpresa(Integer empresaId) {
+<span class="nc" id="L35">        Query q = this.em.createQuery(&quot;SELECT a from Area a WHERE a.tipoArea.empresa.id = :empresaId AND a.areaPadre = null&quot;);</span>
+<span class="nc" id="L36">        q.setParameter(&quot;empresaId&quot;, empresaId);</span>
+<span class="nc" id="L37">        List&lt;Area&gt; areaList = (List&lt;Area&gt;) q.getResultList();</span>
+<span class="nc" id="L38">        return areaList;</span>
+    }
+
+    public List&lt;Area&gt; findByAreaPadre(Long areaPadreId) {
+<span class="nc" id="L42">        Query q = this.em.createQuery(&quot;SELECT a from Area a where a.areaPadre.id = :areaPadreId&quot;);</span>
+<span class="nc" id="L43">        q.setParameter(&quot;areaPadreId&quot;, areaPadreId);</span>
+<span class="nc" id="L44">        List&lt;Area&gt; areaList = (List&lt;Area&gt;) q.getResultList();</span>
+<span class="nc" id="L45">        return areaList;</span>
+    }
+
+    @Override
+    public Area create(Area area) throws Exception {
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if (area == null) {</span>
+<span class="nc" id="L51">            throw new IllegalArgumentException(&quot;Area a crear no contiene datos&quot;);</span>
+        }
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        if (area.getId() != null) {</span>
+<span class="nc" id="L54">            throw new IllegalArgumentException(&quot;El area a crear no debe contener un id&quot;);</span>
+        }
+<span class="nc bnc" id="L56" title="All 4 branches missed.">        if (area.getNombre() == null || area.getNombre().isEmpty()) {</span>
+<span class="nc" id="L57">            throw new IllegalArgumentException(&quot;No se ha establecido un nombre para el area a crear&quot;);</span>
+        }
+
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (area.getAreaPadre() != null) {</span>
+            // Condición en la que el area se relaciona por con areaPadre
+<span class="nc" id="L62">            Area areaPadre = this.find(area.getAreaPadre().getId());</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">            if (areaPadre == null) {</span>
+<span class="nc" id="L64">                throw new IllegalArgumentException(&quot;El area establecida como padre no es válido&quot;);</span>
+            }
+<span class="nc" id="L66">            area.setNivel((short) (areaPadre.getNivel() + 1));</span>
+<span class="nc" id="L67">        } else {</span>
+<span class="nc" id="L68">            area.setNivel((short) 0);</span>
+        }
+<span class="nc" id="L70">        return super.create(area);</span>
+    }
+
+    @Override
+    public Area edit(Area entity) throws Exception {
+<span class="nc" id="L75">        Area areaDB = this.find(entity.getId());</span>
+<span class="nc" id="L76">        areaDB.setNombre(entity.getNombre());</span>
+<span class="nc" id="L77">        areaDB.setDescripcion(entity.getDescripcion());</span>
+<span class="nc" id="L78">        areaDB.setTipoArea(entity.getTipoArea());</span>
+<span class="nc" id="L79">        return super.edit(areaDB); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    public Area eliminar(Long areaId) throws Exception {
+<span class="nc" id="L83">        Area areaDB = this.find(areaId);</span>
+<span class="nc" id="L84">        Area areaPadre = areaDB.getAreaPadre();</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        for (Area child : areaDB.getAreaList()) {</span>
+<span class="nc" id="L86">            child.setAreaPadre(areaPadre);</span>
+<span class="nc" id="L87">            super.edit(child);</span>
+<span class="nc" id="L88">        }</span>
+<span class="nc" id="L89">        this.em.flush();</span>
+<span class="nc" id="L90">        super.remove(areaDB); //To change body of generated methods, choose Tools | Templates.</span>
+<span class="nc" id="L91">        return areaDB;</span>
+    }
+    
+    
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

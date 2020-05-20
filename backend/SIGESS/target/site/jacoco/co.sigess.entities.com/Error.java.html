@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Error.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.com</a> &gt; <span class="el_source">Error.java</span></div><h1>Error.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.com;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+/**
+ *
+ * @author fmoreno
+ */
+<span class="nc" id="L15">@JsonFormat(shape = JsonFormat.Shape.OBJECT)</span>
+public enum Error {
+<span class="nc" id="L17">    EMP_PERFIL_C(&quot;Error al intentar crear un nuevo perfil: &quot;, &quot;10-001-C&quot;),</span>
+<span class="nc" id="L18">    EMP_PERFIL_R(&quot;Error al intentar consultar el perfil: &quot;, &quot;10-001-R&quot;),</span>
+<span class="nc" id="L19">    EMP_PERFIL_U(&quot;Error al intentar actualizar el perfil: &quot;, &quot;10-001-U&quot;),</span>
+<span class="nc" id="L20">    EMP_PERFIL_D(&quot;Error al intentar eliminar el perfil: &quot;, &quot;10-001-D&quot;),</span>
+    // --
+<span class="nc" id="L22">    EMP_PERMISO_C(&quot;Error al intentar crear un nuevo permiso: &quot;, &quot;10-001-C&quot;),</span>
+<span class="nc" id="L23">    EMP_PERMISO_R(&quot;Error al intentar consultar el permiso: &quot;, &quot;10-001-R&quot;),</span>
+<span class="nc" id="L24">    EMP_PERMISO_U(&quot;Error al intentar actualizar el permiso: &quot;, &quot;10-001-U&quot;),</span>
+<span class="nc" id="L25">    EMP_PERMISO_D(&quot;Error al intentar eliminar el permiso: &quot;, &quot;10-001-D&quot;);</span>
+
+    private final String descripcion;
+    private final String codigo;
+
+<span class="nc" id="L30">    private Error(String descripcion, String codigo) {</span>
+<span class="nc" id="L31">        this.codigo = codigo;</span>
+<span class="nc" id="L32">        this.descripcion = descripcion;</span>
+<span class="nc" id="L33">    }</span>
+
+    public String getId() {
+<span class="nc" id="L36">        return this.name();</span>
+    }
+
+    public String getDescripcion() {
+<span class="nc" id="L40">        return descripcion;</span>
+    }
+
+    public String getCodigo() {
+<span class="nc" id="L44">        return codigo;</span>
+    }
+
+    @JsonCreator // This is the factory method and must be static
+    public static Error fromString(String string) {
+<span class="nc" id="L49">        return Error.valueOf(string);</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L54">        return name();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

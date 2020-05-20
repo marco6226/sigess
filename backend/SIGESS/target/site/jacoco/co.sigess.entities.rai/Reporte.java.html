@@ -1,0 +1,1240 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Reporte.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.rai</a> &gt; <span class="el_source">Reporte.java</span></div><h1>Reporte.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.rai;
+
+import co.sigess.entities.com.Ciudad;
+import co.sigess.entities.emp.Area;
+import co.sigess.entities.emp.Empresa;
+import co.sigess.entities.emp.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@Table(name = &quot;reporte&quot;, schema = &quot;rai&quot;)
+@NamedQueries({
+    @NamedQuery(name = &quot;Reporte.findAll&quot;, query = &quot;SELECT r FROM Reporte r&quot;)})
+public class Reporte implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @SequenceGenerator(name = &quot;reporte_id_seq&quot;, schema = &quot;rai&quot;, sequenceName = &quot;reporte_id_seq&quot;, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = &quot;reporte_id_seq&quot;)
+    @Basic(optional = false)
+    @Column(name = &quot;id&quot;)
+    private Integer id;
+    
+    @Basic(optional = false)
+    @NotNull(message = &quot;El campo tipo no puede ser vacío&quot;)
+    @Size(min = 1, max = 45, message = &quot;El campo tipo debe contener entre 1 y 45 caracteres&quot;)
+    @Column(name = &quot;tipo&quot;)
+    private String tipo;
+    
+    @Size(max = 100, message = &quot;Máximo 100 caracteres para el campo nombreEps&quot;)
+    @Column(name = &quot;nombre_eps&quot;)
+    private String nombreEps;
+    
+    @Size(max = 15, message = &quot;Máximo 15 caracteres para el campo codigoEps&quot;)
+    @Column(name = &quot;codigo_eps&quot;)
+    private String codigoEps;
+    
+    @Size(max = 100, message = &quot;Máximo 100 caracteres para el campo nombre_afp&quot;)
+    @Column(name = &quot;nombre_afp&quot;)
+    private String nombreAfp;
+    @Size(max = 15, message = &quot;Máximo 15 caracteres para el campo codigo_afp&quot;)
+    @Column(name = &quot;codigo_afp&quot;)
+    private String codigoAfp;
+    
+    @Size(max = 100, message = &quot;Máximo 100 caracteres para el campo nombre_arl&quot;)
+    @Column(name = &quot;nombre_arl&quot;)
+    private String nombreArl;
+    
+    @Size(max = 15, message = &quot;Máximo 15 caracteres para el campo codigo_arl&quot;)
+    @Column(name = &quot;codigo_arl&quot;)
+    private String codigoArl;
+    
+    @Size(max = 100, message = &quot;Máximo 100 caracteres para el campo tipoVinculador&quot;)
+    @Column(name = &quot;tipo_vinculador&quot;)
+    private String tipoVinculador;
+    
+    @Size(max = 255, message = &quot;Máximo 255 caracteres para el campo nombreCiiu&quot;)
+    @Column(name = &quot;nombre_ciiu&quot;)
+    private String nombreCiiu;
+    
+    @Size(max = 15, message = &quot;Máximo 15 caracteres para el campo codigoCiiu&quot;)
+    @Column(name = &quot;codigo_ciiu&quot;)
+    private String codigoCiiu;
+    
+    @Size(max = 45, message = &quot;Máximo 45 caracteres para el campo razon_social&quot;)
+    @Column(name = &quot;razon_social&quot;)
+    private String razonSocial;
+
+    @Size(max = 20, message = &quot;Máximo 20 caracteres para el campo tipoIdentificacionEmpresa&quot;)
+    @Column(name = &quot;tipo_identificacion_empresa&quot;)
+    private String tipoIdentificacionEmpresa;
+
+    @Size(max = 45, message = &quot;Máximo 45 caracteres para el campo identificacionEmpresa&quot;)
+    @Column(name = &quot;identificacion_empresa&quot;)
+    private String identificacionEmpresa;
+
+    @Size(max = 45, message = &quot;Máximo 45 caracteres para el campo direccionEmpresa&quot;)
+    @Column(name = &quot;direccion_empresa&quot;)
+    private String direccionEmpresa;
+    
+    @Size(max = 20, message = &quot;Máximo 20 caracteres para el campo telefonoEmpresa&quot;)
+    @Column(name = &quot;telefono_empresa&quot;)
+    private String telefonoEmpresa;
+    
+    @Size(max = 20, message = &quot;Máximo 20 caracteres para el campo telefono2Empresa&quot;)
+    @Column(name = &quot;telefono2_empresa&quot;)
+    private String telefono2Empresa;
+    
+    @Size(max = 45, message = &quot;Máximo 45 caracteres para el campo emailEmpresa&quot;)
+    @Column(name = &quot;email_empresa&quot;)
+    private String emailEmpresa;
+    
+    @Size(max = 10, message = &quot;Máximo 10 caracteres para el campo zonaEmpresa&quot;)
+    @Column(name = &quot;zona_empresa&quot;)
+    private String zonaEmpresa;
+    
+    @Column(name = &quot;centr_trab_igual_sede_princ&quot;)
+    private Boolean centrTrabIgualSedePrinc;
+    
+    @Size(max = 100, message = &quot;Máximo 100 caracteres para el campo nombreEps&quot;)
+    @Column(name = &quot;nombre_centro_trabajo&quot;)
+    private String nombreCentroTrabajo;
+    
+    @Size(max = 15, message = &quot;Máximo 15 caracteres para el campo codigoCentroTrabajo&quot;)
+    @Column(name = &quot;codigo_centro_trabajo&quot;)
+    private String codigoCentroTrabajo;
+    
+    @Size(max = 255, message = &quot;Máximo 255 caracteres para el campo nombreCiiuCentroTrabajo&quot;)
+    @Column(name = &quot;nombre_ciiu_centro_trabajo&quot;)
+    private String nombreCiiuCentroTrabajo;
+    
+    @Size(max = 100, message = &quot;Máximo 100 caracteres para el campo ciiuCentroTrabajo&quot;)
+    @Column(name = &quot;ciiu_centro_trabajo&quot;)
+    private String ciiuCentroTrabajo;
+    
+    @Size(max = 15, message = &quot;Máximo 15 caracteres para el campo codCiiuCentroTrabajo&quot;)
+    @Column(name = &quot;cod_ciiu_centro_trabajo&quot;)
+    private String codCiiuCentroTrabajo;
+    @Size(max = 45, message = &quot;Máximo 45 caracteres para el campo direccionCentroTrabajo&quot;)
+    @Column(name = &quot;direccion_centro_trabajo&quot;)
+    private String direccionCentroTrabajo;
+    
+    @Size(max = 45, message = &quot;Máximo 45 caracteres para el campo telefonoCentroTrabajo&quot;)
+    @Column(name = &quot;telefono_centro_trabajo&quot;)
+    private String telefonoCentroTrabajo;
+    
+    @Size(max = 20, message = &quot;Máximo 20 caracteres para el campo zonaCentroTrabajo&quot;)
+    @Column(name = &quot;zona_centro_trabajo&quot;)
+    private String zonaCentroTrabajo;
+    
+    @Size(max = 45, message = &quot;Máximo 45 caracteres para el campo tipoVinculacion&quot;)
+    @Column(name = &quot;tipo_vinculacion&quot;)
+    private String tipoVinculacion;
+    
+    @Size(max = 15, message = &quot;Máximo 15 caracteres para el campo codigoTipoVinculacion&quot;)
+    @Column(name = &quot;codigo_tipo_vinculacion&quot;)
+    private String codigoTipoVinculacion;
+    
+    @Size(max = 45, message = &quot;Máximo 45 caracteres para el campo primerApellidoEmpleado&quot;)
+    @Column(name = &quot;primer_apellido_empleado&quot;)
+    private String primerApellidoEmpleado;
+    
+    @Size(max = 45, message = &quot;Máximo 45 caracteres para el campo segundoApellidoEmpleado&quot;)
+    @Column(name = &quot;segundo_apellido_empleado&quot;)
+    private String segundoApellidoEmpleado;
+    
+    @Size(max = 45, message = &quot;Máximo 45 caracteres para el campo primerNombreEmpleado&quot;)
+    @Column(name = &quot;primer_nombre_empleado&quot;)
+    private String primerNombreEmpleado;
+    
+    @Size(max = 45, message = &quot;Máximo 45 caracteres para el campo segundoNombreEmpleado&quot;)
+    @Column(name = &quot;segundo_nombre_empleado&quot;)
+    private String segundoNombreEmpleado;
+    @Size(max = 25, message = &quot;Máximo 25 caracteres para el campo tipoIdentificacionEmpleado&quot;)
+    @Column(name = &quot;tipo_identificacion_empleado&quot;)
+    private String tipoIdentificacionEmpleado;
+    
+    @Size(max = 20, message = &quot;Máximo 20 caracteres para el campo numeroIdentificacionEmpleado&quot;)
+    @Column(name = &quot;numero_identificacion_empleado&quot;)
+    private String numeroIdentificacionEmpleado;
+    
+    @Column(name = &quot;fecha_nacimiento_empleado&quot;)
+    @Temporal(TemporalType.DATE)
+    private Date fechaNacimientoEmpleado;
+    
+    @Size(max = 15, message = &quot;Máximo 15 caracteres para el campo generoEmpleado&quot;)
+    @Column(name = &quot;genero_empleado&quot;)
+    private String generoEmpleado;
+    
+    @Size(max = 45, message = &quot;Máximo 45 caracteres para el campo direccionEmpleado&quot;)
+    @Column(name = &quot;direccion_empleado&quot;)
+    private String direccionEmpleado;
+    
+    @Size(max = 20, message = &quot;Máximo 20 caracteres para el campo telefonoEmpleado&quot;)
+    @Column(name = &quot;telefono_empleado&quot;)
+    private String telefonoEmpleado;
+    
+    @Size(max = 20, message = &quot;Máximo 20 caracteres para el campo telefono2Empleado&quot;)
+    @Column(name = &quot;telefono2_empleado&quot;)
+    private String telefono2Empleado;
+    
+    @Column(name = &quot;fecha_ingreso_empleado&quot;)
+    @Temporal(TemporalType.DATE)
+    private Date fechaIngresoEmpleado;
+    
+    @Size(max = 20, message = &quot;Máximo 20 caracteres para el campo zonaEmpleado&quot;)
+    @Column(name = &quot;zona_empleado&quot;)
+    private String zonaEmpleado;
+    
+    @Size(max = 128, message = &quot;Máximo 128 caracteres para el campo cargoEmpleado&quot;)
+    @Column(name = &quot;cargo_empleado&quot;)
+    private String cargoEmpleado;
+    
+    @Size(max = 100, message = &quot;Máximo 100 caracteres para el campo ocupacionHabitual&quot;)
+    @Column(name = &quot;ocupacion_habitual&quot;)
+    private String ocupacionHabitual;
+    
+    @Size(max = 15, message = &quot;Máximo 15 caracteres para el campo codigoOcupacionHabitual&quot;)
+    @Column(name = &quot;codigo_ocupacion_habitual&quot;)
+    private String codigoOcupacionHabitual;
+    
+    @Column(name = &quot;dias_labor_habitual&quot;)
+    private Short diasLaborHabitual;
+    
+    @Column(name = &quot;meses_labor_habitual&quot;)
+    private Short mesesLaborHabitual;
+    
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = &quot;salario&quot;)
+    private Double salario;
+    
+    @Size(max = 20, message = &quot;Máximo 20 caracteres para el campo jornadaHabitual&quot;)
+    @Column(name = &quot;jornada_habitual&quot;)
+    private String jornadaHabitual;
+    
+    @Column(name = &quot;fecha_accidente&quot;)
+    @Temporal(TemporalType.DATE)
+    private Date fechaAccidente;
+    
+    @Column(name = &quot;hora_accidente&quot;)
+    @Temporal(TemporalType.TIME)
+    private Date horaAccidente;
+    
+    @Size(max = 20, message = &quot;Máximo 20 caracteres para el campo jornadaAccidente&quot;)
+    @Column(name = &quot;jornada_accidente&quot;)
+    private String jornadaAccidente;
+    
+    @Column(name = &quot;realizando_labor_habitual&quot;)
+    private Boolean realizandoLaborHabitual;
+    
+    @Size(max = 100, message = &quot;Máximo 100 caracteres para el campo nombreLaborHabitual&quot;)
+    @Column(name = &quot;nombre_labor_habitual&quot;)
+    private String nombreLaborHabitual;
+    
+    @Size(max = 20, message = &quot;Máximo 20 caracteres para el campo codigoLaborHabitual&quot;)
+    @Column(name = &quot;codigo_labor_habitual&quot;)
+    private String codigoLaborHabitual;
+    
+    @Column(name = &quot;hora_inicio_labor&quot;)
+    @Temporal(TemporalType.TIME)
+    private Date horaInicioLabor;
+    
+    @Size(max = 45, message = &quot;Máximo 45 caracteres para el campo tipoAccidente&quot;)
+    @Column(name = &quot;tipo_accidente&quot;)
+    private String tipoAccidente;
+    
+    @Column(name = &quot;causo_muerte&quot;)
+    private Boolean causoMuerte;
+    
+    @Size(max = 20, message = &quot;Máximo 20 caracteres para el campo zonaAccidente&quot;)
+    @Column(name = &quot;zona_accidente&quot;)
+    private String zonaAccidente;
+    
+    @Size(max = 45, message = &quot;Máximo 45 caracteres para el campo lugarAccidente&quot;)
+    @Column(name = &quot;lugar_accidente&quot;)
+    private String lugarAccidente;
+    
+    @Column(name = &quot;hubo_testigos&quot;)
+    private Boolean huboTestigos;
+    
+    @Column(name = &quot;descripcion&quot;)
+    private String descripcion;
+    
+    @Size(max = 100, message = &quot;Máximo 100 caracteres para el campo sitio&quot;)
+    @Column(name = &quot;sitio&quot;)
+    private String sitio;
+    
+    @Size(max = 100, message = &quot;Máximo 100 caracteres para el campo cualSitio&quot;)
+    @Column(name = &quot;cual_sitio&quot;)
+    private String cualSitio;
+    
+    @Size(max = 100, message = &quot;Máximo 100 caracteres para el campo tipoLesion&quot;)
+    @Column(name = &quot;tipo_lesion&quot;)
+    private String tipoLesion;
+    
+    @Size(max = 100, message = &quot;Máximo 100 caracteres para el campo cualTipoLesion&quot;)
+    @Column(name = &quot;cual_tipo_lesion&quot;)
+    private String cualTipoLesion;
+    
+    @Size(max = 100, message = &quot;Máximo 100 caracteres para el campo parteCuerpo&quot;)
+    @Column(name = &quot;parte_cuerpo&quot;)
+    private String parteCuerpo;
+        
+    @Column(name = &quot;agente&quot;)
+    private String agente;
+    
+    @Size(max = 100, message = &quot;Máximo 100 caracteres para el campo cualAgente&quot;)
+    @Column(name = &quot;cual_agente&quot;)
+    private String cualAgente;
+    
+    @Size(max = 100, message = &quot;Máximo 100 caracteres para el campo mecanismo&quot;)
+    @Column(name = &quot;mecanismo&quot;)
+    private String mecanismo;
+    
+    @Size(max = 100, message = &quot;Máximo 100 caracteres para el campo cualMecanismo&quot;)
+    @Column(name = &quot;cual_mecanismo&quot;)
+    private String cualMecanismo;
+
+    @JoinColumn(name = &quot;fk_ciudad_empresa_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne
+    private Ciudad ciudadEmpresa;
+
+    @JoinColumn(name = &quot;fk_ciudad_centro_trabajo_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne
+    private Ciudad ciudadCentroTrabajo;
+
+    @JoinColumn(name = &quot;fk_ciudad_empleado_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne
+    private Ciudad ciudadEmpleado;
+
+    @JoinColumn(name = &quot;fk_ciudad_accidente_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne
+    private Ciudad ciudadAccidente;
+
+    @JoinColumn(name = &quot;fk_area_accidente_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne
+    private Area areaAccidente;
+
+    @NotNull
+    @JoinColumn(name = &quot;fk_usuario_reporta_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne
+    private Usuario usuarioReporta;
+
+    @NotNull
+    @JoinColumn(name = &quot;fk_empresa_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne
+    private Empresa empresa;
+
+    @OneToMany(mappedBy = &quot;reporte&quot;)
+    private List&lt;TestigoReporte&gt; testigoReporteList;
+
+    @Size(max = 100, message = &quot;Máximo 100 caracteres para el campo nombresResponsable&quot;)
+    @Column(name = &quot;nombres_responsable&quot;)
+    private String nombresResponsable;
+    
+    @Size(max = 100, message = &quot;Máximo 100 caracteres para el campo apellidosResponsable&quot;)
+    @Column(name = &quot;apellidos_responsable&quot;)
+    private String apellidosResponsable;
+    
+    @Size(max = 100, message = &quot;Máximo 100 caracteres para el campo tipoIdentificacionResponsable&quot;)
+    @Column(name = &quot;tipo_identificacion_responsable&quot;)
+    private String tipoIdentificacionResponsable;
+    
+    @Size(max = 20, message = &quot;Máximo 20 caracteres para el campo numeroIdentificacionResponsable&quot;)
+    @Column(name = &quot;numero_identificacion_responsable&quot;)
+    private String numeroIdentificacionResponsable;
+    
+    @Size(max = 100, message = &quot;Máximo 100 caracteres para el campo cargoResponsable&quot;)
+    @Column(name = &quot;cargo_responsable&quot;)
+    private String cargoResponsable;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = &quot;fecha_reporte&quot;)
+    private Date fechaReporte;
+    
+    
+    @Column(name = &quot;anio_reporte&quot;)
+    private Integer anioReporte;
+    
+    @Column(name = &quot;nombre_area_accidente&quot;)
+    private String nombreAreaAccidente;
+    
+    @Column(name = &quot;email_empleado&quot;)
+    private String emailEmpleado;
+    
+    @Column(name = &quot;edad_empleado&quot;)
+    private Integer edadEmpleado;
+    
+    @Column(name = &quot;rango_edad_empleado&quot;)
+    private String rangoEdadEmpleado;
+    
+    @Column(name = &quot;nombre_departamento_accidente&quot;)
+    private String nombreDepartamentoAccidente;
+    
+    @Column(name = &quot;nombre_ciudad_accidente&quot;)
+    private String nombreCiudadAccidente;
+    
+    @Column(name = &quot;severidad&quot;)
+    private String severidad;
+    
+    @Column(name = &quot;mes_accidente&quot;)
+    private String mesAccidente;
+    
+    @Column(name = &quot;dia_semana&quot;)
+    private String diaSemana;
+    
+    @Column(name = &quot;diagnostico&quot;)
+    private String diagnostico;
+        
+    @Column(name = &quot;migrado&quot;)
+    private boolean migrado;
+
+<span class="nc" id="L421">    public Reporte() {</span>
+<span class="nc" id="L422">    }</span>
+
+<span class="nc" id="L424">    public Reporte(Integer id) {</span>
+<span class="nc" id="L425">        this.id = id;</span>
+<span class="nc" id="L426">    }</span>
+
+    public Integer getId() {
+<span class="nc" id="L429">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="nc" id="L433">        this.id = id;</span>
+<span class="nc" id="L434">    }</span>
+
+    public String getTipo() {
+<span class="nc" id="L437">        return tipo;</span>
+    }
+
+    public void setTipo(String tipo) {
+<span class="nc" id="L441">        this.tipo = tipo;</span>
+<span class="nc" id="L442">    }</span>
+
+    public String getNombreEps() {
+<span class="nc" id="L445">        return nombreEps;</span>
+    }
+
+    public void setNombreEps(String nombreEps) {
+<span class="nc" id="L449">        this.nombreEps = nombreEps;</span>
+<span class="nc" id="L450">    }</span>
+
+    public String getCodigoEps() {
+<span class="nc" id="L453">        return codigoEps;</span>
+    }
+
+    public void setCodigoEps(String codigoEps) {
+<span class="nc" id="L457">        this.codigoEps = codigoEps;</span>
+<span class="nc" id="L458">    }</span>
+
+    public String getNombreAfp() {
+<span class="nc" id="L461">        return nombreAfp;</span>
+    }
+
+    public void setNombreAfp(String nombreAfp) {
+<span class="nc" id="L465">        this.nombreAfp = nombreAfp;</span>
+<span class="nc" id="L466">    }</span>
+
+    public String getCodigoAfp() {
+<span class="nc" id="L469">        return codigoAfp;</span>
+    }
+
+    public void setCodigoAfp(String codigoAfp) {
+<span class="nc" id="L473">        this.codigoAfp = codigoAfp;</span>
+<span class="nc" id="L474">    }</span>
+
+    public String getNombreArl() {
+<span class="nc" id="L477">        return nombreArl;</span>
+    }
+
+    public void setNombreArl(String nombreArl) {
+<span class="nc" id="L481">        this.nombreArl = nombreArl;</span>
+<span class="nc" id="L482">    }</span>
+
+    public String getCodigoArl() {
+<span class="nc" id="L485">        return codigoArl;</span>
+    }
+
+    public void setCodigoArl(String codigoArl) {
+<span class="nc" id="L489">        this.codigoArl = codigoArl;</span>
+<span class="nc" id="L490">    }</span>
+
+    public String getTipoVinculador() {
+<span class="nc" id="L493">        return tipoVinculador;</span>
+    }
+
+    public void setTipoVinculador(String tipoVinculador) {
+<span class="nc" id="L497">        this.tipoVinculador = tipoVinculador;</span>
+<span class="nc" id="L498">    }</span>
+
+    public String getNombreCiiu() {
+<span class="nc" id="L501">        return nombreCiiu;</span>
+    }
+
+    public void setNombreCiiu(String nombreCiiu) {
+<span class="nc" id="L505">        this.nombreCiiu = nombreCiiu;</span>
+<span class="nc" id="L506">    }</span>
+
+    public String getCodigoCiiu() {
+<span class="nc" id="L509">        return codigoCiiu;</span>
+    }
+
+    public void setCodigoCiiu(String codigoCiiu) {
+<span class="nc" id="L513">        this.codigoCiiu = codigoCiiu;</span>
+<span class="nc" id="L514">    }</span>
+
+    public String getRazonSocial() {
+<span class="nc" id="L517">        return razonSocial;</span>
+    }
+
+    public void setRazonSocial(String razonSocial) {
+<span class="nc" id="L521">        this.razonSocial = razonSocial;</span>
+<span class="nc" id="L522">    }</span>
+
+    public String getTipoIdentificacionEmpresa() {
+<span class="nc" id="L525">        return tipoIdentificacionEmpresa;</span>
+    }
+
+    public void setTipoIdentificacionEmpresa(String tipoIdentificacionEmpresa) {
+<span class="nc" id="L529">        this.tipoIdentificacionEmpresa = tipoIdentificacionEmpresa;</span>
+<span class="nc" id="L530">    }</span>
+
+    public String getIdentificacionEmpresa() {
+<span class="nc" id="L533">        return identificacionEmpresa;</span>
+    }
+
+    public void setIdentificacionEmpresa(String identificacionEmpresa) {
+<span class="nc" id="L537">        this.identificacionEmpresa = identificacionEmpresa;</span>
+<span class="nc" id="L538">    }</span>
+
+    public String getDireccionEmpresa() {
+<span class="nc" id="L541">        return direccionEmpresa;</span>
+    }
+
+    public void setDireccionEmpresa(String direccionEmpresa) {
+<span class="nc" id="L545">        this.direccionEmpresa = direccionEmpresa;</span>
+<span class="nc" id="L546">    }</span>
+
+    public String getTelefonoEmpresa() {
+<span class="nc" id="L549">        return telefonoEmpresa;</span>
+    }
+
+    public void setTelefonoEmpresa(String telefonoEmpresa) {
+<span class="nc" id="L553">        this.telefonoEmpresa = telefonoEmpresa;</span>
+<span class="nc" id="L554">    }</span>
+
+    public String getTelefono2Empresa() {
+<span class="nc" id="L557">        return telefono2Empresa;</span>
+    }
+
+    public void setTelefono2Empresa(String telefono2Empresa) {
+<span class="nc" id="L561">        this.telefono2Empresa = telefono2Empresa;</span>
+<span class="nc" id="L562">    }</span>
+
+    public String getEmailEmpresa() {
+<span class="nc" id="L565">        return emailEmpresa;</span>
+    }
+
+    public void setEmailEmpresa(String emailEmpresa) {
+<span class="nc" id="L569">        this.emailEmpresa = emailEmpresa;</span>
+<span class="nc" id="L570">    }</span>
+
+    public String getZonaEmpresa() {
+<span class="nc" id="L573">        return zonaEmpresa;</span>
+    }
+
+    public void setZonaEmpresa(String zonaEmpresa) {
+<span class="nc" id="L577">        this.zonaEmpresa = zonaEmpresa;</span>
+<span class="nc" id="L578">    }</span>
+
+    public Boolean getCentrTrabIgualSedePrinc() {
+<span class="nc" id="L581">        return centrTrabIgualSedePrinc;</span>
+    }
+
+    public void setCentrTrabIgualSedePrinc(Boolean centrTrabIgualSedePrinc) {
+<span class="nc" id="L585">        this.centrTrabIgualSedePrinc = centrTrabIgualSedePrinc;</span>
+<span class="nc" id="L586">    }</span>
+
+    public String getNombreCentroTrabajo() {
+<span class="nc" id="L589">        return nombreCentroTrabajo;</span>
+    }
+
+    public void setNombreCentroTrabajo(String nombreCentroTrabajo) {
+<span class="nc" id="L593">        this.nombreCentroTrabajo = nombreCentroTrabajo;</span>
+<span class="nc" id="L594">    }</span>
+
+    public String getCodigoCentroTrabajo() {
+<span class="nc" id="L597">        return codigoCentroTrabajo;</span>
+    }
+
+    public void setCodigoCentroTrabajo(String codigoCentroTrabajo) {
+<span class="nc" id="L601">        this.codigoCentroTrabajo = codigoCentroTrabajo;</span>
+<span class="nc" id="L602">    }</span>
+
+    public String getCiiuCentroTrabajo() {
+<span class="nc" id="L605">        return ciiuCentroTrabajo;</span>
+    }
+
+    public void setCiiuCentroTrabajo(String ciiuCentroTrabajo) {
+<span class="nc" id="L609">        this.ciiuCentroTrabajo = ciiuCentroTrabajo;</span>
+<span class="nc" id="L610">    }</span>
+
+    public String getCodCiiuCentroTrabajo() {
+<span class="nc" id="L613">        return codCiiuCentroTrabajo;</span>
+    }
+
+    public void setCodCiiuCentroTrabajo(String codCiiuCentroTrabajo) {
+<span class="nc" id="L617">        this.codCiiuCentroTrabajo = codCiiuCentroTrabajo;</span>
+<span class="nc" id="L618">    }</span>
+
+    public String getDireccionCentroTrabajo() {
+<span class="nc" id="L621">        return direccionCentroTrabajo;</span>
+    }
+
+    public void setDireccionCentroTrabajo(String direccionCentroTrabajo) {
+<span class="nc" id="L625">        this.direccionCentroTrabajo = direccionCentroTrabajo;</span>
+<span class="nc" id="L626">    }</span>
+
+    public String getTelefonoCentroTrabajo() {
+<span class="nc" id="L629">        return telefonoCentroTrabajo;</span>
+    }
+
+    public void setTelefonoCentroTrabajo(String telefonoCentroTrabajo) {
+<span class="nc" id="L633">        this.telefonoCentroTrabajo = telefonoCentroTrabajo;</span>
+<span class="nc" id="L634">    }</span>
+
+    public String getZonaCentroTrabajo() {
+<span class="nc" id="L637">        return zonaCentroTrabajo;</span>
+    }
+
+    public void setZonaCentroTrabajo(String zonaCentroTrabajo) {
+<span class="nc" id="L641">        this.zonaCentroTrabajo = zonaCentroTrabajo;</span>
+<span class="nc" id="L642">    }</span>
+
+    public String getTipoVinculacion() {
+<span class="nc" id="L645">        return tipoVinculacion;</span>
+    }
+
+    public void setTipoVinculacion(String tipoVinculacion) {
+<span class="nc" id="L649">        this.tipoVinculacion = tipoVinculacion;</span>
+<span class="nc" id="L650">    }</span>
+
+    public String getCodigoTipoVinculacion() {
+<span class="nc" id="L653">        return codigoTipoVinculacion;</span>
+    }
+
+    public void setCodigoTipoVinculacion(String codigoTipoVinculacion) {
+<span class="nc" id="L657">        this.codigoTipoVinculacion = codigoTipoVinculacion;</span>
+<span class="nc" id="L658">    }</span>
+
+    public String getPrimerApellidoEmpleado() {
+<span class="nc" id="L661">        return primerApellidoEmpleado;</span>
+    }
+
+    public void setPrimerApellidoEmpleado(String primerApellidoEmpleado) {
+<span class="nc" id="L665">        this.primerApellidoEmpleado = primerApellidoEmpleado;</span>
+<span class="nc" id="L666">    }</span>
+
+    public String getSegundoApellidoEmpleado() {
+<span class="nc" id="L669">        return segundoApellidoEmpleado;</span>
+    }
+
+    public void setSegundoApellidoEmpleado(String segundoApellidoEmpleado) {
+<span class="nc" id="L673">        this.segundoApellidoEmpleado = segundoApellidoEmpleado;</span>
+<span class="nc" id="L674">    }</span>
+
+    public String getPrimerNombreEmpleado() {
+<span class="nc" id="L677">        return primerNombreEmpleado;</span>
+    }
+
+    public void setPrimerNombreEmpleado(String primerNombreEmpleado) {
+<span class="nc" id="L681">        this.primerNombreEmpleado = primerNombreEmpleado;</span>
+<span class="nc" id="L682">    }</span>
+
+    public String getSegundoNombreEmpleado() {
+<span class="nc" id="L685">        return segundoNombreEmpleado;</span>
+    }
+
+    public void setSegundoNombreEmpleado(String segundoNombreEmpleado) {
+<span class="nc" id="L689">        this.segundoNombreEmpleado = segundoNombreEmpleado;</span>
+<span class="nc" id="L690">    }</span>
+
+    public String getTipoIdentificacionEmpleado() {
+<span class="nc" id="L693">        return tipoIdentificacionEmpleado;</span>
+    }
+
+    public void setTipoIdentificacionEmpleado(String tipoIdentificacionEmpleado) {
+<span class="nc" id="L697">        this.tipoIdentificacionEmpleado = tipoIdentificacionEmpleado;</span>
+<span class="nc" id="L698">    }</span>
+
+    public String getNumeroIdentificacionEmpleado() {
+<span class="nc" id="L701">        return numeroIdentificacionEmpleado;</span>
+    }
+
+    public void setNumeroIdentificacionEmpleado(String numeroIdentificacionEmpleado) {
+<span class="nc" id="L705">        this.numeroIdentificacionEmpleado = numeroIdentificacionEmpleado;</span>
+<span class="nc" id="L706">    }</span>
+
+    public Date getFechaNacimientoEmpleado() {
+<span class="nc" id="L709">        return fechaNacimientoEmpleado;</span>
+    }
+
+    public void setFechaNacimientoEmpleado(Date fechaNacimientoEmpleado) {
+<span class="nc" id="L713">        this.fechaNacimientoEmpleado = fechaNacimientoEmpleado;</span>
+<span class="nc" id="L714">    }</span>
+
+    public String getGeneroEmpleado() {
+<span class="nc" id="L717">        return generoEmpleado;</span>
+    }
+
+    public void setGeneroEmpleado(String generoEmpleado) {
+<span class="nc" id="L721">        this.generoEmpleado = generoEmpleado;</span>
+<span class="nc" id="L722">    }</span>
+
+    public String getDireccionEmpleado() {
+<span class="nc" id="L725">        return direccionEmpleado;</span>
+    }
+
+    public void setDireccionEmpleado(String direccionEmpleado) {
+<span class="nc" id="L729">        this.direccionEmpleado = direccionEmpleado;</span>
+<span class="nc" id="L730">    }</span>
+
+    public String getTelefonoEmpleado() {
+<span class="nc" id="L733">        return telefonoEmpleado;</span>
+    }
+
+    public void setTelefonoEmpleado(String telefonoEmpleado) {
+<span class="nc" id="L737">        this.telefonoEmpleado = telefonoEmpleado;</span>
+<span class="nc" id="L738">    }</span>
+
+    public String getTelefono2Empleado() {
+<span class="nc" id="L741">        return telefono2Empleado;</span>
+    }
+
+    public void setTelefono2Empleado(String telefono2Empleado) {
+<span class="nc" id="L745">        this.telefono2Empleado = telefono2Empleado;</span>
+<span class="nc" id="L746">    }</span>
+
+    public Date getFechaIngresoEmpleado() {
+<span class="nc" id="L749">        return fechaIngresoEmpleado;</span>
+    }
+
+    public void setFechaIngresoEmpleado(Date fechaIngresoEmpleado) {
+<span class="nc" id="L753">        this.fechaIngresoEmpleado = fechaIngresoEmpleado;</span>
+<span class="nc" id="L754">    }</span>
+
+    public String getZonaEmpleado() {
+<span class="nc" id="L757">        return zonaEmpleado;</span>
+    }
+
+    public void setZonaEmpleado(String zonaEmpleado) {
+<span class="nc" id="L761">        this.zonaEmpleado = zonaEmpleado;</span>
+<span class="nc" id="L762">    }</span>
+
+    public String getCargoEmpleado() {
+<span class="nc" id="L765">        return cargoEmpleado;</span>
+    }
+
+    public void setCargoEmpleado(String cargoEmpleado) {
+<span class="nc" id="L769">        this.cargoEmpleado = cargoEmpleado;</span>
+<span class="nc" id="L770">    }</span>
+
+    public String getOcupacionHabitual() {
+<span class="nc" id="L773">        return ocupacionHabitual;</span>
+    }
+
+    public void setOcupacionHabitual(String ocupacionHabitual) {
+<span class="nc" id="L777">        this.ocupacionHabitual = ocupacionHabitual;</span>
+<span class="nc" id="L778">    }</span>
+
+    public String getCodigoOcupacionHabitual() {
+<span class="nc" id="L781">        return codigoOcupacionHabitual;</span>
+    }
+
+    public void setCodigoOcupacionHabitual(String codigoOcupacionHabitual) {
+<span class="nc" id="L785">        this.codigoOcupacionHabitual = codigoOcupacionHabitual;</span>
+<span class="nc" id="L786">    }</span>
+
+    public Short getDiasLaborHabitual() {
+<span class="nc" id="L789">        return diasLaborHabitual;</span>
+    }
+
+    public void setDiasLaborHabitual(Short diasLaborHabitual) {
+<span class="nc" id="L793">        this.diasLaborHabitual = diasLaborHabitual;</span>
+<span class="nc" id="L794">    }</span>
+
+    public Short getMesesLaborHabitual() {
+<span class="nc" id="L797">        return mesesLaborHabitual;</span>
+    }
+
+    public void setMesesLaborHabitual(Short mesesLaborHabitual) {
+<span class="nc" id="L801">        this.mesesLaborHabitual = mesesLaborHabitual;</span>
+<span class="nc" id="L802">    }</span>
+
+    public Double getSalario() {
+<span class="nc" id="L805">        return salario;</span>
+    }
+
+    public void setSalario(Double salario) {
+<span class="nc" id="L809">        this.salario = salario;</span>
+<span class="nc" id="L810">    }</span>
+
+    public String getJornadaHabitual() {
+<span class="nc" id="L813">        return jornadaHabitual;</span>
+    }
+
+    public void setJornadaHabitual(String jornadaHabitual) {
+<span class="nc" id="L817">        this.jornadaHabitual = jornadaHabitual;</span>
+<span class="nc" id="L818">    }</span>
+
+    public Date getFechaAccidente() {
+<span class="nc" id="L821">        return fechaAccidente;</span>
+    }
+
+    public void setFechaAccidente(Date fechaAccidente) {
+<span class="nc" id="L825">        this.fechaAccidente = fechaAccidente;</span>
+<span class="nc" id="L826">    }</span>
+
+    public Date getHoraAccidente() {
+<span class="nc" id="L829">        return horaAccidente;</span>
+    }
+
+    public void setHoraAccidente(Date horaAccidente) {
+<span class="nc" id="L833">        this.horaAccidente = horaAccidente;</span>
+<span class="nc" id="L834">    }</span>
+
+    public String getJornadaAccidente() {
+<span class="nc" id="L837">        return jornadaAccidente;</span>
+    }
+
+    public void setJornadaAccidente(String jornadaAccidente) {
+<span class="nc" id="L841">        this.jornadaAccidente = jornadaAccidente;</span>
+<span class="nc" id="L842">    }</span>
+
+    public Boolean getRealizandoLaborHabitual() {
+<span class="nc" id="L845">        return realizandoLaborHabitual;</span>
+    }
+
+    public void setRealizandoLaborHabitual(Boolean realizandoLaborHabitual) {
+<span class="nc" id="L849">        this.realizandoLaborHabitual = realizandoLaborHabitual;</span>
+<span class="nc" id="L850">    }</span>
+
+    public String getNombreLaborHabitual() {
+<span class="nc" id="L853">        return nombreLaborHabitual;</span>
+    }
+
+    public void setNombreLaborHabitual(String nombreLaborHabitual) {
+<span class="nc" id="L857">        this.nombreLaborHabitual = nombreLaborHabitual;</span>
+<span class="nc" id="L858">    }</span>
+
+    public String getCodigoLaborHabitual() {
+<span class="nc" id="L861">        return codigoLaborHabitual;</span>
+    }
+
+    public void setCodigoLaborHabitual(String codigoLaborHabitual) {
+<span class="nc" id="L865">        this.codigoLaborHabitual = codigoLaborHabitual;</span>
+<span class="nc" id="L866">    }</span>
+
+    public Date getHoraInicioLabor() {
+<span class="nc" id="L869">        return horaInicioLabor;</span>
+    }
+
+    public void setHoraInicioLabor(Date horaInicioLabor) {
+<span class="nc" id="L873">        this.horaInicioLabor = horaInicioLabor;</span>
+<span class="nc" id="L874">    }</span>
+
+    public String getTipoAccidente() {
+<span class="nc" id="L877">        return tipoAccidente;</span>
+    }
+
+    public void setTipoAccidente(String tipoAccidente) {
+<span class="nc" id="L881">        this.tipoAccidente = tipoAccidente;</span>
+<span class="nc" id="L882">    }</span>
+
+    public Boolean getCausoMuerte() {
+<span class="nc" id="L885">        return causoMuerte;</span>
+    }
+
+    public void setCausoMuerte(Boolean causoMuerte) {
+<span class="nc" id="L889">        this.causoMuerte = causoMuerte;</span>
+<span class="nc" id="L890">    }</span>
+
+    public String getZonaAccidente() {
+<span class="nc" id="L893">        return zonaAccidente;</span>
+    }
+
+    public void setZonaAccidente(String zonaAccidente) {
+<span class="nc" id="L897">        this.zonaAccidente = zonaAccidente;</span>
+<span class="nc" id="L898">    }</span>
+
+    public String getLugarAccidente() {
+<span class="nc" id="L901">        return lugarAccidente;</span>
+    }
+
+    public void setLugarAccidente(String lugarAccidente) {
+<span class="nc" id="L905">        this.lugarAccidente = lugarAccidente;</span>
+<span class="nc" id="L906">    }</span>
+
+    public Boolean getHuboTestigos() {
+<span class="nc" id="L909">        return huboTestigos;</span>
+    }
+
+    public void setHuboTestigos(Boolean huboTestigos) {
+<span class="nc" id="L913">        this.huboTestigos = huboTestigos;</span>
+<span class="nc" id="L914">    }</span>
+
+    public String getDescripcion() {
+<span class="nc" id="L917">        return descripcion;</span>
+    }
+
+    public void setDescripcion(String descripcion) {
+<span class="nc" id="L921">        this.descripcion = descripcion;</span>
+<span class="nc" id="L922">    }</span>
+
+    public String getSitio() {
+<span class="nc" id="L925">        return sitio;</span>
+    }
+
+    public void setSitio(String sitio) {
+<span class="nc" id="L929">        this.sitio = sitio;</span>
+<span class="nc" id="L930">    }</span>
+
+    public String getCualSitio() {
+<span class="nc" id="L933">        return cualSitio;</span>
+    }
+
+    public void setCualSitio(String cualSitio) {
+<span class="nc" id="L937">        this.cualSitio = cualSitio;</span>
+<span class="nc" id="L938">    }</span>
+
+    public String getTipoLesion() {
+<span class="nc" id="L941">        return tipoLesion;</span>
+    }
+
+    public void setTipoLesion(String tipoLesion) {
+<span class="nc" id="L945">        this.tipoLesion = tipoLesion;</span>
+<span class="nc" id="L946">    }</span>
+
+    public String getCualTipoLesion() {
+<span class="nc" id="L949">        return cualTipoLesion;</span>
+    }
+
+    public void setCualTipoLesion(String cualTipoLesion) {
+<span class="nc" id="L953">        this.cualTipoLesion = cualTipoLesion;</span>
+<span class="nc" id="L954">    }</span>
+
+    public String getParteCuerpo() {
+<span class="nc" id="L957">        return parteCuerpo;</span>
+    }
+
+    public void setParteCuerpo(String parteCuerpo) {
+<span class="nc" id="L961">        this.parteCuerpo = parteCuerpo;</span>
+<span class="nc" id="L962">    }</span>
+
+    public String getAgente() {
+<span class="nc" id="L965">        return agente;</span>
+    }
+
+    public void setAgente(String agente) {
+<span class="nc" id="L969">        this.agente = agente;</span>
+<span class="nc" id="L970">    }</span>
+
+    public String getCualAgente() {
+<span class="nc" id="L973">        return cualAgente;</span>
+    }
+
+    public void setCualAgente(String cualAgente) {
+<span class="nc" id="L977">        this.cualAgente = cualAgente;</span>
+<span class="nc" id="L978">    }</span>
+
+    public String getMecanismo() {
+<span class="nc" id="L981">        return mecanismo;</span>
+    }
+
+    public void setMecanismo(String mecanismo) {
+<span class="nc" id="L985">        this.mecanismo = mecanismo;</span>
+<span class="nc" id="L986">    }</span>
+
+    public String getCualMecanismo() {
+<span class="nc" id="L989">        return cualMecanismo;</span>
+    }
+
+    public void setCualMecanismo(String cualMecanismo) {
+<span class="nc" id="L993">        this.cualMecanismo = cualMecanismo;</span>
+<span class="nc" id="L994">    }</span>
+
+    public Ciudad getCiudadEmpresa() {
+<span class="nc" id="L997">        return ciudadEmpresa;</span>
+    }
+
+    public void setCiudadEmpresa(Ciudad ciudadEmpresa) {
+<span class="nc" id="L1001">        this.ciudadEmpresa = ciudadEmpresa;</span>
+<span class="nc" id="L1002">    }</span>
+
+    public Ciudad getCiudadCentroTrabajo() {
+<span class="nc" id="L1005">        return ciudadCentroTrabajo;</span>
+    }
+
+    public void setCiudadCentroTrabajo(Ciudad ciudadCentroTrabajo) {
+<span class="nc" id="L1009">        this.ciudadCentroTrabajo = ciudadCentroTrabajo;</span>
+<span class="nc" id="L1010">    }</span>
+
+    public Ciudad getCiudadEmpleado() {
+<span class="nc" id="L1013">        return ciudadEmpleado;</span>
+    }
+
+    public void setCiudadEmpleado(Ciudad ciudadEmpleado) {
+<span class="nc" id="L1017">        this.ciudadEmpleado = ciudadEmpleado;</span>
+<span class="nc" id="L1018">    }</span>
+
+    public Ciudad getCiudadAccidente() {
+<span class="nc" id="L1021">        return ciudadAccidente;</span>
+    }
+
+    public void setCiudadAccidente(Ciudad ciudadAccidente) {
+<span class="nc" id="L1025">        this.ciudadAccidente = ciudadAccidente;</span>
+<span class="nc" id="L1026">    }</span>
+
+    public Area getAreaAccidente() {
+<span class="nc" id="L1029">        return areaAccidente;</span>
+    }
+
+    public void setAreaAccidente(Area areaAccidente) {
+<span class="nc" id="L1033">        this.areaAccidente = areaAccidente;</span>
+<span class="nc" id="L1034">    }</span>
+
+    @JsonIgnore
+    public Usuario getUsuarioReporta() {
+<span class="nc" id="L1038">        return usuarioReporta;</span>
+    }
+
+    public void setUsuarioReporta(Usuario usuarioReporta) {
+<span class="nc" id="L1042">        this.usuarioReporta = usuarioReporta;</span>
+<span class="nc" id="L1043">    }</span>
+
+    @JsonIgnore
+    public Empresa getEmpresa() {
+<span class="nc" id="L1047">        return empresa;</span>
+    }
+
+    public void setEmpresa(Empresa empresa) {
+<span class="nc" id="L1051">        this.empresa = empresa;</span>
+<span class="nc" id="L1052">    }</span>
+
+    public List&lt;TestigoReporte&gt; getTestigoReporteList() {
+<span class="nc" id="L1055">        return testigoReporteList;</span>
+    }
+
+    public void setTestigoReporteList(List&lt;TestigoReporte&gt; testigoReporteList) {
+<span class="nc" id="L1059">        this.testigoReporteList = testigoReporteList;</span>
+<span class="nc" id="L1060">    }</span>
+
+    public String getNombreCiiuCentroTrabajo() {
+<span class="nc" id="L1063">        return nombreCiiuCentroTrabajo;</span>
+    }
+
+    public void setNombreCiiuCentroTrabajo(String nombreCiiuCentroTrabajo) {
+<span class="nc" id="L1067">        this.nombreCiiuCentroTrabajo = nombreCiiuCentroTrabajo;</span>
+<span class="nc" id="L1068">    }</span>
+
+    public String getNombresResponsable() {
+<span class="nc" id="L1071">        return nombresResponsable;</span>
+    }
+
+    public void setNombresResponsable(String nombresResponsable) {
+<span class="nc" id="L1075">        this.nombresResponsable = nombresResponsable;</span>
+<span class="nc" id="L1076">    }</span>
+
+    public String getApellidosResponsable() {
+<span class="nc" id="L1079">        return apellidosResponsable;</span>
+    }
+
+    public void setApellidosResponsable(String apellidosResponsable) {
+<span class="nc" id="L1083">        this.apellidosResponsable = apellidosResponsable;</span>
+<span class="nc" id="L1084">    }</span>
+
+    public String getTipoIdentificacionResponsable() {
+<span class="nc" id="L1087">        return tipoIdentificacionResponsable;</span>
+    }
+
+    public void setTipoIdentificacionResponsable(String tipoIdentificacionResponsable) {
+<span class="nc" id="L1091">        this.tipoIdentificacionResponsable = tipoIdentificacionResponsable;</span>
+<span class="nc" id="L1092">    }</span>
+
+    public String getNumeroIdentificacionResponsable() {
+<span class="nc" id="L1095">        return numeroIdentificacionResponsable;</span>
+    }
+
+    public void setNumeroIdentificacionResponsable(String numeroIdentificacionResponsable) {
+<span class="nc" id="L1099">        this.numeroIdentificacionResponsable = numeroIdentificacionResponsable;</span>
+<span class="nc" id="L1100">    }</span>
+
+    public String getCargoResponsable() {
+<span class="nc" id="L1103">        return cargoResponsable;</span>
+    }
+
+    public void setCargoResponsable(String cargoResponsable) {
+<span class="nc" id="L1107">        this.cargoResponsable = cargoResponsable;</span>
+<span class="nc" id="L1108">    }</span>
+
+    public Date getFechaReporte() {
+<span class="nc" id="L1111">        return fechaReporte;</span>
+    }
+
+    public void setFechaReporte(Date fechaReporte) {
+<span class="nc" id="L1115">        this.fechaReporte = fechaReporte;</span>
+<span class="nc" id="L1116">    }</span>
+
+    public Integer getAnioReporte() {
+<span class="nc" id="L1119">        return anioReporte;</span>
+    }
+
+    public void setAnioReporte(Integer anioReporte) {
+<span class="nc" id="L1123">        this.anioReporte = anioReporte;</span>
+<span class="nc" id="L1124">    }</span>
+
+    public String getNombreAreaAccidente() {
+<span class="nc" id="L1127">        return nombreAreaAccidente;</span>
+    }
+
+    public void setNombreAreaAccidente(String nombreAreaAccidente) {
+<span class="nc" id="L1131">        this.nombreAreaAccidente = nombreAreaAccidente;</span>
+<span class="nc" id="L1132">    }</span>
+
+    public String getEmailEmpleado() {
+<span class="nc" id="L1135">        return emailEmpleado;</span>
+    }
+
+    public void setEmailEmpleado(String emailEmpleado) {
+<span class="nc" id="L1139">        this.emailEmpleado = emailEmpleado;</span>
+<span class="nc" id="L1140">    }</span>
+
+    public Integer getEdadEmpleado() {
+<span class="nc" id="L1143">        return edadEmpleado;</span>
+    }
+
+    public void setEdadEmpleado(Integer edadEmpleado) {
+<span class="nc" id="L1147">        this.edadEmpleado = edadEmpleado;</span>
+<span class="nc" id="L1148">    }</span>
+
+    public String getRangoEdadEmpleado() {
+<span class="nc" id="L1151">        return rangoEdadEmpleado;</span>
+    }
+
+    public void setRangoEdadEmpleado(String rangoEdadEmpleado) {
+<span class="nc" id="L1155">        this.rangoEdadEmpleado = rangoEdadEmpleado;</span>
+<span class="nc" id="L1156">    }</span>
+
+    public String getNombreDepartamentoAccidente() {
+<span class="nc" id="L1159">        return nombreDepartamentoAccidente;</span>
+    }
+
+    public void setNombreDepartamentoAccidente(String nombreDepartamentoAccidente) {
+<span class="nc" id="L1163">        this.nombreDepartamentoAccidente = nombreDepartamentoAccidente;</span>
+<span class="nc" id="L1164">    }</span>
+
+    public String getNombreCiudadAccidente() {
+<span class="nc" id="L1167">        return nombreCiudadAccidente;</span>
+    }
+
+    public void setNombreCiudadAccidente(String nombreCiudadAccidente) {
+<span class="nc" id="L1171">        this.nombreCiudadAccidente = nombreCiudadAccidente;</span>
+<span class="nc" id="L1172">    }</span>
+
+    public String getMesAccidente() {
+<span class="nc" id="L1175">        return mesAccidente;</span>
+    }
+
+    public void setMesAccidente(String mesAccidente) {
+<span class="nc" id="L1179">        this.mesAccidente = mesAccidente;</span>
+<span class="nc" id="L1180">    }</span>
+
+    public String getDiaSemana() {
+<span class="nc" id="L1183">        return diaSemana;</span>
+    }
+
+    public void setDiaSemana(String diaSemana) {
+<span class="nc" id="L1187">        this.diaSemana = diaSemana;</span>
+<span class="nc" id="L1188">    }</span>
+
+    public String getDiagnostico() {
+<span class="nc" id="L1191">        return diagnostico;</span>
+    }
+
+    public void setDiagnostico(String diagnostico) {
+<span class="nc" id="L1195">        this.diagnostico = diagnostico;</span>
+<span class="nc" id="L1196">    }</span>
+
+    public String getSeveridad() {
+<span class="nc" id="L1199">        return severidad;</span>
+    }
+
+    public void setSeveridad(String severidad) {
+<span class="nc" id="L1203">        this.severidad = severidad;</span>
+<span class="nc" id="L1204">    }</span>
+
+    public boolean isMigrado() {
+<span class="nc" id="L1207">        return migrado;</span>
+    }
+
+    public void setMigrado(boolean migrado) {
+<span class="nc" id="L1211">        this.migrado = migrado;</span>
+<span class="nc" id="L1212">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L1216">        int hash = 0;</span>
+<span class="nc bnc" id="L1217" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L1218">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L1224" title="All 2 branches missed.">        if (!(object instanceof Reporte)) {</span>
+<span class="nc" id="L1225">            return false;</span>
+        }
+<span class="nc" id="L1227">        Reporte other = (Reporte) object;</span>
+<span class="nc bnc" id="L1228" title="All 8 branches missed.">        if ((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id))) {</span>
+<span class="nc" id="L1229">            return false;</span>
+        }
+<span class="nc" id="L1231">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L1236">        return &quot;co.sigess.entities.rai.Reporte[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

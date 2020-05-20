@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChartModel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.reports.sge</a> &gt; <span class="el_source">ChartModel.java</span></div><h1>ChartModel.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.reports.sge;
+
+import co.sigess.entities.emp.Usuario;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.awt.Color;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ws.rs.NotAuthorizedException;
+
+/**
+ *
+ * @author fmoreno
+ */
+<span class="nc" id="L22">public class ChartModel {</span>
+
+    private String title;
+    private String datasource;
+    private String type;
+    private String valueKey;
+    private String rowKey;
+    private String columnKey;
+<span class="nc" id="L30">    private int titleColor = Color.DARK_GRAY.getRGB();</span>
+<span class="nc" id="L31">    private int backgroundPlotColor = Color.WHITE.getRGB();</span>
+<span class="nc" id="L32">    private int rangeGridlineColor = Color.LIGHT_GRAY.getRGB();</span>
+<span class="nc" id="L33">    private String itemLabelFont = &quot;SansSerif-PLAIN-14&quot;;</span>
+<span class="nc" id="L34">    private boolean verticalOrientation = true;</span>
+<span class="nc" id="L35">    private int width = 640;</span>
+<span class="nc" id="L36">    private int height = 480;</span>
+    
+    
+    public String getTitle() {
+<span class="nc" id="L40">        return title;</span>
+    }
+
+    public void setTitle(String title) {
+<span class="nc" id="L44">        this.title = title;</span>
+<span class="nc" id="L45">    }</span>
+
+    public String getDatasource() {
+<span class="nc" id="L48">        return datasource;</span>
+    }
+
+    public void setDatasource(String datasource) {
+<span class="nc" id="L52">        this.datasource = datasource;</span>
+<span class="nc" id="L53">    }</span>
+
+    public String getType() {
+<span class="nc" id="L56">        return type;</span>
+    }
+
+    public void setType(String type) {
+<span class="nc" id="L60">        this.type = type;</span>
+<span class="nc" id="L61">    }</span>
+
+    public String getValueKey() {
+<span class="nc" id="L64">        return valueKey;</span>
+    }
+
+    public void setValueKey(String valueKey) {
+<span class="nc" id="L68">        this.valueKey = valueKey;</span>
+<span class="nc" id="L69">    }</span>
+
+    public String getRowKey() {
+<span class="nc" id="L72">        return rowKey;</span>
+    }
+
+    public void setRowKey(String rowKey) {
+<span class="nc" id="L76">        this.rowKey = rowKey;</span>
+<span class="nc" id="L77">    }</span>
+
+    public String getColumnKey() {
+<span class="nc" id="L80">        return columnKey;</span>
+    }
+
+    public void setColumnKey(String columnKey) {
+<span class="nc" id="L84">        this.columnKey = columnKey;</span>
+<span class="nc" id="L85">    }</span>
+
+    public int getTitleColor() {
+<span class="nc" id="L88">        return titleColor;</span>
+    }
+
+    public void setTitleColor(int titleColor) {
+<span class="nc" id="L92">        this.titleColor = titleColor;</span>
+<span class="nc" id="L93">    }</span>
+
+    public int getBackgroundPlotColor() {
+<span class="nc" id="L96">        return backgroundPlotColor;</span>
+    }
+
+    public void setBackgroundPlotColor(int backgroundPlotColor) {
+<span class="nc" id="L100">        this.backgroundPlotColor = backgroundPlotColor;</span>
+<span class="nc" id="L101">    }</span>
+
+    public int getRangeGridlineColor() {
+<span class="nc" id="L104">        return rangeGridlineColor;</span>
+    }
+
+    public void setRangeGridlineColor(int rangeGridlineColor) {
+<span class="nc" id="L108">        this.rangeGridlineColor = rangeGridlineColor;</span>
+<span class="nc" id="L109">    }</span>
+
+    public String getItemLabelFont() {
+<span class="nc" id="L112">        return itemLabelFont;</span>
+    }
+
+    public void setItemLabelFont(String itemLabelFont) {
+<span class="nc" id="L116">        this.itemLabelFont = itemLabelFont;</span>
+<span class="nc" id="L117">    }</span>
+
+    public boolean isVerticalOrientation() {
+<span class="nc" id="L120">        return verticalOrientation;</span>
+    }
+
+    public void setVerticalOrientation(boolean verticalOrientation) {
+<span class="nc" id="L124">        this.verticalOrientation = verticalOrientation;</span>
+<span class="nc" id="L125">    }</span>
+
+    public int getWidth() {
+<span class="nc" id="L128">        return width;</span>
+    }
+
+    public void setWidth(int width) {
+<span class="nc" id="L132">        this.width = width;</span>
+<span class="nc" id="L133">    }</span>
+
+    public int getHeight() {
+<span class="nc" id="L136">        return height;</span>
+    }
+
+    public void setHeight(int height) {
+<span class="nc" id="L140">        this.height = height;</span>
+<span class="nc" id="L141">    }</span>
+
+
+    public static ChartModel fromJson(String json) {
+        try {
+<span class="nc" id="L146">            ObjectMapper mapper = new ObjectMapper();</span>
+<span class="nc" id="L147">            return mapper.readValue(json, new TypeReference&lt;ChartModel&gt;() {</span>
+            });
+<span class="nc" id="L149">        } catch (JsonProcessingException ex) {</span>
+<span class="nc" id="L150">            Logger.getLogger(ChartModel.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L151">            throw new NotAuthorizedException(&quot;No Authorization&quot;);</span>
+<span class="nc" id="L152">        } catch (IOException ex) {</span>
+<span class="nc" id="L153">            Logger.getLogger(ChartModel.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L154">            throw new NotAuthorizedException(&quot;No Authorization&quot;);</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

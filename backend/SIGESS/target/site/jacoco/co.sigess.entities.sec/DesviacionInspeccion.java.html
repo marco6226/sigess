@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DesviacionInspeccion.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.sec</a> &gt; <span class="el_source">DesviacionInspeccion.java</span></div><h1>DesviacionInspeccion.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.sec;
+
+import java.io.Serializable;
+import java.math.BigInteger;
+import java.util.Date;
+import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@Table(name = &quot;vw_desviacion_inspeccion&quot;, schema = &quot;sec&quot;)
+@NamedQueries({
+    @NamedQuery(name = &quot;DesviacionInspeccion.findAll&quot;, query = &quot;SELECT d FROM DesviacionInspeccion d&quot;)})
+public class DesviacionInspeccion implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    
+    @Id
+    @Size(max = 20)
+    @Column(name = &quot;id&quot;)
+    private String id;
+    
+    @Size(max = 20)
+    @Column(name = &quot;hash_id&quot;)
+    private String hashId;
+    
+    @Column(name = &quot;fk_calificacion_id&quot;)
+    private BigInteger fkCalificacionId;
+    
+    @Column(name = &quot;fk_empresa_id&quot;)
+    private Integer empresaId;
+    
+    @Column(name = &quot;fecha_realizada&quot;)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaRealizada;
+    
+    @Size(max = 45)
+    @Column(name = &quot;nivel_superior&quot;)
+    private String nivelSuperior;
+    
+    @Size(max = 45)
+    @Column(name = &quot;dependencia_area&quot;)
+    private String dependenciaArea;
+    
+    @Size(max = 45)
+    @Column(name = &quot;area_inspeccion&quot;)
+    private String areaInspeccion;
+    
+    @Size(max = 255)
+    @Column(name = &quot;nombre_lista_inspeccion&quot;)
+    private String nombreListaInspeccion;
+    
+    @Column(name = &quot;version_lista_inspeccion&quot;)
+    private Integer versionListaInspeccion;
+    
+    @Size(max = 255)
+    @Column(name = &quot;tipo_grupo&quot;)
+    private String tipoGrupo;
+    
+    @Size(max = 255)
+    @Column(name = &quot;grupo_elemento&quot;)
+    private String grupoElemento;
+    
+    @Size(max = 255)
+    @Column(name = &quot;elemento_evaluado&quot;)
+    private String elementoEvaluado;
+    
+    @Size(max = 1024)
+    @Column(name = &quot;recomendacion&quot;)
+    private String recomendacion;
+    
+    @Size(max = 512)
+    @Column(name = &quot;tipo_hallazgo&quot;)
+    private String tipoHallazgo;
+    
+    @Size(max = 20)
+    @Column(name = &quot;nombre_calificacion&quot;)
+    private String nombreCalificacion;
+    
+    @Size(max = 128)
+    @Column(name = &quot;descripcion_calificacion&quot;)
+    private String descripcionCalificacion;
+    
+    @Column(name = &quot;repeticion_hallazgo&quot;)
+    private BigInteger repeticionHallazgo;
+    
+    @Size(max = 256)
+    @Column(name = &quot;tarea&quot;)
+    private String tarea;
+    
+    @Size(max = 1024)
+    @Column(name = &quot;descripcion_tarea&quot;)
+    private String descripcionTarea;
+    
+    @Size(max = 45)
+    @Column(name = &quot;area_responsable&quot;)
+    private String areaResponsable;
+    
+    @Column(name = &quot;fecha_elaboracion&quot;)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaElaboracion;
+    
+    @Size(max = 45)
+    @Column(name = &quot;estado_tarea&quot;)
+    private String estadoTarea;
+    
+    @Column(name = &quot;fecha_verificacion&quot;)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaVerificacion;
+
+<span class="nc" id="L127">    public DesviacionInspeccion() {</span>
+<span class="nc" id="L128">    }</span>
+
+    public String getHashId() {
+<span class="nc" id="L131">        return hashId;</span>
+    }
+
+    public void setHashId(String hashId) {
+<span class="nc" id="L135">        this.hashId = hashId;</span>
+<span class="nc" id="L136">    }</span>
+
+    public BigInteger getFkCalificacionId() {
+<span class="nc" id="L139">        return fkCalificacionId;</span>
+    }
+
+    public void setFkCalificacionId(BigInteger fkCalificacionId) {
+<span class="nc" id="L143">        this.fkCalificacionId = fkCalificacionId;</span>
+<span class="nc" id="L144">    }</span>
+
+    public Integer getEmpresaId() {
+<span class="nc" id="L147">        return empresaId;</span>
+    }
+
+    public void setEmpresaId(Integer empresaId) {
+<span class="nc" id="L151">        this.empresaId = empresaId;</span>
+<span class="nc" id="L152">    }</span>
+
+    public Date getFechaRealizada() {
+<span class="nc" id="L155">        return fechaRealizada;</span>
+    }
+
+    public void setFechaRealizada(Date fechaRealizada) {
+<span class="nc" id="L159">        this.fechaRealizada = fechaRealizada;</span>
+<span class="nc" id="L160">    }</span>
+
+    public String getNivelSuperior() {
+<span class="nc" id="L163">        return nivelSuperior;</span>
+    }
+
+    public void setNivelSuperior(String nivelSuperior) {
+<span class="nc" id="L167">        this.nivelSuperior = nivelSuperior;</span>
+<span class="nc" id="L168">    }</span>
+
+    public String getDependenciaArea() {
+<span class="nc" id="L171">        return dependenciaArea;</span>
+    }
+
+    public void setDependenciaArea(String dependenciaArea) {
+<span class="nc" id="L175">        this.dependenciaArea = dependenciaArea;</span>
+<span class="nc" id="L176">    }</span>
+
+    public String getAreaInspeccion() {
+<span class="nc" id="L179">        return areaInspeccion;</span>
+    }
+
+    public void setAreaInspeccion(String areaInspeccion) {
+<span class="nc" id="L183">        this.areaInspeccion = areaInspeccion;</span>
+<span class="nc" id="L184">    }</span>
+
+    public String getNombreListaInspeccion() {
+<span class="nc" id="L187">        return nombreListaInspeccion;</span>
+    }
+
+    public void setNombreListaInspeccion(String nombreListaInspeccion) {
+<span class="nc" id="L191">        this.nombreListaInspeccion = nombreListaInspeccion;</span>
+<span class="nc" id="L192">    }</span>
+
+    public Integer getVersionListaInspeccion() {
+<span class="nc" id="L195">        return versionListaInspeccion;</span>
+    }
+
+    public void setVersionListaInspeccion(Integer versionListaInspeccion) {
+<span class="nc" id="L199">        this.versionListaInspeccion = versionListaInspeccion;</span>
+<span class="nc" id="L200">    }</span>
+
+    public String getTipoGrupo() {
+<span class="nc" id="L203">        return tipoGrupo;</span>
+    }
+
+    public void setTipoGrupo(String tipoGrupo) {
+<span class="nc" id="L207">        this.tipoGrupo = tipoGrupo;</span>
+<span class="nc" id="L208">    }</span>
+
+    public String getGrupoElemento() {
+<span class="nc" id="L211">        return grupoElemento;</span>
+    }
+
+    public void setGrupoElemento(String grupoElemento) {
+<span class="nc" id="L215">        this.grupoElemento = grupoElemento;</span>
+<span class="nc" id="L216">    }</span>
+
+    public String getElementoEvaluado() {
+<span class="nc" id="L219">        return elementoEvaluado;</span>
+    }
+
+    public void setElementoEvaluado(String elementoEvaluado) {
+<span class="nc" id="L223">        this.elementoEvaluado = elementoEvaluado;</span>
+<span class="nc" id="L224">    }</span>
+
+    public String getRecomendacion() {
+<span class="nc" id="L227">        return recomendacion;</span>
+    }
+
+    public void setRecomendacion(String recomendacion) {
+<span class="nc" id="L231">        this.recomendacion = recomendacion;</span>
+<span class="nc" id="L232">    }</span>
+
+    public String getTipoHallazgo() {
+<span class="nc" id="L235">        return tipoHallazgo;</span>
+    }
+
+    public void setTipoHallazgo(String tipoHallazgo) {
+<span class="nc" id="L239">        this.tipoHallazgo = tipoHallazgo;</span>
+<span class="nc" id="L240">    }</span>
+
+    public String getNombreCalificacion() {
+<span class="nc" id="L243">        return nombreCalificacion;</span>
+    }
+
+    public void setNombreCalificacion(String nombreCalificacion) {
+<span class="nc" id="L247">        this.nombreCalificacion = nombreCalificacion;</span>
+<span class="nc" id="L248">    }</span>
+
+    public String getDescripcionCalificacion() {
+<span class="nc" id="L251">        return descripcionCalificacion;</span>
+    }
+
+    public void setDescripcionCalificacion(String descripcionCalificacion) {
+<span class="nc" id="L255">        this.descripcionCalificacion = descripcionCalificacion;</span>
+<span class="nc" id="L256">    }</span>
+
+    public BigInteger getRepeticionHallazgo() {
+<span class="nc" id="L259">        return repeticionHallazgo;</span>
+    }
+
+    public void setRepeticionHallazgo(BigInteger repeticionHallazgo) {
+<span class="nc" id="L263">        this.repeticionHallazgo = repeticionHallazgo;</span>
+<span class="nc" id="L264">    }</span>
+
+    public String getTarea() {
+<span class="nc" id="L267">        return tarea;</span>
+    }
+
+    public void setTarea(String tarea) {
+<span class="nc" id="L271">        this.tarea = tarea;</span>
+<span class="nc" id="L272">    }</span>
+
+    public String getDescripcionTarea() {
+<span class="nc" id="L275">        return descripcionTarea;</span>
+    }
+
+    public void setDescripcionTarea(String descripcionTarea) {
+<span class="nc" id="L279">        this.descripcionTarea = descripcionTarea;</span>
+<span class="nc" id="L280">    }</span>
+
+    public String getAreaResponsable() {
+<span class="nc" id="L283">        return areaResponsable;</span>
+    }
+
+    public void setAreaResponsable(String areaResponsable) {
+<span class="nc" id="L287">        this.areaResponsable = areaResponsable;</span>
+<span class="nc" id="L288">    }</span>
+
+    public Date getFechaElaboracion() {
+<span class="nc" id="L291">        return fechaElaboracion;</span>
+    }
+
+    public void setFechaElaboracion(Date fechaElaboracion) {
+<span class="nc" id="L295">        this.fechaElaboracion = fechaElaboracion;</span>
+<span class="nc" id="L296">    }</span>
+
+    public String getEstadoTarea() {
+<span class="nc" id="L299">        return estadoTarea;</span>
+    }
+
+    public void setEstadoTarea(String estadoTarea) {
+<span class="nc" id="L303">        this.estadoTarea = estadoTarea;</span>
+<span class="nc" id="L304">    }</span>
+
+    public Date getFechaVerificacion() {
+<span class="nc" id="L307">        return fechaVerificacion;</span>
+    }
+
+    public void setFechaVerificacion(Date fechaVerificacion) {
+<span class="nc" id="L311">        this.fechaVerificacion = fechaVerificacion;</span>
+<span class="nc" id="L312">    }</span>
+
+    public String getId() {
+<span class="nc" id="L315">        return id;</span>
+    }
+
+    public void setId(String id) {
+<span class="nc" id="L319">        this.id = id;</span>
+<span class="nc" id="L320">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

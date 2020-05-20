@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RespuestaCampo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.conf</a> &gt; <span class="el_source">RespuestaCampo.java</span></div><h1>RespuestaCampo.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.conf;
+
+import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@Table(name = &quot;respuesta_campo&quot;, schema = &quot;conf&quot;)
+@NamedQueries({
+    @NamedQuery(name = &quot;RespuestaCampo.findAll&quot;, query = &quot;SELECT r FROM RespuestaCampo r&quot;)})
+public class RespuestaCampo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @SequenceGenerator(name = &quot;respuesta_campo_id_seq&quot;, schema = &quot;conf&quot;, sequenceName = &quot;respuesta_campo_id_seq&quot;, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = &quot;respuesta_campo_id_seq&quot;)
+    @Basic(optional = false)
+    @Column(name = &quot;id&quot;)
+    private Long id;
+    
+    @Size(max = 2147483647)
+    @Column(name = &quot;valor&quot;)
+    private String valor;
+    
+    
+    @Column(name = &quot;fk_campo_id&quot;)
+    private Long campoId;
+
+<span class="nc" id="L47">    public RespuestaCampo() {</span>
+<span class="nc" id="L48">    }</span>
+
+<span class="nc" id="L50">    public RespuestaCampo(Long id) {</span>
+<span class="nc" id="L51">        this.id = id;</span>
+<span class="nc" id="L52">    }</span>
+
+    public Long getId() {
+<span class="nc" id="L55">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="nc" id="L59">        this.id = id;</span>
+<span class="nc" id="L60">    }</span>
+
+    public String getValor() {
+<span class="nc" id="L63">        return valor;</span>
+    }
+
+    public void setValor(String valor) {
+<span class="nc" id="L67">        this.valor = valor;</span>
+<span class="nc" id="L68">    }</span>
+
+    public Long getCampoId() {
+<span class="nc" id="L71">        return campoId;</span>
+    }
+
+    public void setCampoId(Long campoId) {
+<span class="nc" id="L75">        this.campoId = campoId;</span>
+<span class="nc" id="L76">    }</span>
+
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L81">        int hash = 0;</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L83">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        if (!(object instanceof RespuestaCampo)) {</span>
+<span class="nc" id="L90">            return false;</span>
+        }
+<span class="nc" id="L92">        RespuestaCampo other = (RespuestaCampo) object;</span>
+<span class="nc bnc" id="L93" title="All 8 branches missed.">        if ((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id))) {</span>
+<span class="nc" id="L94">            return false;</span>
+        }
+<span class="nc" id="L96">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L101">        return &quot;co.sigess.entities.conf.RespuestaCampo[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

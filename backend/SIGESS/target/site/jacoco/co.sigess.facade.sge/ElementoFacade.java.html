@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ElementoFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.sge</a> &gt; <span class="el_source">ElementoFacade.java</span></div><h1>ElementoFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.sge;
+
+import co.sigess.entities.ado.Documento;
+import co.sigess.entities.sge.Elemento;
+import co.sigess.entities.sge.OpcionRespuesta;
+import co.sigess.entities.sge.SistemaGestion;
+import co.sigess.util.IntegerWrap;
+import java.util.List;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Stateless
+public class ElementoFacade extends AbstractFacade&lt;Elemento&gt; {
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+<span class="nc" id="L30">        return em;</span>
+    }
+
+    public ElementoFacade() {
+<span class="nc" id="L34">        super(Elemento.class);</span>
+<span class="nc" id="L35">    }</span>
+
+    public void removeElementosSGE(SistemaGestion sistemaGestion) {
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        for (Elemento elemento : sistemaGestion.getElementoList()) {</span>
+<span class="nc" id="L39">            super.remove(elemento);</span>
+<span class="nc" id="L40">        }</span>
+<span class="nc" id="L41">        this.em.flush();</span>
+<span class="nc" id="L42">    }</span>
+
+    //---------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------
+    public Integer createElementosSGE(SistemaGestion sistemaGestion) {
+<span class="nc" id="L48">        IntegerWrap numeroPreguntas = new IntegerWrap();</span>
+<span class="nc" id="L49">        this.recursiveCreate(sistemaGestion, sistemaGestion.getElementoList(), numeroPreguntas);</span>
+<span class="nc" id="L50">        return numeroPreguntas.getValue();</span>
+    }
+
+    private void recursiveCreate(Object padre, List&lt;Elemento&gt; elementosList, IntegerWrap numeroPreguntas) {
+
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        for (Elemento elemento : elementosList) {</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">            if (padre instanceof SistemaGestion) {</span>
+<span class="nc" id="L57">                elemento.setSistemaGestion((SistemaGestion) padre);</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">            } else if (padre instanceof Elemento) {</span>
+<span class="nc" id="L59">                elemento.setElementoPadre((Elemento) padre);</span>
+            } else {
+                continue;
+            }
+
+<span class="nc bnc" id="L64" title="All 4 branches missed.">            if (elemento.getOpcionRespuestaList() != null &amp;&amp; !elemento.getOpcionRespuestaList().isEmpty()) {</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">                for (OpcionRespuesta opResp : elemento.getOpcionRespuestaList()) {</span>
+<span class="nc" id="L66">                    opResp.setElemento(elemento);</span>
+<span class="nc" id="L67">                }</span>
+<span class="nc" id="L68">                numeroPreguntas.increment(1);</span>
+            }
+<span class="nc bnc" id="L70" title="All 4 branches missed.">            if (elemento.getElementoList() != null &amp;&amp; !elemento.getElementoList().isEmpty()) {</span>
+<span class="nc" id="L71">                this.recursiveCreate(elemento, elemento.getElementoList(), numeroPreguntas);</span>
+            }
+<span class="nc" id="L73">            super.create(elemento);</span>
+<span class="nc" id="L74">        }</span>
+<span class="nc" id="L75">    }</span>
+
+    public Elemento actualizarDocumentos(Elemento elemento) {
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        if (elemento.getId() == null) {</span>
+<span class="nc" id="L79">            throw new IllegalArgumentException(&quot;No se pueden actualizar documentos para elementos que no han sido creados&quot;);</span>
+        }
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        for (Documento doc : elemento.getDocumentosList()) {</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">            if(doc.getId() == null){</span>
+<span class="nc" id="L83">                throw new IllegalArgumentException(&quot;Los documentos especificados no son válidos&quot;);</span>
+            }
+<span class="nc" id="L85">        }</span>
+<span class="nc" id="L86">        Elemento elemDB = this.find(elemento.getId());</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (elemDB == null) {</span>
+<span class="nc" id="L88">            throw new IllegalArgumentException(&quot;El elemento a actualizar no es válido&quot;);</span>
+        }
+<span class="nc" id="L90">        elemDB.setDocumentosList(elemento.getDocumentosList());</span>
+<span class="nc" id="L91">        super.edit(elemDB);</span>
+<span class="nc" id="L92">        return elemDB;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

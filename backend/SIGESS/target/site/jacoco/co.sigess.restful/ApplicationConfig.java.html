@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ApplicationConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.restful</a> &gt; <span class="el_source">ApplicationConfig.java</span></div><h1>ApplicationConfig.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.restful;
+
+import java.util.Set;
+import javax.ws.rs.core.Application;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+
+/**
+ *
+ * @author milan
+ */
+@javax.ws.rs.ApplicationPath(&quot;api&quot;)
+<span class="nc" id="L17">public class ApplicationConfig extends Application {</span>
+
+    @Override
+    public Set&lt;Class&lt;?&gt;&gt; getClasses() {
+<span class="nc" id="L21">        Set&lt;Class&lt;?&gt;&gt; resources = new java.util.HashSet&lt;&gt;();</span>
+<span class="nc" id="L22">        resources.add(org.glassfish.jersey.jackson.JacksonFeature.class);</span>
+<span class="nc" id="L23">        resources.add(MultiPartFeature.class);</span>
+        
+<span class="nc" id="L25">        addRestResourceClasses(resources);</span>
+<span class="nc" id="L26">        return resources;</span>
+    }
+
+    /**
+     * Do not modify addRestResourceClasses() method.
+     * It is automatically populated with
+     * all resources defined in the project.
+     * If required, comment out calling this method in getClasses().
+     */
+    private void addRestResourceClasses(Set&lt;Class&lt;?&gt;&gt; resources) {
+<span class="nc" id="L36">        resources.add(co.sigess.restful.ContactoREST.class);</span>
+<span class="nc" id="L37">        resources.add(co.sigess.restful.ado.DirectorioREST.class);</span>
+<span class="nc" id="L38">        resources.add(co.sigess.restful.auc.ObservacionREST.class);</span>
+<span class="nc" id="L39">        resources.add(co.sigess.restful.auc.TarjetaREST.class);</span>
+<span class="nc" id="L40">        resources.add(co.sigess.restful.aus.CausaAusentismoREST.class);</span>
+<span class="nc" id="L41">        resources.add(co.sigess.restful.aus.ReporteAusentismoREST.class);</span>
+<span class="nc" id="L42">        resources.add(co.sigess.restful.com.AfpREST.class);</span>
+<span class="nc" id="L43">        resources.add(co.sigess.restful.com.ArlREST.class);</span>
+<span class="nc" id="L44">        resources.add(co.sigess.restful.com.CcfREST.class);</span>
+<span class="nc" id="L45">        resources.add(co.sigess.restful.com.CieREST.class);</span>
+<span class="nc" id="L46">        resources.add(co.sigess.restful.com.CiiuREST.class);</span>
+<span class="nc" id="L47">        resources.add(co.sigess.restful.com.CiudadREST.class);</span>
+<span class="nc" id="L48">        resources.add(co.sigess.restful.com.DepartamentoREST.class);</span>
+<span class="nc" id="L49">        resources.add(co.sigess.restful.com.EnumeracionesREST.class);</span>
+<span class="nc" id="L50">        resources.add(co.sigess.restful.com.EpsREST.class);</span>
+<span class="nc" id="L51">        resources.add(co.sigess.restful.conf.ConfiguracionGeneralREST.class);</span>
+<span class="nc" id="L52">        resources.add(co.sigess.restful.conf.ManualREST.class);</span>
+<span class="nc" id="L53">        resources.add(co.sigess.restful.conf.OfflineServiceREST.class);</span>
+<span class="nc" id="L54">        resources.add(co.sigess.restful.conf.SistemaNivelRiesgoREST.class);</span>
+<span class="nc" id="L55">        resources.add(co.sigess.restful.cop.ActaREST.class);</span>
+<span class="nc" id="L56">        resources.add(co.sigess.restful.emp.AreaREST.class);</span>
+<span class="nc" id="L57">        resources.add(co.sigess.restful.emp.AuthenticationREST.class);</span>
+<span class="nc" id="L58">        resources.add(co.sigess.restful.emp.CargoREST.class);</span>
+<span class="nc" id="L59">        resources.add(co.sigess.restful.emp.CompetenciaREST.class);</span>
+<span class="nc" id="L60">        resources.add(co.sigess.restful.emp.ConfiguracionJornadaREST.class);</span>
+<span class="nc" id="L61">        resources.add(co.sigess.restful.emp.ContextoOrganizacionREST.class);</span>
+<span class="nc" id="L62">        resources.add(co.sigess.restful.emp.EmpleadoREST.class);</span>
+<span class="nc" id="L63">        resources.add(co.sigess.restful.emp.EmpresaREST.class);</span>
+<span class="nc" id="L64">        resources.add(co.sigess.restful.emp.EvaluacionDesempenoREST.class);</span>
+<span class="nc" id="L65">        resources.add(co.sigess.restful.emp.GrupoEmpresarialREST.class);</span>
+<span class="nc" id="L66">        resources.add(co.sigess.restful.emp.HhtREST.class);</span>
+<span class="nc" id="L67">        resources.add(co.sigess.restful.emp.HorasExtraREST.class);</span>
+<span class="nc" id="L68">        resources.add(co.sigess.restful.emp.PerfilREST.class);</span>
+<span class="nc" id="L69">        resources.add(co.sigess.restful.emp.PermisoREST.class);</span>
+<span class="nc" id="L70">        resources.add(co.sigess.restful.emp.RecursoREST.class);</span>
+<span class="nc" id="L71">        resources.add(co.sigess.restful.emp.TipoAreaREST.class);</span>
+<span class="nc" id="L72">        resources.add(co.sigess.restful.emp.UsuarioREST.class);</span>
+<span class="nc" id="L73">        resources.add(co.sigess.restful.emp.UtilsREST.class);</span>
+<span class="nc" id="L74">        resources.add(co.sigess.restful.exceptions.InternalServerErrorMapper.class);</span>
+<span class="nc" id="L75">        resources.add(co.sigess.restful.exceptions.NotFoundExceptionMapper.class);</span>
+<span class="nc" id="L76">        resources.add(co.sigess.restful.ind.IndicadorAusentismoREST.class);</span>
+<span class="nc" id="L77">        resources.add(co.sigess.restful.ind.IndicadorEmpresaREST.class);</span>
+<span class="nc" id="L78">        resources.add(co.sigess.restful.ind.IndicadorInpREST.class);</span>
+<span class="nc" id="L79">        resources.add(co.sigess.restful.ind.IndicadorREST.class);</span>
+<span class="nc" id="L80">        resources.add(co.sigess.restful.ind.IndicadorRaiREST.class);</span>
+<span class="nc" id="L81">        resources.add(co.sigess.restful.ind.IndicadorSgeREST.class);</span>
+<span class="nc" id="L82">        resources.add(co.sigess.restful.ind.TableroREST.class);</span>
+<span class="nc" id="L83">        resources.add(co.sigess.restful.inp.InspeccionREST.class);</span>
+<span class="nc" id="L84">        resources.add(co.sigess.restful.inp.ListaInspeccionREST.class);</span>
+<span class="nc" id="L85">        resources.add(co.sigess.restful.inp.ProgramacionREST.class);</span>
+<span class="nc" id="L86">        resources.add(co.sigess.restful.inp.TipoHallazgoREST.class);</span>
+<span class="nc" id="L87">        resources.add(co.sigess.restful.ipr.ControlREST.class);</span>
+<span class="nc" id="L88">        resources.add(co.sigess.restful.ipr.EfectoREST.class);</span>
+<span class="nc" id="L89">        resources.add(co.sigess.restful.ipr.FuenteREST.class);</span>
+<span class="nc" id="L90">        resources.add(co.sigess.restful.ipr.IpecrREST.class);</span>
+<span class="nc" id="L91">        resources.add(co.sigess.restful.ipr.ParticipanteIpecrREST.class);</span>
+<span class="nc" id="L92">        resources.add(co.sigess.restful.ipr.PeligroIpecrREST.class);</span>
+<span class="nc" id="L93">        resources.add(co.sigess.restful.ipr.PeligroREST.class);</span>
+<span class="nc" id="L94">        resources.add(co.sigess.restful.ipr.TipoControlREST.class);</span>
+<span class="nc" id="L95">        resources.add(co.sigess.restful.ipr.TipoPeligroREST.class);</span>
+<span class="nc" id="L96">        resources.add(co.sigess.restful.rai.ReporteREST.class);</span>
+<span class="nc" id="L97">        resources.add(co.sigess.restful.sec.AnalisisDesviacionREST.class);</span>
+<span class="nc" id="L98">        resources.add(co.sigess.restful.sec.DesviacionREST.class);</span>
+<span class="nc" id="L99">        resources.add(co.sigess.restful.sec.SistemaCausaAdministrativaREST.class);</span>
+<span class="nc" id="L100">        resources.add(co.sigess.restful.sec.SistemaCausaInmediataREST.class);</span>
+<span class="nc" id="L101">        resources.add(co.sigess.restful.sec.SistemaCausaRaizREST.class);</span>
+<span class="nc" id="L102">        resources.add(co.sigess.restful.sec.TareaDesviacionREST.class);</span>
+<span class="nc" id="L103">        resources.add(co.sigess.restful.security.AuthorizationFilter.class);</span>
+<span class="nc" id="L104">        resources.add(co.sigess.restful.security.GZIPWriterInterceptor.class);</span>
+<span class="nc" id="L105">        resources.add(co.sigess.restful.security.RequestAuditableFilter.class);</span>
+<span class="nc" id="L106">        resources.add(co.sigess.restful.security.ResponseAuditableFilter.class);</span>
+<span class="nc" id="L107">        resources.add(co.sigess.restful.security.ResponseFilter.class);</span>
+<span class="nc" id="L108">        resources.add(co.sigess.restful.security.WriterResponseInterceptor.class);</span>
+<span class="nc" id="L109">        resources.add(co.sigess.restful.sge.ElementoREST.class);</span>
+<span class="nc" id="L110">        resources.add(co.sigess.restful.sge.EvaluacionREST.class);</span>
+<span class="nc" id="L111">        resources.add(co.sigess.restful.sge.ReportesSGEREST.class);</span>
+<span class="nc" id="L112">        resources.add(co.sigess.restful.sge.RespuestaREST.class);</span>
+<span class="nc" id="L113">        resources.add(co.sigess.restful.sge.SistemaGestionREST.class);</span>
+<span class="nc" id="L114">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

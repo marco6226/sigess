@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UsuarioDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.emp.dto</a> &gt; <span class="el_source">UsuarioDTO.java</span></div><h1>UsuarioDTO.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.emp.dto;
+
+import co.sigess.entities.emp.EstadoUsuario;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.List;
+
+/**
+ *
+ * @author fmoreno
+ */
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class UsuarioDTO {
+
+    private Integer id;
+    private String email;
+    private EstadoUsuario estado;
+    private List&lt;Integer&gt; perfilesId;
+    private String perfilNombre;
+
+<span class="nc" id="L25">    public UsuarioDTO() {</span>
+<span class="nc" id="L26">    }</span>
+
+<span class="nc" id="L28">    public UsuarioDTO(Integer id, String email, EstadoUsuario estado) {</span>
+<span class="nc" id="L29">        this.id = id;</span>
+<span class="nc" id="L30">        this.email = email;</span>
+<span class="nc" id="L31">        this.estado = estado;</span>
+<span class="nc" id="L32">    }</span>
+    
+    public Integer getId() {
+<span class="nc" id="L35">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="nc" id="L39">        this.id = id;</span>
+<span class="nc" id="L40">    }</span>
+
+    public String getEmail() {
+<span class="nc" id="L43">        return email;</span>
+    }
+
+    public void setEmail(String email) {
+<span class="nc" id="L47">        this.email = email;</span>
+<span class="nc" id="L48">    }</span>
+
+    public EstadoUsuario getEstado() {
+<span class="nc" id="L51">        return estado;</span>
+    }
+
+    public void setEstado(EstadoUsuario estado) {
+<span class="nc" id="L55">        this.estado = estado;</span>
+<span class="nc" id="L56">    }</span>
+
+    public List&lt;Integer&gt; getPerfilesId() {
+<span class="nc" id="L59">        return perfilesId;</span>
+    }
+
+    public void setPerfilesId(List&lt;Integer&gt; perfilesId) {
+<span class="nc" id="L63">        this.perfilesId = perfilesId;</span>
+<span class="nc" id="L64">    }</span>
+
+    public String getPerfilNombre() {
+<span class="nc" id="L67">        return perfilNombre;</span>
+    }
+
+    public void setPerfilNombre(String perfilNombre) {
+<span class="nc" id="L71">        this.perfilNombre = perfilNombre;</span>
+<span class="nc" id="L72">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

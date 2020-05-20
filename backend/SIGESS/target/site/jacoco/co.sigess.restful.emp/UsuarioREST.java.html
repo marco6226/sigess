@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UsuarioREST.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.restful.emp</a> &gt; <span class="el_source">UsuarioREST.java</span></div><h1>UsuarioREST.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.restful.emp;
+
+import co.sigess.entities.com.Mensaje;
+import co.sigess.entities.com.TipoMensaje;
+import co.sigess.entities.emp.EventoLog;
+import co.sigess.entities.emp.Usuario;
+import co.sigess.exceptions.UserMessageException;
+import co.sigess.facade.emp.EventoLogFacade;
+import co.sigess.facade.emp.UsuarioFacade;
+import co.sigess.restful.CriteriaFilter;
+import co.sigess.restful.Filter;
+import co.sigess.restful.FilterQuery;
+import co.sigess.restful.FilterResponse;
+import co.sigess.restful.ServiceREST;
+import co.sigess.restful.security.Auditable;
+import co.sigess.restful.security.Secured;
+import co.sigess.util.Util;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.ws.rs.BeanParam;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Secured
+@Path(&quot;usuario&quot;)
+public class UsuarioREST extends ServiceREST {
+
+    @EJB
+    private UsuarioFacade usuarioFacade;
+
+    @EJB
+    private EventoLogFacade eventoLogFacade;
+
+    public UsuarioREST() {
+<span class="nc" id="L57">        super(UsuarioFacade.class);</span>
+<span class="nc" id="L58">    }</span>
+
+    @Override
+    @GET
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response findWithFilter(@BeanParam FilterQuery filterQuery) {
+        try {
+<span class="nc bnc" id="L65" title="All 2 branches missed.">            for (String field : filterQuery.getFieldList()) {</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">                if (field.equals(&quot;password&quot;)) {</span>
+<span class="nc" id="L67">                    Mensaje msg = new Mensaje(</span>
+                            &quot;INTENTO ACCESO A PASSWORD&quot;,
+<span class="nc" id="L69">                            &quot;[Usuario: &quot; + super.getUsuarioRequestContext().getEmail()</span>
+<span class="nc" id="L70">                            + &quot;] [fecha:&quot; + Util.SIMPLE_DATE_FORMAT_ISO.format(new Date()),</span>
+                            TipoMensaje.error
+                    );
+<span class="nc" id="L73">                    Logger.getLogger(UsuarioREST.class.getName()).log(Level.SEVERE, msg.toString());</span>
+<span class="nc" id="L74">                    this.usuarioFacade.bloquearUsuario(super.getUsuarioRequestContext());</span>
+<span class="nc" id="L75">                    return Response.status(Response.Status.FORBIDDEN).entity(new Mensaje()).build();</span>
+                }
+            }
+
+<span class="nc" id="L79">            boolean filtradoEmpresa = false;</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">            for (Filter filter : filterQuery.getFilterList()) {</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">                if (filter.getField().equals(&quot;usuarioEmpresaList.empresa.id&quot;)) {</span>
+<span class="nc" id="L82">                    filtradoEmpresa = true;</span>
+                }
+<span class="nc" id="L84">            }</span>
+
+<span class="nc bnc" id="L86" title="All 2 branches missed.">            if (!filtradoEmpresa) {</span>
+<span class="nc" id="L87">                Filter empFilt = new Filter();</span>
+<span class="nc" id="L88">                empFilt.setCriteriaEnum(CriteriaFilter.EQUALS);</span>
+<span class="nc" id="L89">                empFilt.setField(&quot;usuarioEmpresaList.empresa.id&quot;);</span>
+<span class="nc" id="L90">                empFilt.setValue1(getEmpresaIdRequestContext().toString());</span>
+<span class="nc" id="L91">                filterQuery.getFilterList().add(empFilt);</span>
+            }
+
+<span class="nc bnc" id="L94" title="All 2 branches missed.">            long numRows = filterQuery.isCount() ? usuarioFacade.countWithFilter(filterQuery) : -1;</span>
+<span class="nc" id="L95">            List list = usuarioFacade.findWithFilter(filterQuery);</span>
+<span class="nc" id="L96">            List&lt;HashMap&gt; listHash = new ArrayList();</span>
+<span class="nc" id="L97">            int repetidos = 0;</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">            for (Object object : list) {</span>
+<span class="nc" id="L99">                HashMap map = (HashMap) object;</span>
+<span class="nc" id="L100">                boolean contiene = false;</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">                for (HashMap hashMap : listHash) {</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">                    if (map.get(&quot;id&quot;).equals(hashMap.get(&quot;id&quot;))) {</span>
+<span class="nc" id="L103">                        contiene = true;</span>
+<span class="nc" id="L104">                        repetidos += 1;</span>
+<span class="nc" id="L105">                        break;</span>
+                    }
+<span class="nc" id="L107">                }</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">                if (!contiene) {</span>
+<span class="nc" id="L109">                    listHash.add(map);</span>
+                }
+<span class="nc" id="L111">            }</span>
+<span class="nc" id="L112">            FilterResponse filterResponse = new FilterResponse();</span>
+<span class="nc" id="L113">            filterResponse.setData(listHash);</span>
+<span class="nc" id="L114">            filterResponse.setCount(numRows - repetidos);</span>
+<span class="nc" id="L115">            return Response.ok(filterResponse).build();</span>
+<span class="nc" id="L116">        } catch (Exception ex) {</span>
+<span class="nc" id="L117">            return Util.manageException(ex, UsuarioREST.class);</span>
+        }
+    }
+
+    @GET
+    @Path(&quot;historiaLogin&quot;)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Secured(requiereEmpresaId = false)
+    public Response consultarHistoriaLogin() {
+        try {
+<span class="nc" id="L127">            List&lt;EventoLog&gt; list = this.eventoLogFacade.consultarHistoriaLogin(super.getUsuarioRequestContext());</span>
+<span class="nc" id="L128">            FilterResponse filterResponse = new FilterResponse();</span>
+<span class="nc" id="L129">            filterResponse.setData(list);</span>
+<span class="nc" id="L130">            filterResponse.setCount(10);</span>
+<span class="nc" id="L131">            return Response.ok(filterResponse).build();</span>
+<span class="nc" id="L132">        } catch (Exception ex) {</span>
+<span class="nc" id="L133">            return Util.manageException(ex, AuthenticationREST.class);</span>
+        }
+    }
+
+    @PUT
+    @Path(&quot;cambiarPasswd&quot;)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Secured(requiereEmpresaId = false)
+    @Auditable(persistData = false)
+    public Response cambiarPasswd(Map&lt;String, String&gt; param) {
+        try {
+<span class="nc" id="L144">            String oldPasswd = param.get(&quot;passwdAnterior&quot;);</span>
+<span class="nc" id="L145">            String newPasswd = param.get(&quot;passwdNuevo&quot;);</span>
+<span class="nc" id="L146">            String newPasswdConfirm = param.get(&quot;passwdNuevoConfirm&quot;);</span>
+
+<span class="nc" id="L148">            Usuario user = usuarioFacade.cambiarPasswd(super.getUsuarioRequestContext().getId(), newPasswd, newPasswdConfirm, oldPasswd);</span>
+<span class="nc" id="L149">            return Response.ok(user).build();</span>
+<span class="nc" id="L150">        } catch (Exception ex) {</span>
+<span class="nc" id="L151">            return Util.manageException(ex, AuthenticationREST.class);</span>
+        }
+    }
+
+    @POST
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Auditable
+    public Response create(Usuario usuario) {
+        try {
+<span class="nc" id="L160">            usuarioFacade.create(usuario, super.getEmpresaIdRequestContext());</span>
+<span class="nc" id="L161">            return Response.ok(usuario).build();</span>
+<span class="nc" id="L162">        } catch (Exception ex) {</span>
+<span class="nc" id="L163">            return Util.manageException(ex, UsuarioREST.class);</span>
+        }
+    }
+
+    @PUT
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Auditable
+    public Response edit(Usuario usuario) {
+        try {
+<span class="nc" id="L172">            usuario = usuarioFacade.edit(usuario, super.getEmpresaIdRequestContext());</span>
+<span class="nc" id="L173">            return Response.ok(usuario).build();</span>
+<span class="nc" id="L174">        } catch (Exception ex) {</span>
+<span class="nc" id="L175">            return Util.manageException(ex, UsuarioREST.class);</span>
+        }
+    }
+
+    @PUT
+    @Path(&quot;update&quot;)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response update(Usuario usuario) {
+        try {
+<span class="nc bnc" id="L184" title="All 2 branches missed.">            if (!usuario.getId().equals(super.getUsuarioRequestContext().getId())) {</span>
+<span class="nc" id="L185">                throw new UserMessageException(&quot;Operación no permitida&quot;, &quot;No puede editar datos de otro usuario&quot;, TipoMensaje.error);</span>
+            }
+<span class="nc" id="L187">            usuario = usuarioFacade.update(usuario, super.getEmpresaIdRequestContext());</span>
+<span class="nc" id="L188">            return Response.ok(usuario).build();</span>
+<span class="nc" id="L189">        } catch (Exception ex) {</span>
+<span class="nc" id="L190">            return Util.manageException(ex, UsuarioREST.class);</span>
+        }
+    }
+
+    @DELETE
+    @Path(&quot;{usuarioId}&quot;)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Auditable
+    public Response delete(@PathParam(&quot;usuarioId&quot;) Integer usuarioId) {
+        try {
+<span class="nc" id="L200">            usuarioFacade.eliminar(usuarioId);</span>
+<span class="nc" id="L201">            return Response.ok(usuarioId).build();</span>
+<span class="nc" id="L202">        } catch (Exception ex) {</span>
+<span class="nc" id="L203">            return Util.manageException(ex, UsuarioREST.class);</span>
+        }
+    }
+
+    @PUT
+    @Path(&quot;terminos/{aceptar}&quot;)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Auditable()
+    @Secured(validarPermiso = false)
+    public Response aceptarTerminos(@PathParam(&quot;aceptar&quot;) Boolean aceptar) {
+        try {
+<span class="nc" id="L214">            usuarioFacade.aceptarTerminos(super.getUsuarioRequestContext(), aceptar);</span>
+<span class="nc" id="L215">            return Response.ok().build();</span>
+<span class="nc" id="L216">        } catch (Exception ex) {</span>
+<span class="nc" id="L217">            return Util.manageException(ex, UsuarioREST.class);</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

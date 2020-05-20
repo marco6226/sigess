@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FilterQuery.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.restful</a> &gt; <span class="el_source">FilterQuery.java</span></div><h1>FilterQuery.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.restful;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.ws.rs.QueryParam;
+
+/**
+ *
+ * @author fmoreno
+ */
+<span class="nc" id="L19">public class FilterQuery {</span>
+
+    @QueryParam(&quot;offset&quot;)
+    private Integer offset;
+
+    @QueryParam(&quot;rows&quot;)
+    private Integer rows;
+
+    @QueryParam(&quot;sortField&quot;)
+    private String sortField;
+
+    @QueryParam(&quot;sortOrder&quot;)
+    private Integer sortOrder;
+
+    @QueryParam(&quot;filterList&quot;)
+    private String strFilter;
+
+    @QueryParam(&quot;fieldList&quot;)
+    private String strFields;
+    
+    @QueryParam(&quot;count&quot;)
+    private boolean count;
+
+    private List&lt;Filter&gt; filterList;
+
+    private String[] fieldList;
+
+    public Integer getOffset() {
+<span class="nc" id="L47">        return offset;</span>
+    }
+
+    public void setOffset(Integer offset) {
+<span class="nc" id="L51">        this.offset = offset;</span>
+<span class="nc" id="L52">    }</span>
+
+    public Integer getRows() {
+<span class="nc" id="L55">        return rows;</span>
+    }
+
+    public void setRows(Integer rows) {
+<span class="nc" id="L59">        this.rows = rows;</span>
+<span class="nc" id="L60">    }</span>
+
+    public String getSortField() {
+<span class="nc" id="L63">        return sortField;</span>
+    }
+
+    public void setSortField(String sortField) {
+<span class="nc" id="L67">        this.sortField = sortField;</span>
+<span class="nc" id="L68">    }</span>
+
+    public Integer getSortOrder() {
+<span class="nc" id="L71">        return sortOrder;</span>
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+<span class="nc" id="L75">        this.sortOrder = sortOrder;</span>
+<span class="nc" id="L76">    }</span>
+
+    public boolean isCount() {
+<span class="nc" id="L79">        return count;</span>
+    }
+
+    public void setCount(boolean count) {
+<span class="nc" id="L83">        this.count = count;</span>
+<span class="nc" id="L84">    }</span>
+
+    public List&lt;Filter&gt; getFilterList() throws IOException {
+<span class="nc bnc" id="L87" title="All 4 branches missed.">        if (filterList == null &amp;&amp; strFilter != null) {</span>
+<span class="nc" id="L88">            TypeReference&lt;List&lt;Filter&gt;&gt; type = new TypeReference&lt;List&lt;Filter&gt;&gt;() {</span>
+            };
+<span class="nc" id="L90">            filterList = new ObjectMapper().readValue(this.strFilter, type);</span>
+        }
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        if (filterList == null) {</span>
+<span class="nc" id="L93">            filterList = new ArrayList&lt;&gt;();</span>
+        }
+<span class="nc" id="L95">        return filterList;</span>
+
+    }
+
+    public void setFilterList(List&lt;Filter&gt; filterList) {
+<span class="nc" id="L100">        this.filterList = filterList;</span>
+<span class="nc" id="L101">    }</span>
+
+    public String[] getFieldList() throws IOException {
+<span class="nc bnc" id="L104" title="All 2 branches missed.">        if (strFields != null) {</span>
+<span class="nc" id="L105">            return strFields.split(&quot;,&quot;);</span>
+        }
+<span class="nc" id="L107">        return null;</span>
+    }
+
+    public void setFieldList(String[] fieldList) {
+<span class="nc" id="L111">        this.fieldList = fieldList;</span>
+<span class="nc" id="L112">    }</span>
+
+    public void setStrFilter(String strFilter) {
+<span class="nc" id="L115">        this.strFilter = strFilter;</span>
+<span class="nc" id="L116">    }</span>
+
+    public void setStrFields(String strFields) {
+<span class="nc" id="L119">        this.strFields = strFields;</span>
+<span class="nc" id="L120">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

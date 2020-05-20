@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EventoLog.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.emp</a> &gt; <span class="el_source">EventoLog.java</span></div><h1>EventoLog.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.emp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
+import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@Table(name = &quot;evento_log&quot;, schema = &quot;emp&quot;)
+@XmlRootElement
+public class EventoLog implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @SequenceGenerator(name = &quot;evento_log_id_seq&quot;, schema = &quot;emp&quot;, sequenceName = &quot;evento_log_id_seq&quot;, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = &quot;evento_log_id_seq&quot;)
+    @Basic(optional = false)
+    @Column(name = &quot;id&quot;)
+    @JsonIgnore
+    private Long id;
+
+    @Size(max = 64)
+    @Column(name = &quot;metodo&quot;)
+    @JsonIgnore
+    private String metodo;
+
+    @Column(name = &quot;solicitud&quot;)
+    @JsonIgnore
+    private String solicitud;
+
+    @Size(max = 25)
+    @Column(name = &quot;ip&quot;)
+    private String ip;
+
+    @Size(max = 256)
+    @Column(name = &quot;user_agent&quot;)
+    private String userAgent;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = &quot;fecha&quot;)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecha;
+
+    @Column(name = &quot;respuesta&quot;)
+    private Integer respuesta;
+
+    @Size(max = 2147483647)
+    @Column(name = &quot;data&quot;)
+    @JsonIgnore
+    private String data;
+
+    @Column(name = &quot;usuario_email&quot;)
+    @JsonIgnore
+    private String usuarioEmail;
+    
+    @Column(name = &quot;client_version&quot;)
+    @JsonIgnore
+    private String clientVersion;
+
+<span class="nc" id="L84">    public EventoLog() {</span>
+<span class="nc" id="L85">    }</span>
+
+<span class="nc" id="L87">    public EventoLog(Long id) {</span>
+<span class="nc" id="L88">        this.id = id;</span>
+<span class="nc" id="L89">    }</span>
+
+<span class="nc" id="L91">    public EventoLog(Long id, Date fecha) {</span>
+<span class="nc" id="L92">        this.id = id;</span>
+<span class="nc" id="L93">        this.fecha = fecha;</span>
+<span class="nc" id="L94">    }</span>
+
+<span class="nc" id="L96">    public EventoLog(Long id, String metodo, String solicitud, String ip, String userAgent, Date fecha, Integer respuesta, String data, String usuarioEmail, String clientVersion) {</span>
+<span class="nc" id="L97">        this.id = id;</span>
+<span class="nc" id="L98">        this.solicitud = solicitud;</span>
+<span class="nc" id="L99">        this.metodo = metodo;</span>
+<span class="nc" id="L100">        this.ip = ip;</span>
+<span class="nc" id="L101">        this.userAgent = userAgent;</span>
+<span class="nc" id="L102">        this.fecha = fecha;</span>
+<span class="nc" id="L103">        this.respuesta = respuesta;</span>
+<span class="nc" id="L104">        this.data = data;</span>
+<span class="nc" id="L105">        this.usuarioEmail = usuarioEmail;</span>
+<span class="nc" id="L106">        this.clientVersion = clientVersion;</span>
+<span class="nc" id="L107">    }</span>
+
+    public Long getId() {
+<span class="nc" id="L110">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="nc" id="L114">        this.id = id;</span>
+<span class="nc" id="L115">    }</span>
+
+    public String getMetodo() {
+<span class="nc" id="L118">        return metodo;</span>
+    }
+
+    public void setMetodo(String metodo) {
+<span class="nc" id="L122">        this.metodo = metodo;</span>
+<span class="nc" id="L123">    }</span>
+
+    public String getSolicitud() {
+<span class="nc" id="L126">        return solicitud;</span>
+    }
+
+    public void setSolicitud(String solicitud) {
+<span class="nc" id="L130">        this.solicitud = solicitud;</span>
+<span class="nc" id="L131">    }</span>
+
+    public String getIp() {
+<span class="nc" id="L134">        return ip;</span>
+    }
+
+    public void setIp(String ip) {
+<span class="nc" id="L138">        this.ip = ip;</span>
+<span class="nc" id="L139">    }</span>
+
+    public String getUserAgent() {
+<span class="nc" id="L142">        return userAgent;</span>
+    }
+
+    public void setUserAgent(String userAgent) {
+<span class="nc" id="L146">        this.userAgent = userAgent;</span>
+<span class="nc" id="L147">    }</span>
+
+    public Date getFecha() {
+<span class="nc" id="L150">        return fecha;</span>
+    }
+
+    public void setFecha(Date fecha) {
+<span class="nc" id="L154">        this.fecha = fecha;</span>
+<span class="nc" id="L155">    }</span>
+
+    public Integer getRespuesta() {
+<span class="nc" id="L158">        return respuesta;</span>
+    }
+
+    public void setRespuesta(Integer respuesta) {
+<span class="nc" id="L162">        this.respuesta = respuesta;</span>
+<span class="nc" id="L163">    }</span>
+
+    public String getData() {
+<span class="nc" id="L166">        return data;</span>
+    }
+
+    public void setData(String data) {
+<span class="nc" id="L170">        this.data = data;</span>
+<span class="nc" id="L171">    }</span>
+
+    public String getUsuarioEmail() {
+<span class="nc" id="L174">        return usuarioEmail;</span>
+    }
+
+    public void setUsuarioEmail(String usuarioEmail) {
+<span class="nc" id="L178">        this.usuarioEmail = usuarioEmail;</span>
+<span class="nc" id="L179">    }</span>
+
+    public String getClientVersion() {
+<span class="nc" id="L182">        return clientVersion;</span>
+    }
+
+    public void setClientVersion(String clientVersion) {
+<span class="nc" id="L186">        this.clientVersion = clientVersion;</span>
+<span class="nc" id="L187">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L191">        int hash = 0;</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L193">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L199" title="All 2 branches missed.">        if (!(object instanceof EventoLog)) {</span>
+<span class="nc" id="L200">            return false;</span>
+        }
+<span class="nc" id="L202">        EventoLog other = (EventoLog) object;</span>
+<span class="nc bnc" id="L203" title="All 8 branches missed.">        if ((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id))) {</span>
+<span class="nc" id="L204">            return false;</span>
+        }
+<span class="nc" id="L206">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L211">        return &quot;EventoLog{&quot; + &quot;id=&quot; + id</span>
+                + &quot;, metodo=&quot; + metodo
+                + &quot;, solicitud=&quot; + solicitud
+                + &quot;, ip=&quot; + ip
+                + &quot;, userAgent=&quot; + userAgent
+                + &quot;, fecha=&quot; + fecha
+                + &quot;, respuesta=&quot; + respuesta
+                + &quot;, data=&quot; + data
+                + &quot;, usuarioEmail=&quot; + usuarioEmail
+                + &quot;, clientVersion=&quot; + clientVersion
+                + '}';
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CausaAusentismo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.aus</a> &gt; <span class="el_source">CausaAusentismo.java</span></div><h1>CausaAusentismo.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.aus;
+
+import co.sigess.entities.emp.Empresa;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@Table(name = &quot;causa_ausentismo&quot;, schema = &quot;aus&quot;)
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;CausaAusentismo.findAll&quot;, query = &quot;SELECT c FROM CausaAusentismo c&quot;)})
+public class CausaAusentismo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @SequenceGenerator(name = &quot;causa_ausentismo_id_seq&quot;, schema = &quot;aus&quot;, sequenceName = &quot;causa_ausentismo_id_seq&quot;, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = &quot;causa_ausentismo_id_seq&quot;)
+    @Basic(optional = false)
+    @Column(name = &quot;id&quot;)
+    private Integer id;
+    
+    @Size(max = 45)
+    @Column(name = &quot;tipo&quot;)
+    private String tipo;
+    
+    @Size(max = 100)
+    @Column(name = &quot;nombre&quot;)
+    private String nombre;
+    
+    @Column(name = &quot;requiere_soporte&quot;)
+    private Boolean requiereSoporte;
+    
+    @Column(name = &quot;requiere_cie&quot;)
+    private Boolean requiereCie;
+    
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = &quot;fk_empresa_id&quot;, referencedColumnName = &quot;id&quot;)
+    private Empresa empresa;
+    
+
+<span class="nc" id="L67">    public CausaAusentismo() {</span>
+<span class="nc" id="L68">    }</span>
+
+<span class="nc" id="L70">    public CausaAusentismo(Integer id) {</span>
+<span class="nc" id="L71">        this.id = id;</span>
+<span class="nc" id="L72">    }</span>
+
+    public Integer getId() {
+<span class="nc" id="L75">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="nc" id="L79">        this.id = id;</span>
+<span class="nc" id="L80">    }</span>
+
+    public String getTipo() {
+<span class="nc" id="L83">        return tipo;</span>
+    }
+
+    public void setTipo(String tipo) {
+<span class="nc" id="L87">        this.tipo = tipo;</span>
+<span class="nc" id="L88">    }</span>
+
+    public String getNombre() {
+<span class="nc" id="L91">        return nombre;</span>
+    }
+
+    public void setNombre(String nombre) {
+<span class="nc" id="L95">        this.nombre = nombre;</span>
+<span class="nc" id="L96">    }</span>
+
+    public Boolean getRequiereSoporte() {
+<span class="nc" id="L99">        return requiereSoporte;</span>
+    }
+
+    public void setRequiereSoporte(Boolean requiereSoporte) {
+<span class="nc" id="L103">        this.requiereSoporte = requiereSoporte;</span>
+<span class="nc" id="L104">    }</span>
+
+    public Boolean getRequiereCie() {
+<span class="nc" id="L107">        return requiereCie;</span>
+    }
+
+    public void setRequiereCie(Boolean requiereCie) {
+<span class="nc" id="L111">        this.requiereCie = requiereCie;</span>
+<span class="nc" id="L112">    }</span>
+
+    @JsonIgnore
+    public Empresa getEmpresa() {
+<span class="nc" id="L116">        return empresa;</span>
+    }
+
+    @JsonProperty(&quot;empresa&quot;)
+    public void setEmpresa(Empresa empresa) {
+<span class="nc" id="L121">        this.empresa = empresa;</span>
+<span class="nc" id="L122">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L126">        int hash = 0;</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L128">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        if (!(object instanceof CausaAusentismo)) {</span>
+<span class="nc" id="L135">            return false;</span>
+        }
+<span class="nc" id="L137">        CausaAusentismo other = (CausaAusentismo) object;</span>
+<span class="nc bnc" id="L138" title="All 8 branches missed.">        if ((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id))) {</span>
+<span class="nc" id="L139">            return false;</span>
+        }
+<span class="nc" id="L141">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L146">        return &quot;co.sigess.entities.aus.CausaAusentismo[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

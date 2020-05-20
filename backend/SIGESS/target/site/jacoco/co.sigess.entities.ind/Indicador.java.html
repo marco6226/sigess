@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Indicador.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.ind</a> &gt; <span class="el_source">Indicador.java</span></div><h1>Indicador.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.ind;
+
+import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@Table(name = &quot;indicador&quot;, schema = &quot;ind&quot;)
+@XmlRootElement
+public class Indicador implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    
+    @Id
+    @Basic(optional = false)
+    @Column(name = &quot;id&quot;)
+    private Long id;
+    
+    @Size(max = 128, message = &quot;El campo descripcion no puede superar 128 caracteres&quot;)
+    @Column(name = &quot;nombre&quot;)
+    private String nombre;
+    
+    @Size(max = 512, message = &quot;El campo descripcion no puede superar 512 caracteres&quot;)
+    @Column(name = &quot;descripcion&quot;)
+    private String descripcion;
+    
+    @Size(max = 512, message = &quot;El campo proceso no puede superar 512 caracteres&quot;)
+    @Column(name = &quot;proceso&quot;)
+    private String proceso;
+    
+    @Size(max = 256, message = &quot;El campo formulacion no puede superar 256 caracteres&quot;)
+    @Column(name = &quot;formulacion&quot;)
+    private String formulacion;
+    
+    @Column(name = &quot;consulta_sql&quot;)
+    private String consultaSql;
+    
+    @Size(max = 45, message = &quot;El campo modulo no puede superar 45 caracteres&quot;)
+    @Column(name = &quot;modulo&quot;)
+    private String modulo;
+
+<span class="nc" id="L56">    public Indicador() {</span>
+<span class="nc" id="L57">    }</span>
+
+<span class="nc" id="L59">    public Indicador(Long id) {</span>
+<span class="nc" id="L60">        this.id = id;</span>
+<span class="nc" id="L61">    }</span>
+
+    public Long getId() {
+<span class="nc" id="L64">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="nc" id="L68">        this.id = id;</span>
+<span class="nc" id="L69">    }</span>
+
+    public String getNombre() {
+<span class="nc" id="L72">        return nombre;</span>
+    }
+
+    public void setNombre(String nombre) {
+<span class="nc" id="L76">        this.nombre = nombre;</span>
+<span class="nc" id="L77">    }</span>
+
+    public String getDescripcion() {
+<span class="nc" id="L80">        return descripcion;</span>
+    }
+
+    public void setDescripcion(String descripcion) {
+<span class="nc" id="L84">        this.descripcion = descripcion;</span>
+<span class="nc" id="L85">    }</span>
+
+    public String getProceso() {
+<span class="nc" id="L88">        return proceso;</span>
+    }
+
+    public void setProceso(String proceso) {
+<span class="nc" id="L92">        this.proceso = proceso;</span>
+<span class="nc" id="L93">    }</span>
+
+    public String getFormulacion() {
+<span class="nc" id="L96">        return formulacion;</span>
+    }
+
+    public void setFormulacion(String formulacion) {
+<span class="nc" id="L100">        this.formulacion = formulacion;</span>
+<span class="nc" id="L101">    }</span>
+
+    public String getConsultaSql() {
+<span class="nc" id="L104">        return consultaSql;</span>
+    }
+
+    public void setConsultaSql(String consultaSql) {
+<span class="nc" id="L108">        this.consultaSql = consultaSql;</span>
+<span class="nc" id="L109">    }</span>
+
+    public String getModulo() {
+<span class="nc" id="L112">        return modulo;</span>
+    }
+
+    public void setModulo(String modulo) {
+<span class="nc" id="L116">        this.modulo = modulo;</span>
+<span class="nc" id="L117">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L121">        int hash = 0;</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L123">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (!(object instanceof Indicador)) {</span>
+<span class="nc" id="L130">            return false;</span>
+        }
+<span class="nc" id="L132">        Indicador other = (Indicador) object;</span>
+<span class="nc bnc" id="L133" title="All 8 branches missed.">        if ((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id))) {</span>
+<span class="nc" id="L134">            return false;</span>
+        }
+<span class="nc" id="L136">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L141">        return &quot;co.sigess.entities.ind.Indicador[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

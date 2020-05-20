@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListaInspeccionFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.inp</a> &gt; <span class="el_source">ListaInspeccionFacade.java</span></div><h1>ListaInspeccionFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.inp;
+
+import co.sigess.entities.com.TipoMensaje;
+import co.sigess.entities.conf.Formulario;
+import co.sigess.entities.inp.ElementoInspeccion;
+import co.sigess.entities.inp.ListaInspeccion;
+import co.sigess.entities.inp.ListaInspeccionPK;
+import co.sigess.entities.inp.OpcionCalificacion;
+import co.sigess.exceptions.UserMessageException;
+import co.sigess.facade.com.AbstractFacade;
+import co.sigess.facade.conf.FormularioFacade;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Stateless
+public class ListaInspeccionFacade extends AbstractFacade&lt;ListaInspeccion&gt; {
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    @EJB
+    private ElementoInspeccionFacade elementoInspeccionFacade;
+
+    @EJB
+    private OpcionCalificacionFacade opcionCalificacionFacade;
+
+    @EJB
+    private FormularioFacade formularioFacade;
+
+    @Override
+    protected EntityManager getEntityManager() {
+<span class="nc" id="L45">        return em;</span>
+    }
+
+    public ListaInspeccionFacade() {
+<span class="nc" id="L49">        super(ListaInspeccion.class);</span>
+<span class="nc" id="L50">    }</span>
+
+    @Override
+    public ListaInspeccion create(ListaInspeccion listaInspeccion) throws Exception {
+<span class="nc bnc" id="L54" title="All 4 branches missed.">        if (listaInspeccion.getElementoInspeccionList() == null || listaInspeccion.getElementoInspeccionList().isEmpty()) {</span>
+<span class="nc" id="L55">            throw new IllegalArgumentException(&quot;La lista no contiene elementos a inspeccionar&quot;);</span>
+        }
+<span class="nc bnc" id="L57" title="All 4 branches missed.">        if (listaInspeccion.getOpcionCalificacionList() == null || listaInspeccion.getOpcionCalificacionList().size() &lt; 2) {</span>
+<span class="nc" id="L58">            throw new IllegalArgumentException(&quot;La lista debe contener al menos dos opciones de calificacion&quot;);</span>
+        }
+<span class="nc" id="L60">        Formulario formulario = formularioFacade.create(listaInspeccion.getFormulario());</span>
+
+<span class="nc" id="L62">        listaInspeccion.setFormulario(formulario);</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">        if (listaInspeccion.getListaInspeccionPK() == null) {</span>
+<span class="nc" id="L64">            listaInspeccion.setListaInspeccionPK(new ListaInspeccionPK());</span>
+        }
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (listaInspeccion.getListaInspeccionPK().getVersion() &lt;= 0) {</span>
+<span class="nc" id="L67">            listaInspeccion.getListaInspeccionPK().setVersion(1);</span>
+        }
+
+<span class="nc" id="L70">        listaInspeccion = super.create(listaInspeccion);</span>
+<span class="nc" id="L71">        Integer numeroPreguntas = elementoInspeccionFacade.createElementosInspeccion(listaInspeccion);</span>
+<span class="nc" id="L72">        listaInspeccion.setNumeroPreguntas(numeroPreguntas);</span>
+<span class="nc" id="L73">        listaInspeccion = super.edit(listaInspeccion);</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        for (OpcionCalificacion opcionCalificacion : listaInspeccion.getOpcionCalificacionList()) {</span>
+<span class="nc" id="L75">            opcionCalificacion.setListaInspeccion(listaInspeccion);</span>
+<span class="nc" id="L76">            opcionCalificacionFacade.create(opcionCalificacion);</span>
+<span class="nc" id="L77">        }</span>
+
+<span class="nc" id="L79">        return listaInspeccion;</span>
+    }
+
+    public List&lt;ListaInspeccion&gt; findAllByEmpresa(Integer empresaId) {
+<span class="nc" id="L83">        Query query = this.em.createQuery(&quot;SELECT new co.sigess.entities.inp.ListaInspeccion(li.listaInspeccionPK, li.nombre, li.codigo, li.descripcion, li.numeroPreguntas) from ListaInspeccion li where li.empresa.id = :empresaId&quot;);</span>
+<span class="nc" id="L84">        query.setParameter(&quot;empresaId&quot;, empresaId);</span>
+<span class="nc" id="L85">        List&lt;ListaInspeccion&gt; list = (List&lt;ListaInspeccion&gt;) query.getResultList();</span>
+<span class="nc" id="L86">        return list;</span>
+    }
+
+    @Override
+    public ListaInspeccion edit(ListaInspeccion listInp) throws Exception {
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (listInp.getListaInspeccionPK() == null) {</span>
+<span class="nc" id="L92">            throw new IllegalArgumentException(&quot;La lista de inspección a actualizar no cuenta con un id válido&quot;);</span>
+        }
+
+<span class="nc" id="L95">        ListaInspeccion listInpDB = this.find(listInp.getListaInspeccionPK());</span>
+<span class="nc bnc" id="L96" title="All 4 branches missed.">        if (listInpDB.getProgramacionList() != null &amp;&amp; !listInpDB.getProgramacionList().isEmpty()) {</span>
+<span class="nc bnc" id="L97" title="All 4 branches missed.">            listInpDB.getProgramacionList().stream().filter((programacion) -&gt; (programacion.getInspeccionList() != null &amp;&amp; !programacion.getInspeccionList().isEmpty())).forEachOrdered((_item) -&gt; {</span>
+<span class="nc" id="L98">                throw new UserMessageException(&quot;No es posible modificar la lista de inspección&quot;, &quot;Existen inspecciones realizadas con la lista que intenta modificar&quot;, TipoMensaje.warn);</span>
+            });
+        }
+
+<span class="nc" id="L102">        elementoInspeccionFacade.removeElementosInspeccion(listInpDB);</span>
+<span class="nc" id="L103">        opcionCalificacionFacade.removeOpcionesCalificacion(listInpDB);</span>
+<span class="nc" id="L104">        formularioFacade.edit(listInp.getFormulario());</span>
+
+<span class="nc" id="L106">        Integer numeroPreguntas = elementoInspeccionFacade.createElementosInspeccion(listInp);</span>
+<span class="nc" id="L107">        listInp.setNumeroPreguntas(numeroPreguntas);</span>
+
+<span class="nc bnc" id="L109" title="All 2 branches missed.">        for (OpcionCalificacion opcionCalificacion : listInp.getOpcionCalificacionList()) {</span>
+<span class="nc" id="L110">            opcionCalificacion.setListaInspeccion(listInp);</span>
+<span class="nc" id="L111">            opcionCalificacionFacade.create(opcionCalificacion);</span>
+<span class="nc" id="L112">        }</span>
+
+<span class="nc" id="L114">        listInp = super.edit(listInp);</span>
+
+<span class="nc" id="L116">        return listInp;</span>
+    }
+
+    public ListaInspeccion actualizarVersion(ListaInspeccion listaInspeccion) throws Exception {
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        if (listaInspeccion.getListaInspeccionPK() == null) {</span>
+<span class="nc" id="L121">            throw new IllegalArgumentException(&quot;La lista de inspección a actualizar no cuenta con un id válido&quot;);</span>
+        }
+<span class="nc" id="L123">        listaInspeccion.getListaInspeccionPK().setVersion(listaInspeccion.getListaInspeccionPK().getVersion() + 1);</span>
+<span class="nc" id="L124">        listaInspeccion.getFormulario().setId(null);</span>
+<span class="nc" id="L125">        listaInspeccion.getFormulario().getCampoList().forEach(campo -&gt; campo.setId(null));</span>
+<span class="nc" id="L126">        listaInspeccion.getOpcionCalificacionList().forEach((opc) -&gt; opc.setId(null));</span>
+<span class="nc" id="L127">        listaInspeccion.setProgramacionList(null);</span>
+<span class="nc" id="L128">        this.reiniciarId(listaInspeccion.getElementoInspeccionList());</span>
+
+<span class="nc" id="L130">        return this.create(listaInspeccion);</span>
+    }
+
+    private void reiniciarId(List&lt;ElementoInspeccion&gt; elementos) {
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        for (ElementoInspeccion elem : elementos) {</span>
+<span class="nc bnc" id="L135" title="All 4 branches missed.">            if (elem.getElementoInspeccionList() != null &amp;&amp; !elem.getElementoInspeccionList().isEmpty()) {</span>
+<span class="nc" id="L136">                this.reiniciarId(elem.getElementoInspeccionList());</span>
+            }
+<span class="nc" id="L138">            elem.setId(null);</span>
+<span class="nc" id="L139">        }</span>
+<span class="nc" id="L140">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

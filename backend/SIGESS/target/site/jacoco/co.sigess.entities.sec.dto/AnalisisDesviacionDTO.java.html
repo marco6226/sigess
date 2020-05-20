@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AnalisisDesviacionDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.sec.dto</a> &gt; <span class="el_source">AnalisisDesviacionDTO.java</span></div><h1>AnalisisDesviacionDTO.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.sec.dto;
+
+import co.sigess.entities.CampoDTO;
+import co.sigess.entities.ConvertidorDTO;
+import co.sigess.entities.sec.AnalisisDesviacion;
+import co.sigess.entities.sec.CausaRaiz;
+import co.sigess.entities.sec.Desviacion;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author fmoreno
+ */
+<span class="nc" id="L22">public class AnalisisDesviacionDTO {</span>
+
+    private Integer id;
+    private String observacion;
+    private List&lt;CausaRaiz&gt; causaRaizList;
+    private List&lt;Desviacion&gt; desviacionesList;
+
+    @CampoDTO(referencia = &quot;id&quot;)
+    public Integer getId() {
+<span class="nc" id="L31">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="nc" id="L35">        this.id = id;</span>
+<span class="nc" id="L36">    }</span>
+
+    @CampoDTO(referencia = &quot;observacion&quot;)
+    public String getObservacion() {
+<span class="nc" id="L40">        return observacion;</span>
+    }
+
+    public void setObservacion(String observacion) {
+<span class="nc" id="L44">        this.observacion = observacion;</span>
+<span class="nc" id="L45">    }</span>
+
+    @CampoDTO(referencia = &quot;causaRaizList&quot;)
+    public List&lt;CausaRaiz&gt; getCausaRaizList() {
+<span class="nc" id="L49">        return causaRaizList;</span>
+    }
+
+    public void setCausaRaizList(List&lt;CausaRaiz&gt; causaRaizList) {
+<span class="nc" id="L53">        this.causaRaizList = causaRaizList;</span>
+<span class="nc" id="L54">    }</span>
+
+    @CampoDTO(referencia = &quot;desviacionesList&quot;)
+    public List&lt;Desviacion&gt; getDesviacionesList() {
+<span class="nc" id="L58">        return desviacionesList;</span>
+    }
+    
+    public void setDesviacionesList(List&lt;Desviacion&gt; desviacionesList) {
+<span class="nc" id="L62">        this.desviacionesList = desviacionesList;</span>
+<span class="nc" id="L63">    }</span>
+
+    @JsonIgnore
+    public AnalisisDesviacion toEntity() throws IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchFieldException {
+<span class="nc" id="L67">        AnalisisDesviacion ad = ConvertidorDTO.toEntity(this, AnalisisDesviacion.class);</span>
+//        if (this.desviacionList != null &amp;&amp; !this.desviacionList.isEmpty()) {
+//            List&lt;DesviacionAnalisisREL&gt; darelList = new ArrayList&lt;&gt;();
+//            for (Desviacion desviacion : this.desviacionList) {
+//                DesviacionAnalisisREL darel = new DesviacionAnalisisREL(desviacion.getHashId());
+//                darel.setAnalisisDesviacion(ad);
+//                darelList.add(darel);
+//            }
+////            ad.setDesviacionAnalisisRELList(darelList);
+//        }
+<span class="nc" id="L77">        return ad;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

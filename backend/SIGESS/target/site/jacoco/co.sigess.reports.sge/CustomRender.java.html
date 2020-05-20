@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomRender.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.reports.sge</a> &gt; <span class="el_source">CustomRender.java</span></div><h1>CustomRender.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.reports.sge;
+
+import java.awt.Paint;
+import org.jfree.chart.LegendItem;
+import org.jfree.chart.renderer.category.BarRenderer;
+
+/**
+ *
+ * @author fmoreno
+ */
+
+/**
+ * A custom renderer that returns a different color for each item in a single
+ * series.
+ */
+class CustomRenderer extends BarRenderer {
+
+    /**
+     * The colors.
+     */
+    private Paint[] colors;
+    private boolean renderedSeries;
+
+    /**
+     * Creates a new renderer.
+     *
+     * @param colors the colors.
+     */
+<span class="nc" id="L34">    public CustomRenderer(final Paint[] colors, final boolean renderedSeries) {</span>
+<span class="nc" id="L35">        this.colors = colors;</span>
+<span class="nc" id="L36">        this.renderedSeries = renderedSeries;</span>
+<span class="nc" id="L37">    }</span>
+    
+    /**
+     * Creates a new renderer.
+     *
+     * @param colors the colors.
+     */
+<span class="nc" id="L44">    public CustomRenderer(final Paint[] colors) {</span>
+<span class="nc" id="L45">        this.colors = colors;</span>
+<span class="nc" id="L46">    }</span>
+
+<span class="nc" id="L48">    CustomRenderer() {</span>
+<span class="nc" id="L49">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    /**
+     * Returns the paint for an item. Overrides the default behaviour inherited
+     * from AbstractSeriesRenderer.
+     *
+     * @param row the series.
+     * @param column the category.
+     *
+     * @return The item color.
+     */
+//    @Override
+//    public Paint getItemPaint(final int row, final int column) {
+//        if (this.renderedSeries) {
+//            return this.colors[row];
+//        } else {
+//            return this.colors[column % this.colors.length];
+//        }
+//    }
+//
+//    @Override
+//    public LegendItem getLegendItem(int datasetIndex, int series) {
+//        if (this.renderedSeries) {
+//            LegendItem legendItem = super.getLegendItem(datasetIndex, series); //To change body of generated methods, choose Tools | Templates.
+//            legendItem.setFillPaint(this.colors[series]);
+//            return legendItem;
+//        } else {
+//            return super.getLegendItem(datasetIndex, series);
+//        }
+//    }
+
+    public Paint[] getColors() {
+<span class="nc" id="L82">        return colors;</span>
+    }
+
+    public void setColors(Paint[] colors) {
+<span class="nc" id="L86">        this.colors = colors;</span>
+<span class="nc" id="L87">    }</span>
+
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

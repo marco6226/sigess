@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Area.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.emp</a> &gt; <span class="el_source">Area.java</span></div><h1>Area.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.emp;
+
+import co.sigess.entities.ado.Modulo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@Table(name = &quot;area&quot;, schema = &quot;emp&quot;)
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;Area.findAll&quot;, query = &quot;SELECT a FROM Area a&quot;)})
+public class Area implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @SequenceGenerator(name = &quot;area_id_seq&quot;, schema = &quot;emp&quot;, sequenceName = &quot;area_id_seq&quot;, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = &quot;area_id_seq&quot;)
+    @Column(name = &quot;id&quot;)
+    private Long id;
+    
+    @Size(max = 45)
+    @Column(name = &quot;nombre&quot;)
+    private String nombre;
+    
+    @Size(max = 255)
+    @Column(name = &quot;descripcion&quot;)
+    private String descripcion;
+    
+    @Column(name = &quot;estructura&quot;, updatable = false)
+    private String estructura;
+    
+    @Column(name = &quot;nivel&quot;)
+    private Short nivel;
+        
+    @OneToMany(mappedBy = &quot;areaPadre&quot;)
+    private List&lt;Area&gt; areaList;
+    
+    @JoinColumn(name = &quot;fk_area_padre_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne
+    private Area areaPadre;
+    
+    @JoinColumn(name = &quot;fk_tipo_area_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private TipoArea tipoArea;
+    
+    @OneToMany(mappedBy = &quot;area&quot;)
+    private List&lt;Empleado&gt; empleadoList;
+
+<span class="nc" id="L82">    public Area() {</span>
+<span class="nc" id="L83">    }</span>
+
+<span class="nc" id="L85">    public Area(Long id) {</span>
+<span class="nc" id="L86">        this.id = id;</span>
+<span class="nc" id="L87">    }</span>
+
+    public Long getId() {
+<span class="nc" id="L90">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="nc" id="L94">        this.id = id;</span>
+<span class="nc" id="L95">    }</span>
+
+    public String getNombre() {
+<span class="nc" id="L98">        return nombre;</span>
+    }
+
+    public void setNombre(String nombre) {
+<span class="nc" id="L102">        this.nombre = nombre;</span>
+<span class="nc" id="L103">    }</span>
+
+    public Short getNivel() {
+<span class="nc" id="L106">        return nivel;</span>
+    }
+
+    public void setNivel(Short nivel) {
+<span class="nc" id="L110">        this.nivel = nivel;</span>
+<span class="nc" id="L111">    }</span>
+
+
+    public List&lt;Area&gt; getAreaList() {
+<span class="nc" id="L115">        return areaList;</span>
+    }
+
+    public void setAreaList(List&lt;Area&gt; areaList) {
+<span class="nc" id="L119">        this.areaList = areaList;</span>
+<span class="nc" id="L120">    }</span>
+
+    public String getDescripcion() {
+<span class="nc" id="L123">        return descripcion;</span>
+    }
+
+    public void setDescripcion(String descripcion) {
+<span class="nc" id="L127">        this.descripcion = descripcion;</span>
+<span class="nc" id="L128">    }</span>
+
+    public TipoArea getTipoArea() {
+<span class="nc" id="L131">        return tipoArea;</span>
+    }
+
+    public void setTipoArea(TipoArea tipoArea) {
+<span class="nc" id="L135">        this.tipoArea = tipoArea;</span>
+<span class="nc" id="L136">    }</span>
+
+    public String getEstructura() {
+<span class="nc" id="L139">        return estructura;</span>
+    }
+
+    public void setEstructura(String estructura) {
+<span class="nc" id="L143">        this.estructura = estructura;</span>
+<span class="nc" id="L144">    }</span>
+
+    @JsonIgnore
+    public Area getAreaPadre() {
+<span class="nc" id="L148">        return areaPadre;</span>
+    }
+
+    @JsonProperty(&quot;areaPadre&quot;)
+    public void setAreaPadre(Area areaPadre) {
+<span class="nc" id="L153">        this.areaPadre = areaPadre;</span>
+<span class="nc" id="L154">    }</span>
+
+    @XmlTransient
+    public List&lt;Empleado&gt; getEmpleadoList() {
+<span class="nc" id="L158">        return empleadoList;</span>
+    }
+
+    public void setEmpleadoList(List&lt;Empleado&gt; empleadoList) {
+<span class="nc" id="L162">        this.empleadoList = empleadoList;</span>
+<span class="nc" id="L163">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L167">        int hash = 0;</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L169">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L175" title="All 2 branches missed.">        if (!(object instanceof Area)) {</span>
+<span class="nc" id="L176">            return false;</span>
+        }
+<span class="nc" id="L178">        Area other = (Area) object;</span>
+<span class="nc bnc" id="L179" title="All 8 branches missed.">        if ((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id))) {</span>
+<span class="nc" id="L180">            return false;</span>
+        }
+<span class="nc" id="L182">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L187">        return &quot;co.sigess.entities.empArea[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

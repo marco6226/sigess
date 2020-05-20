@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SistemaGestionFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.sge</a> &gt; <span class="el_source">SistemaGestionFacade.java</span></div><h1>SistemaGestionFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.sge;
+
+import co.sigess.entities.com.TipoMensaje;
+import co.sigess.entities.sge.SistemaGestion;
+import co.sigess.entities.sge.SistemaGestionPK;
+import co.sigess.exceptions.UserMessageException;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import co.sigess.facade.com.AbstractFacade;
+import javax.annotation.Resource;
+import javax.transaction.UserTransaction;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Stateless
+public class SistemaGestionFacade extends AbstractFacade&lt;SistemaGestion&gt; {
+
+    @EJB
+    private ElementoFacade elementoFacade;
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+<span class="nc" id="L37">        return em;</span>
+    }
+
+    public SistemaGestionFacade() {
+<span class="nc" id="L41">        super(SistemaGestion.class);</span>
+<span class="nc" id="L42">    }</span>
+
+    @Override
+    public SistemaGestion create(SistemaGestion sistemaGestion) throws Exception {
+<span class="nc" id="L46">        sistemaGestion.setSistemaGestionPK(new SistemaGestionPK());</span>
+<span class="nc" id="L47">        sistemaGestion.getSistemaGestionPK().setVersion((short) 1);</span>
+<span class="nc" id="L48">        sistemaGestion = super.create(sistemaGestion);</span>
+<span class="nc" id="L49">        Integer numeroPreguntas = elementoFacade.createElementosSGE(sistemaGestion);</span>
+<span class="nc" id="L50">        sistemaGestion.setNumeroPreguntas(numeroPreguntas);</span>
+<span class="nc" id="L51">        sistemaGestion = super.edit(sistemaGestion);</span>
+
+<span class="nc" id="L53">        return sistemaGestion;</span>
+    }
+
+    /**
+     * Método que actualiza en base de datos el sistema de gestión recibido como parámetro.
+     * @param sistemaGestion
+     * @return Devuelve la misma referencia al objeto recibido como parámetro si se ha permitido 
+     * una actualización completa que incluye los elementos del mismo. Si la actualización es parcial
+     * debido a que existen evaluaciones con el sistema de gestión recibido como parámetro,
+     * devuelve otra referencia a un objeto con la actualización aplicada que no incluye los elementos
+     * del sistema de gestión.
+     * @throws Exception 
+     */
+    @Override
+    public SistemaGestion edit(SistemaGestion sistemaGestion) throws Exception {
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (sistemaGestion.getSistemaGestionPK() == null) {</span>
+<span class="nc" id="L69">            throw new IllegalArgumentException(&quot;El sistema a actualizar no cuenta con un id válido&quot;);</span>
+        }
+<span class="nc bnc" id="L71" title="All 4 branches missed.">        if (sistemaGestion.getNombre() == null || sistemaGestion.getNombre().isEmpty()) {</span>
+<span class="nc" id="L72">            throw new IllegalArgumentException(&quot;El sistema de gestion debe contar con un nombre&quot;);</span>
+        }
+<span class="nc bnc" id="L74" title="All 4 branches missed.">        if (sistemaGestion.getCodigo() == null || sistemaGestion.getCodigo().isEmpty()) {</span>
+<span class="nc" id="L75">            throw new IllegalArgumentException(&quot;El sistema de gestion debe contar con un código&quot;);</span>
+        }
+
+<span class="nc" id="L78">        SistemaGestion sgeDB = this.find(sistemaGestion.getSistemaGestionPK());</span>
+
+<span class="nc" id="L80">        sgeDB.setNombre(sistemaGestion.getNombre());</span>
+<span class="nc" id="L81">        sgeDB.setDescripcion(sistemaGestion.getDescripcion());</span>
+<span class="nc" id="L82">        sgeDB.setCodigo(sistemaGestion.getCodigo());</span>
+
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (!sgeDB.getEvaluacionList().isEmpty()) {</span>
+<span class="nc" id="L85">            super.edit(sgeDB);</span>
+<span class="nc" id="L86">            return sgeDB;            </span>
+        }
+
+<span class="nc" id="L89">        elementoFacade.removeElementosSGE(sgeDB);</span>
+<span class="nc" id="L90">        Integer numeroPreguntas = elementoFacade.createElementosSGE(sistemaGestion);</span>
+<span class="nc" id="L91">        sistemaGestion.setNumeroPreguntas(numeroPreguntas);</span>
+<span class="nc" id="L92">        super.edit(sistemaGestion);</span>
+
+<span class="nc" id="L94">        return sistemaGestion;</span>
+    }
+
+    public List&lt;SistemaGestion&gt; findAllByEmpresa(Integer empresaId) {
+<span class="nc" id="L98">        Query query = this.em.createQuery(&quot;SELECT sg from SistemaGestion sg where sg.empresa.id = :empresaId&quot;);</span>
+<span class="nc" id="L99">        query.setParameter(&quot;empresaId&quot;, empresaId);</span>
+<span class="nc" id="L100">        List&lt;SistemaGestion&gt; list = (List&lt;SistemaGestion&gt;) query.getResultList();</span>
+<span class="nc" id="L101">        return list;</span>
+    }
+
+    public SistemaGestion findByEvaluacion(Integer evaluacionId) {
+<span class="nc" id="L105">        Query query = this.em.createQuery(&quot;SELECT sg from SistemaGestion sg JOIN sg.evaluacionList eval where eval.id = :evaluacionId&quot;);</span>
+<span class="nc" id="L106">        query.setParameter(&quot;evaluacionId&quot;, evaluacionId);</span>
+<span class="nc" id="L107">        SistemaGestion sg = (SistemaGestion) query.getSingleResult();</span>
+<span class="nc" id="L108">        return sg;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ElementoInspeccionFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.inp</a> &gt; <span class="el_source">ElementoInspeccionFacade.java</span></div><h1>ElementoInspeccionFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.inp;
+
+import co.sigess.entities.inp.ElementoInspeccion;
+import co.sigess.entities.inp.ListaInspeccion;
+import co.sigess.facade.com.AbstractFacade;
+import co.sigess.facade.sge.ElementoFacade;
+import co.sigess.util.IntegerWrap;
+import java.util.List;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Stateless
+public class ElementoInspeccionFacade extends AbstractFacade&lt;ElementoInspeccion&gt; {
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+<span class="nc" id="L30">        return em;</span>
+    }
+
+    public ElementoInspeccionFacade() {
+<span class="nc" id="L34">        super(ElementoInspeccion.class);</span>
+<span class="nc" id="L35">    }</span>
+
+    public void removeElementosInspeccion(ListaInspeccion listaInspeccion) throws Exception {
+<span class="nc" id="L38">        this.recursiveDelete(listaInspeccion.getElementoInspeccionList());</span>
+<span class="nc" id="L39">        this.em.flush();</span>
+<span class="nc" id="L40">    }</span>
+
+    private void recursiveDelete(List&lt;ElementoInspeccion&gt; elemList) throws Exception {
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        for (ElementoInspeccion elem : elemList) {</span>
+<span class="nc" id="L44">            super.remove(elem);</span>
+<span class="nc" id="L45">        }</span>
+<span class="nc" id="L46">    }</span>
+
+    //---------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------
+    public Integer createElementosInspeccion(ListaInspeccion listInp) throws Exception {
+<span class="nc" id="L52">        IntegerWrap numeroPreguntas = new IntegerWrap();</span>
+<span class="nc" id="L53">        this.recursiveCreate(listInp, listInp.getElementoInspeccionList(), numeroPreguntas);</span>
+<span class="nc" id="L54">        return numeroPreguntas.getValue();</span>
+    }
+
+    private void recursiveCreate(Object padre, List&lt;ElementoInspeccion&gt; elementosList, IntegerWrap numeroPreguntas) throws Exception {
+
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        for (ElementoInspeccion elemento : elementosList) {</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">            if (padre instanceof ListaInspeccion) {</span>
+<span class="nc" id="L61">                elemento.setListaInspeccion((ListaInspeccion) padre);</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">            } else if (padre instanceof ElementoInspeccion) {</span>
+<span class="nc" id="L63">                elemento.setElementoInspeccionPadre((ElementoInspeccion) padre);</span>
+            } else {
+                continue;
+            }
+
+<span class="nc bnc" id="L68" title="All 4 branches missed.">            if (elemento.getElementoInspeccionList() == null || elemento.getElementoInspeccionList().isEmpty()) {</span>
+<span class="nc" id="L69">                elemento.setCalificable(true);</span>
+<span class="nc" id="L70">                numeroPreguntas.increment(1);</span>
+            } else {
+<span class="nc" id="L72">                elemento.setCalificable(false);</span>
+            }
+<span class="nc" id="L74">            elemento.setId(null);</span>
+<span class="nc" id="L75">            elemento = super.create(elemento);</span>
+
+<span class="nc bnc" id="L77" title="All 4 branches missed.">            if (elemento.getElementoInspeccionList() != null &amp;&amp; !elemento.getElementoInspeccionList().isEmpty()) {</span>
+<span class="nc" id="L78">                this.recursiveCreate(elemento, elemento.getElementoInspeccionList(), numeroPreguntas);</span>
+            }
+<span class="nc" id="L80">        }</span>
+<span class="nc" id="L81">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

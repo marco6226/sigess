@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UsuarioEmpresa.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.emp</a> &gt; <span class="el_source">UsuarioEmpresa.java</span></div><h1>UsuarioEmpresa.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.emp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@Table(name = &quot;usuario_empresa&quot;, schema = &quot;emp&quot;)
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;UsuarioEmpresa.findAll&quot;, query = &quot;SELECT u FROM UsuarioEmpresa u&quot;)
+    , @NamedQuery(name = &quot;UsuarioEmpresa.findByPkUsuarioId&quot;, query = &quot;SELECT u FROM UsuarioEmpresa u WHERE u.usuarioEmpresaPK.pkUsuarioId = :pkUsuarioId&quot;)
+    , @NamedQuery(name = &quot;UsuarioEmpresa.findByPkEmpresaId&quot;, query = &quot;SELECT u FROM UsuarioEmpresa u WHERE u.usuarioEmpresaPK.pkEmpresaId = :pkEmpresaId&quot;)})
+public class UsuarioEmpresa implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    
+    @EmbeddedId
+    protected UsuarioEmpresaPK usuarioEmpresaPK;
+    
+    @JsonIgnore
+    @JoinColumn(name = &quot;pk_empresa_id&quot;, referencedColumnName = &quot;id&quot;, insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Empresa empresa;
+    
+    @JoinColumn(name = &quot;pk_perfil_id&quot;, referencedColumnName = &quot;id&quot;, insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Perfil perfil;
+    
+    @JsonIgnore
+    @JoinColumn(name = &quot;pk_usuario_id&quot;, referencedColumnName = &quot;id&quot;, insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Usuario usuario;
+
+<span class="nc" id="L55">    public UsuarioEmpresa() {</span>
+<span class="nc" id="L56">    }</span>
+    
+    @JsonIgnore
+    public String getAsJSON() {
+        try {
+<span class="nc" id="L61">            ObjectMapper mapper = new ObjectMapper();</span>
+<span class="nc" id="L62">            return mapper.writeValueAsString(this);</span>
+<span class="nc" id="L63">        } catch (JsonProcessingException ex) {</span>
+<span class="nc" id="L64">            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L65">            return null;</span>
+        }
+    }
+
+<span class="nc" id="L69">    public UsuarioEmpresa(UsuarioEmpresaPK usuarioEmpresaPK) {</span>
+<span class="nc" id="L70">        this.usuarioEmpresaPK = usuarioEmpresaPK;</span>
+<span class="nc" id="L71">    }</span>
+
+<span class="nc" id="L73">    public UsuarioEmpresa(int pkUsuarioId, int pkEmpresaId, int pkPerfilId) {</span>
+<span class="nc" id="L74">        this.usuarioEmpresaPK = new UsuarioEmpresaPK(pkUsuarioId, pkEmpresaId, pkPerfilId);</span>
+<span class="nc" id="L75">    }</span>
+
+    public UsuarioEmpresaPK getUsuarioEmpresaPK() {
+<span class="nc" id="L78">        return usuarioEmpresaPK;</span>
+    }
+
+    public void setUsuarioEmpresaPK(UsuarioEmpresaPK usuarioEmpresaPK) {
+<span class="nc" id="L82">        this.usuarioEmpresaPK = usuarioEmpresaPK;</span>
+<span class="nc" id="L83">    }</span>
+
+    public Empresa getEmpresa() {
+<span class="nc" id="L86">        return empresa;</span>
+    }
+
+    public void setEmpresa(Empresa empresa) {
+<span class="nc" id="L90">        this.empresa = empresa;</span>
+<span class="nc" id="L91">    }</span>
+
+    public Perfil getPerfil() {
+<span class="nc" id="L94">        return perfil;</span>
+    }
+
+    public void setPerfil(Perfil perfil) {
+<span class="nc" id="L98">        this.perfil = perfil;</span>
+<span class="nc" id="L99">    }</span>
+
+    public Usuario getUsuario() {
+<span class="nc" id="L102">        return usuario;</span>
+    }
+
+    public void setUsuario(Usuario usuario) {
+<span class="nc" id="L106">        this.usuario = usuario;</span>
+<span class="nc" id="L107">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L111">        int hash = 0;</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        hash += (usuarioEmpresaPK != null ? usuarioEmpresaPK.hashCode() : 0);</span>
+<span class="nc" id="L113">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        if (!(object instanceof UsuarioEmpresa)) {</span>
+<span class="nc" id="L120">            return false;</span>
+        }
+<span class="nc" id="L122">        UsuarioEmpresa other = (UsuarioEmpresa) object;</span>
+<span class="nc bnc" id="L123" title="All 8 branches missed.">        if ((this.usuarioEmpresaPK == null &amp;&amp; other.usuarioEmpresaPK != null) || (this.usuarioEmpresaPK != null &amp;&amp; !this.usuarioEmpresaPK.equals(other.usuarioEmpresaPK))) {</span>
+<span class="nc" id="L124">            return false;</span>
+        }
+<span class="nc" id="L126">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L131">        return &quot;co.sigess.entities.emp.UsuarioEmpresa[ usuarioEmpresaPK=&quot; + usuarioEmpresaPK + &quot; ]&quot;;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

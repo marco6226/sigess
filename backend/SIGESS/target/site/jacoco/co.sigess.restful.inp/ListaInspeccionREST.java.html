@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListaInspeccionREST.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.restful.inp</a> &gt; <span class="el_source">ListaInspeccionREST.java</span></div><h1>ListaInspeccionREST.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.restful.inp;
+
+import co.sigess.entities.emp.Empresa;
+import co.sigess.entities.inp.ListaInspeccion;
+import co.sigess.entities.inp.ListaInspeccionPK;
+import co.sigess.facade.inp.ListaInspeccionFacade;
+import co.sigess.restful.FilterQuery;
+import co.sigess.restful.ServiceREST;
+import co.sigess.restful.security.Compress;
+import co.sigess.restful.security.Secured;
+import co.sigess.util.Util;
+import javax.ejb.EJB;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.PathSegment;
+import javax.ws.rs.core.Response;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Secured
+@Path(&quot;listaInspeccion&quot;)
+public class ListaInspeccionREST extends ServiceREST {
+
+    @EJB
+    private ListaInspeccionFacade listaInspeccionFacade;
+
+    public ListaInspeccionREST() {
+<span class="nc" id="L41">        super(ListaInspeccionFacade.class);</span>
+<span class="nc" id="L42">    }</span>
+
+    @Override
+    @Compress
+    public Response findWithFilter(FilterQuery filterQuery) {
+<span class="nc" id="L47">        return super.findWithFilter(filterQuery);</span>
+    }
+    
+    private ListaInspeccionPK getPrimaryKey(PathSegment pathSegment) {
+        /*
+         * pathSemgent represents a URI path segment and any associated matrix parameters.
+         * URI path part is supposed to be in form of 'somePath;id=idValue;version=versionValue'.
+         * Here 'somePath' is a result of getPath() method invocation and
+         * it is ignored in the following code.
+         * Matrix parameters are used as field names to build a primary key instance.
+         */
+<span class="nc" id="L58">        ListaInspeccionPK key = new ListaInspeccionPK();</span>
+<span class="nc" id="L59">        javax.ws.rs.core.MultivaluedMap&lt;String, String&gt; map = pathSegment.getMatrixParameters();</span>
+<span class="nc" id="L60">        java.util.List&lt;String&gt; id = map.get(&quot;id&quot;);</span>
+<span class="nc bnc" id="L61" title="All 4 branches missed.">        if (id != null &amp;&amp; !id.isEmpty()) {</span>
+<span class="nc" id="L62">            key.setId(Integer.parseInt(id.get(0)));</span>
+        }
+<span class="nc" id="L64">        java.util.List&lt;String&gt; version = map.get(&quot;version&quot;);</span>
+<span class="nc bnc" id="L65" title="All 4 branches missed.">        if (version != null &amp;&amp; !version.isEmpty()) {</span>
+<span class="nc" id="L66">            key.setVersion(Short.parseShort(version.get(0)));</span>
+        }
+<span class="nc" id="L68">        return key;</span>
+    }
+
+//    @GET
+//    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+//    public Response findWithFilter(@BeanParam FilterQuery filterQuery) {
+//        try {
+//            boolean filtradoEmpresa = false;
+//            for (Filter filter : filterQuery.getFilterList()) {
+//                if (filter.getField().equals(&quot;empresa.id&quot;)) {
+//                    filtradoEmpresa = true;
+//                    break;
+//                }
+//            }
+//            if (!filtradoEmpresa) {
+//                Filter empFilt = new Filter();
+//                empFilt.setCriteria(&quot;eq&quot;);
+//                empFilt.setField(&quot;empresa.id&quot;);
+//                empFilt.setValue1(super.getEmpresaIdRequestContext().toString());
+//                filterQuery.getFilterList().add(empFilt);
+//            }
+//            List&lt;ListaInspeccion&gt; list = listaInspeccionFacade.findWithFilter(filterQuery);
+//            return Response.ok(list).build();
+//        } catch (Exception ex) {
+//            return Util.manageException(ex, ListaInspeccionREST.class);
+//        }
+//    }
+
+    @GET
+    @Path(&quot;{id}&quot;)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response find(@PathParam(&quot;id&quot;) PathSegment id) {
+        try {
+<span class="nc" id="L101">            ListaInspeccionPK key = getPrimaryKey(id);</span>
+<span class="nc" id="L102">            ListaInspeccion listInp = listaInspeccionFacade.find(key);</span>
+<span class="nc" id="L103">            return Response.ok(listInp).build();</span>
+<span class="nc" id="L104">        } catch (Exception ex) {</span>
+<span class="nc" id="L105">            return Util.manageException(ex, ListaInspeccionREST.class);</span>
+        }
+    }
+
+    @POST
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response create(ListaInspeccion listaInspeccion) {
+        try {
+<span class="nc" id="L113">            listaInspeccion.setEmpresa(new Empresa(super.getEmpresaIdRequestContext()));</span>
+<span class="nc" id="L114">            listaInspeccion = listaInspeccionFacade.create(listaInspeccion);</span>
+<span class="nc" id="L115">            return Response.ok(listaInspeccion).build();</span>
+<span class="nc" id="L116">        } catch (Exception ex) {</span>
+<span class="nc" id="L117">            return Util.manageException(ex, ListaInspeccionREST.class);</span>
+        }
+    }
+
+    @PUT
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response edit(ListaInspeccion listaInspeccion, @QueryParam(&quot;actualizarVersion&quot;) Boolean actualizarVersion) {
+        try {
+<span class="nc" id="L125">            listaInspeccion.setEmpresa(new Empresa(super.getEmpresaIdRequestContext()));</span>
+<span class="nc bnc" id="L126" title="All 4 branches missed.">            if (actualizarVersion == null || actualizarVersion.equals(Boolean.FALSE)) {</span>
+<span class="nc" id="L127">                listaInspeccion = listaInspeccionFacade.edit(listaInspeccion);</span>
+            } else {
+<span class="nc" id="L129">                listaInspeccion = listaInspeccionFacade.actualizarVersion(listaInspeccion);</span>
+            }
+<span class="nc" id="L131">            return Response.ok(listaInspeccion).build();</span>
+<span class="nc" id="L132">        } catch (Exception ex) {</span>
+<span class="nc" id="L133">            return Util.manageException(ex, ListaInspeccionREST.class);</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

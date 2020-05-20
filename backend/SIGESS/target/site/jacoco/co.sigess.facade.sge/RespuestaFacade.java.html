@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RespuestaFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.sge</a> &gt; <span class="el_source">RespuestaFacade.java</span></div><h1>RespuestaFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.sge;
+
+import co.sigess.entities.com.TipoMensaje;
+import co.sigess.entities.sge.Elemento;
+import co.sigess.entities.sge.EstadoEvaluacion;
+import co.sigess.entities.sge.Evaluacion;
+import co.sigess.entities.sge.Respuesta;
+import co.sigess.exceptions.UserMessageException;
+import java.util.Date;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Stateless
+public class RespuestaFacade extends AbstractFacade&lt;Respuesta&gt; {
+
+    @EJB
+    private EvaluacionFacade evaluacionFacade;
+    @EJB
+    private ElementoFacade elementoFacade;
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+<span class="nc" id="L39">        return em;</span>
+    }
+
+    public RespuestaFacade() {
+<span class="nc" id="L43">        super(Respuesta.class);</span>
+<span class="nc" id="L44">    }</span>
+
+    public EstadoEvaluacion adicionarRespuesta(Respuesta respuesta) {
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        if (respuesta.getEvaluacion() == null) {</span>
+<span class="nc" id="L48">            throw new UserMessageException(&quot;ERROR 30RESP001&quot;, &quot;No se ha especificado la evaluación de la respuesta a actualizar&quot;, TipoMensaje.error);</span>
+        }
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if (respuesta.getOpcionRespuesta() == null) {</span>
+<span class="nc" id="L51">            throw new UserMessageException(&quot;ERROR 30RESP002&quot;, &quot;No se ha especificado la opción seleccionada de la respuesta&quot;, TipoMensaje.error);</span>
+        }
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        if (respuesta.getOpcionRespuesta().getElemento() == null) {</span>
+<span class="nc" id="L54">            throw new UserMessageException(&quot;ERROR 30RESP003&quot;, &quot;No se ha especificado el elemento de la opción de respuesta&quot;, TipoMensaje.error);</span>
+        }
+<span class="nc" id="L56">        Elemento elemento = elementoFacade.find(respuesta.getOpcionRespuesta().getElemento().getId());</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        if (elemento == null) {</span>
+<span class="nc" id="L58">            throw new UserMessageException(&quot;ERROR 30RESP004&quot;, &quot;Elemento de opcion de respuesta no válido&quot;, TipoMensaje.error);</span>
+        }
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (!elemento.getOpcionRespuestaList().contains(respuesta.getOpcionRespuesta())) {</span>
+<span class="nc" id="L61">            throw new UserMessageException(&quot;ERROR 30RESP005&quot;, &quot;Opcion de respuesta no válida para elemento&quot;, TipoMensaje.error);</span>
+        }
+
+<span class="nc" id="L64">        Evaluacion evaluacion = evaluacionFacade.find(respuesta.getEvaluacion().getId());</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        if (evaluacion == null) {</span>
+<span class="nc" id="L66">            throw new UserMessageException(&quot;ERROR 30RESP006&quot;, &quot;Evaluación especificada no válida&quot;, TipoMensaje.error);</span>
+        }
+
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if (evaluacion.getFechaFinalizacion() != null) {</span>
+<span class="nc" id="L70">            throw new UserMessageException(&quot;Evaluación finalizada&quot;, &quot;No es posible modificar las respuestas.&quot;, TipoMensaje.warn);</span>
+        }
+
+<span class="nc" id="L73">        deleteByElemento(elemento, evaluacion);</span>
+<span class="nc" id="L74">        super.create(respuesta);</span>
+<span class="nc" id="L75">        this.em.flush();</span>
+
+<span class="nc" id="L77">        Query query = this.em.createNativeQuery(&quot;SELECT  ee.numero_respuestas \&quot;numeroRespuestas\&quot;,\n&quot;</span>
+                + &quot;        ee.numero_preguntas AS \&quot;numeroPreguntas\&quot;\n&quot;
+                + &quot;    FROM sge.estado_evaluacion ee\n&quot;
+                + &quot;    WHERE ee.evaluacion_id = ?1&quot;);
+<span class="nc" id="L81">        query.setParameter(&quot;1&quot;, evaluacion.getId());</span>
+
+<span class="nc" id="L83">        Object[] res = (Object[]) query.getSingleResult();</span>
+<span class="nc" id="L84">        EstadoEvaluacion estadoEvaluacion = new EstadoEvaluacion(((Long) res[0]).intValue(), (Integer) res[1]);</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        if (estadoEvaluacion.isFinalizado()) {</span>
+<span class="nc" id="L86">            query = this.em.createNativeQuery(&quot;UPDATE sge.evaluacion SET fecha_finalizacion = NOW() WHERE id = ?1&quot;);</span>
+<span class="nc" id="L87">            query.setParameter(&quot;1&quot;, evaluacion.getId());</span>
+<span class="nc" id="L88">            query.executeUpdate();</span>
+        }
+<span class="nc" id="L90">        return estadoEvaluacion;</span>
+    }
+
+    private void deleteByElemento(Elemento elemento, Evaluacion evaluacion) {
+<span class="nc" id="L94">        Query query = this.em.createQuery(&quot;DELETE FROM Respuesta r WHERE r.opcionRespuesta.elemento.id = :elementoId AND r.evaluacion.id = :evaluacionId&quot;);</span>
+<span class="nc" id="L95">        query.setParameter(&quot;elementoId&quot;, elemento.getId());</span>
+<span class="nc" id="L96">        query.setParameter(&quot;evaluacionId&quot;, evaluacion.getId());</span>
+<span class="nc" id="L97">        query.executeUpdate();</span>
+<span class="nc" id="L98">    }</span>
+
+    @Override
+    public Respuesta edit(Respuesta resp) {
+<span class="nc" id="L102">        Respuesta respDB = this.find(resp.getId());</span>
+<span class="nc" id="L103">        respDB.setActividad(resp.getActividad());</span>
+<span class="nc" id="L104">        respDB.setMeta(resp.getMeta());</span>
+<span class="nc" id="L105">        respDB.setRecursos(resp.getRecursos());</span>
+<span class="nc" id="L106">        respDB.setResponsable(resp.getResponsable());</span>
+<span class="nc" id="L107">        return super.edit(respDB); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    public List&lt;Respuesta&gt; findAllByEvaluacion(Integer evaluacionId) {
+<span class="nc" id="L111">        Query query = this.em.createQuery(&quot;SELECT r from Respuesta r WHERE r.evaluacion.id = :evaluacionId&quot;);</span>
+<span class="nc" id="L112">        query.setParameter(&quot;evaluacionId&quot;, evaluacionId);</span>
+<span class="nc" id="L113">        List&lt;Respuesta&gt; list = (List&lt;Respuesta&gt;) query.getResultList();</span>
+<span class="nc" id="L114">        return list;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

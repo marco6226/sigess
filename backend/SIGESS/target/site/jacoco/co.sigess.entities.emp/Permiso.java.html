@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Permiso.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.emp</a> &gt; <span class="el_source">Permiso.java</span></div><h1>Permiso.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.emp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@Table(name = &quot;permiso&quot;, schema = &quot;emp&quot;)
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;Permiso.findAll&quot;, query = &quot;SELECT p FROM Permiso p&quot;)})
+public class Permiso implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @SequenceGenerator(name = &quot;permiso_id_seq&quot;, schema = &quot;emp&quot;, sequenceName = &quot;permiso_id_seq&quot;, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = &quot;permiso_id_seq&quot;)
+    @Basic(optional = false)
+    @Column(name = &quot;id&quot;)
+    private Long id;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = &quot;valido&quot;)
+    private boolean valido;
+
+    @JoinColumn(name = &quot;fk_perfil_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private Perfil perfil;
+
+    @JoinColumn(name = &quot;fk_recurso_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private Recurso recurso;
+
+    @JoinColumn(name = &quot;fk_empresa_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private Empresa empresa;
+    
+    @Column(name = &quot;areas&quot;)
+    private String areas;
+
+<span class="nc" id="L66">    public Permiso() {</span>
+<span class="nc" id="L67">    }</span>
+
+<span class="nc" id="L69">    public Permiso(Long id) {</span>
+<span class="nc" id="L70">        this.id = id;</span>
+<span class="nc" id="L71">    }</span>
+
+    public Long getId() {
+<span class="nc" id="L74">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="nc" id="L78">        this.id = id;</span>
+<span class="nc" id="L79">    }</span>
+
+    public boolean isValido() {
+<span class="nc" id="L82">        return valido;</span>
+    }
+
+    public void setValido(boolean valido) {
+<span class="nc" id="L86">        this.valido = valido;</span>
+<span class="nc" id="L87">    }</span>
+
+    @JsonIgnore
+    public Perfil getPerfil() {
+<span class="nc" id="L91">        return perfil;</span>
+    }
+
+    @JsonProperty(value = &quot;perfil&quot;)
+    public void setPerfil(Perfil perfil) {
+<span class="nc" id="L96">        this.perfil = perfil;</span>
+<span class="nc" id="L97">    }</span>
+
+    public Recurso getRecurso() {
+<span class="nc" id="L100">        return recurso;</span>
+    }
+
+    public void setRecurso(Recurso recurso) {
+<span class="nc" id="L104">        this.recurso = recurso;</span>
+<span class="nc" id="L105">    }</span>
+
+    public String getAreas() {
+<span class="nc" id="L108">        return areas;</span>
+    }
+
+    public void setAreas(String areas) {
+<span class="nc" id="L112">        this.areas = areas;</span>
+<span class="nc" id="L113">    }</span>
+
+    @JsonIgnore
+    public Empresa getEmpresa() {
+<span class="nc" id="L117">        return empresa;</span>
+    }
+
+    @JsonProperty(value = &quot;empresa&quot;)
+    public void setEmpresa(Empresa empresa) {
+<span class="nc" id="L122">        this.empresa = empresa;</span>
+<span class="nc" id="L123">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc" id="L127">        return &quot;co.sigess.entities.emp.Permiso[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+    
+    @Override
+    public int hashCode() {
+<span class="nc" id="L132">        int hash = 0;</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        hash += (empresa != null ? empresa.hashCode() : 0);</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        hash += (recurso != null ? recurso.hashCode() : 0);</span>
+<span class="nc" id="L135">        return hash;</span>
+    }
+    
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L141" title="All 2 branches missed.">        if (!(object instanceof Permiso)) {</span>
+<span class="nc" id="L142">            return false;</span>
+        }
+<span class="nc" id="L144">        Permiso other = (Permiso) object;</span>
+<span class="nc bnc" id="L145" title="All 4 branches missed.">        if(this.empresa.equals(other.getEmpresa()) &amp;&amp; this.recurso.equals(other.getRecurso())){</span>
+<span class="nc" id="L146">            return true;</span>
+        }
+<span class="nc" id="L148">        return false;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

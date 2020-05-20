@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReportDataSource.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.reports.sge</a> &gt; <span class="el_source">ReportDataSource.java</span></div><h1>ReportDataSource.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.reports.sge;
+
+/**
+ *
+ * @author fmoreno
+ */
+public class ReportDataSource {
+
+    private String[] headers;
+    private Object[] values;
+
+<span class="nc" id="L17">    public ReportDataSource(String[] headers, Object[] values) {</span>
+<span class="nc bnc" id="L18" title="All 2 branches missed.">        if (values == null) {</span>
+<span class="nc" id="L19">            throw new IllegalArgumentException(&quot;Valor null no permitido&quot;);</span>
+        }
+<span class="nc bnc" id="L21" title="All 4 branches missed.">        if (values.length &gt; 0 &amp;&amp; headers.length != ((Object[]) values[0]).length) {</span>
+<span class="nc" id="L22">            throw new IllegalArgumentException(&quot;El número de columnas de las cabezeras no coincide con el de los valores&quot;);</span>
+        }
+<span class="nc" id="L24">        this.headers = headers;</span>
+<span class="nc" id="L25">        this.values = values;</span>
+<span class="nc" id="L26">    }</span>
+
+    public Object getValue(int index, String header) {
+<span class="nc bnc" id="L29" title="All 2 branches missed.">        if (header == null) {</span>
+<span class="nc" id="L30">            return null;</span>
+        }
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        for (int i = 0; i &lt; headers.length; i++) {</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">            if (header.equals(headers[i])) {</span>
+<span class="nc" id="L34">                return ((Object[]) values[index])[i];</span>
+            }
+        }
+<span class="nc" id="L37">        return null;</span>
+    }
+
+//    public &lt;T&gt; T getValue(String header, T clase) {
+//        for (int i = 0; i &lt; headers.length; i++) {
+//            if (header.equals(headers[i])) {
+//                return (T) values[i];
+//            }
+//        }
+//        return null;
+//    }
+
+    public String[] getHeaders() {
+<span class="nc" id="L50">        return headers;</span>
+    }
+
+//    public void setHeaders(String[] headers) {
+//        if (values != null &amp;&amp; values.length != headers.length) {
+//            throw new IllegalArgumentException(&quot;El número de columnas de las cabezeras no coincide con el de los valores&quot;);
+//        }
+//        this.headers = headers;
+//    }
+    public Object[] getValues() {
+<span class="nc" id="L60">        return values;</span>
+    }
+
+//    public void setValues(Object[] values) {
+//        if (headers != null &amp;&amp; values.length != headers.length) {
+//            throw new IllegalArgumentException(&quot;El número de columnas de las cabezeras no coincide con el de los valores&quot;);
+//        }
+//        this.values = values;
+//    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

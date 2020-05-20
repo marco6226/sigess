@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProgramacionFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.inp</a> &gt; <span class="el_source">ProgramacionFacade.java</span></div><h1>ProgramacionFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.inp;
+
+import co.sigess.entities.inp.Programacion;
+import co.sigess.facade.com.AbstractFacade;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.time.LocalDate;
+import java.util.List;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Stateless
+public class ProgramacionFacade extends AbstractFacade&lt;Programacion&gt; {
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+<span class="nc" id="L32">        return em;</span>
+    }
+
+    public ProgramacionFacade() {
+<span class="nc" id="L36">        super(Programacion.class);</span>
+<span class="nc" id="L37">    }</span>
+
+    public List&lt;Programacion&gt; findAllByEmpresa(Integer empresaId) {
+<span class="nc" id="L40">        Query query = this.em.createQuery(&quot;SELECT p FROM Programacion p WHERE p.listaInspeccion.empresa.id = ?1&quot;);</span>
+<span class="nc" id="L41">        query.setParameter(1, empresaId);</span>
+<span class="nc" id="L42">        List&lt;Programacion&gt; list = (List&lt;Programacion&gt;) query.getResultList();</span>
+<span class="nc" id="L43">        return list;</span>
+    }
+
+    public Programacion modificar(Programacion prog) throws Exception {
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        if (prog.getId() == null) {</span>
+<span class="nc" id="L48">            throw new IllegalArgumentException(&quot;No se ha establecido el id de la programación a modificar&quot;);</span>
+        }
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if (prog.getArea() == null) {</span>
+<span class="nc" id="L51">            throw new IllegalArgumentException(&quot;La programación debe contener un area&quot;);</span>
+        }
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        if (prog.getListaInspeccion() == null) {</span>
+<span class="nc" id="L54">            throw new IllegalArgumentException(&quot;La programación debe tener una lista de inspección asignada&quot;);</span>
+        }
+<span class="nc" id="L56">        Programacion progDB = this.find(prog.getId());</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        if (progDB == null) {</span>
+<span class="nc" id="L58">            throw new IllegalArgumentException(&quot;id de programación inválido&quot;);</span>
+        }
+<span class="nc" id="L60">        return super.edit(prog); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    @Override
+    public Programacion create(Programacion prog) throws Exception {
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        if (prog.getArea() == null) {</span>
+<span class="nc" id="L66">            throw new IllegalArgumentException(&quot;La programación debe contener un area&quot;);</span>
+        }
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (prog.getListaInspeccion() == null) {</span>
+<span class="nc" id="L69">            throw new IllegalArgumentException(&quot;La programación debe tener una lista de inspección asignada&quot;);</span>
+        }
+<span class="nc" id="L71">        return super.create(prog); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    public List&lt;Programacion&gt; findAllByMes(Integer empresaId, LocalDate fechaMes) {
+<span class="nc" id="L75">        LocalDate desde = fechaMes.withDayOfMonth(1);</span>
+<span class="nc" id="L76">        LocalDate hasta = fechaMes.withDayOfMonth(fechaMes.lengthOfMonth());</span>
+<span class="nc" id="L77">        Query query = this.em.createQuery(&quot;SELECT p FROM Programacion p WHERE p.listaInspeccion.empresa.id = ?1 AND p.fecha BETWEEN ?2 AND ?3&quot;);</span>
+<span class="nc" id="L78">        query.setParameter(1, empresaId);</span>
+<span class="nc" id="L79">        query.setParameter(2, java.sql.Date.valueOf(desde));</span>
+<span class="nc" id="L80">        query.setParameter(3, java.sql.Date.valueOf(hasta));</span>
+<span class="nc" id="L81">        List&lt;Programacion&gt; list = (List&lt;Programacion&gt;) query.getResultList();</span>
+<span class="nc" id="L82">        return list;</span>
+    }
+
+    public List&lt;Programacion&gt; findAllByArea(Integer empresaId, Integer areaId) {
+<span class="nc" id="L86">        Query query = this.em.createQuery(&quot;SELECT p FROM Programacion p WHERE p.listaInspeccion.empresa.id = ?1 AND p.area.id = ?2&quot;);</span>
+<span class="nc" id="L87">        query.setParameter(1, empresaId);</span>
+<span class="nc" id="L88">        query.setParameter(2, areaId);</span>
+<span class="nc" id="L89">        List&lt;Programacion&gt; list = (List&lt;Programacion&gt;) query.getResultList();</span>
+<span class="nc" id="L90">        return list;</span>
+    }
+
+    public double calcularCumplimiento(Long areaId, Date desde, Date hasta) {
+<span class="nc" id="L94">        Query q = this.em.createNativeQuery(&quot;SELECT avg(p.numero_realizadas * 1.0 / p.numero_inspecciones)::numeric\n&quot;</span>
+                + &quot;from inp.programacion p \n&quot;
+                + &quot;inner join emp.area a on a.id = p.fk_area_id\n&quot;
+                + &quot;where a.id = ?1 and p.fecha between ?2 AND ?3 GROUP BY a.id&quot;);
+<span class="nc" id="L98">        q.setParameter(1, areaId);</span>
+<span class="nc" id="L99">        q.setParameter(2, desde);</span>
+<span class="nc" id="L100">        q.setParameter(3, hasta);</span>
+        try {
+<span class="nc" id="L102">            return (double) ((BigDecimal) q.getSingleResult()).doubleValue();</span>
+<span class="nc" id="L103">        } catch (NoResultException nre) {</span>
+<span class="nc" id="L104">            return 0;</span>
+<span class="nc" id="L105">        } catch (Exception ed) {</span>
+<span class="nc" id="L106">            System.out.println(ed.toString());</span>
+<span class="nc" id="L107">            return 0;</span>
+        }
+    }
+
+    public double calcularCubrimiento(Date desde, Date hasta) {
+<span class="nc" id="L112">        String sql = &quot;with calc as (\n&quot;</span>
+                + &quot;	select p.fk_area_id, \n&quot;
+                + &quot;		sum(case when p.numero_realizadas = 0 then 1 else 0 end) = 0 as cubierta\n&quot;
+                + &quot;		from inp.programacion p \n&quot;
+                + &quot;		where (p.fecha between ?1 AND ?2)\n&quot;
+                + &quot;		group by p.fk_area_id\n&quot;
+                + &quot;),\n&quot;
+                + &quot;cub as (\n&quot;
+                + &quot;	select \n&quot;
+                + &quot;		sum(case when cubierta = true then 1 else 0 end) as cubiertas,\n&quot;
+                + &quot;		sum(case when cubierta = false then 1 else 0 end) as no_cubiertas\n&quot;
+                + &quot;		from calc\n&quot;
+                + &quot;)\n&quot;
+                + &quot;select cubiertas / (cubiertas + no_cubiertas)::numeric as cubrimiento from cub&quot;;
+<span class="nc" id="L126">        Query q = this.em.createNativeQuery(sql);</span>
+<span class="nc" id="L127">        q.setParameter(1, desde);</span>
+<span class="nc" id="L128">        q.setParameter(2, hasta);</span>
+        try {
+<span class="nc" id="L130">            return (double) ((BigDecimal) q.getSingleResult()).doubleValue();</span>
+<span class="nc" id="L131">        } catch (NoResultException | NullPointerException nre) {</span>
+<span class="nc" id="L132">            return 0;</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AnalisisCosto.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.sec</a> &gt; <span class="el_source">AnalisisCosto.java</span></div><h1>AnalisisCosto.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.sec;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@Table(name = &quot;analisis_costo&quot;, schema = &quot;sec&quot;)
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;AnalisisCosto.findAll&quot;, query = &quot;SELECT a FROM AnalisisCosto a&quot;)})
+public class AnalisisCosto implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Column(name = &quot;pk_analisis_desviacion_id&quot;)
+    private Integer analisisDesviacionId;
+    
+    @Column(name = &quot;dias_incapacidad&quot;)
+    private Integer diasIncapacidad;
+    
+    @Size(max = 2048)
+    @Column(name = &quot;descripcion&quot;)
+    private String descripcion;
+    
+    @Column(name = &quot;horas_perdidas_acc&quot;)
+    private Integer horasPerdidasAcc;
+    
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = &quot;costo_hora_acc&quot;)
+    private Double costoHoraAcc;
+    
+    @Column(name = &quot;dias_mejora&quot;)
+    private Integer diasMejora;
+    
+    @Column(name = &quot;imp_diario_mejora&quot;)
+    private Double impDiarioMejora;
+    
+    @Column(name = &quot;dias_cotizacion&quot;)
+    private Integer diasCotizacion;
+    
+    @Column(name = &quot;imp_diario_cotizacion&quot;)
+    private Double impDiarioCotizacion;
+    
+    @Column(name = &quot;horas_repar_intern_edif&quot;)
+    private Integer horasReparInternEdif;
+    
+    @Column(name = &quot;costo_hora_repar_intern_edif&quot;)
+    private Double costoHoraReparInternEdif;
+    
+    @Column(name = &quot;costo_mater_edif&quot;)
+    private Double costoMaterEdif;
+    
+    @Column(name = &quot;costo_repar_extern_edif&quot;)
+    private Double costoReparExternEdif;
+    
+    @Column(name = &quot;horas_repar_intern_maq&quot;)
+    private Integer horasReparInternMaq;
+    
+    @Column(name = &quot;costo_hora_repar_intern_maq&quot;)
+    private Double costoHoraReparInternMaq;
+    
+    @Column(name = &quot;costo_mat_maq&quot;)
+    private Double costoMatMaq;
+    
+    @Column(name = &quot;costo_repar_extern_maq&quot;)
+    private Double costoReparExternMaq;
+    
+    @Column(name = &quot;num_unid_mater_prim&quot;)
+    private Integer numUnidMaterPrim;
+    
+    @Column(name = &quot;costo_unid_mater_prim&quot;)
+    private Double costoUnidMaterPrim;
+    
+    @Column(name = &quot;perdida_producc&quot;)
+    private Double perdidaProducc;
+    
+    @Column(name = &quot;perdida_parada_maq&quot;)
+    private Double perdidaParadaMaq;
+    
+    @Column(name = &quot;costo_horas_extras&quot;)
+    private Double costoHorasExtras;
+    
+    @Column(name = &quot;costo_contrat_reemplazo&quot;)
+    private Double costoContratReemplazo;
+    
+    @Column(name = &quot;sub_contrat_serv&quot;)
+    private Double subContratServ;
+    
+    @Column(name = &quot;otros_costos_producc&quot;)
+    private Double otrosCostosProducc;
+    
+    @Column(name = &quot;costos_medidas_prev&quot;)
+    private Double costosMedidasPrev;
+    
+    @Column(name = &quot;costo_resp_admin&quot;)
+    private Double costoRespAdmin;
+    
+    @Column(name = &quot;costo_resp_seg_social&quot;)
+    private Double costoRespSegSocial;
+    
+    @Column(name = &quot;costo_resp_civil&quot;)
+    private Double costoRespCivil;
+    
+    @Column(name = &quot;costo_resp_jurid&quot;)
+    private Double costoRespJurid;
+    
+    @Column(name = &quot;otros_costos&quot;)
+    private Double otrosCostos;
+    
+    @JsonIgnore
+    @MapsId
+    @JoinColumn(name = &quot;pk_analisis_desviacion_id&quot;, referencedColumnName = &quot;id&quot;)
+    @OneToOne(optional = false)
+    private AnalisisDesviacion analisisDesviacion;
+
+<span class="nc" id="L138">    public AnalisisCosto() {</span>
+<span class="nc" id="L139">    }</span>
+
+<span class="nc" id="L141">    public AnalisisCosto(Integer analisisDesviacionId) {</span>
+<span class="nc" id="L142">        this.analisisDesviacionId = analisisDesviacionId;</span>
+<span class="nc" id="L143">    }</span>
+
+    public Integer getAnalisisDesviacionId() {
+<span class="nc" id="L146">        return analisisDesviacionId;</span>
+    }
+
+    public void setAnalisisDesviacionId(Integer analisisDesviacionId) {
+<span class="nc" id="L150">        this.analisisDesviacionId = analisisDesviacionId;</span>
+<span class="nc" id="L151">    }</span>
+
+
+    public Integer getDiasIncapacidad() {
+<span class="nc" id="L155">        return diasIncapacidad;</span>
+    }
+
+    public void setDiasIncapacidad(Integer diasIncapacidad) {
+<span class="nc" id="L159">        this.diasIncapacidad = diasIncapacidad;</span>
+<span class="nc" id="L160">    }</span>
+
+    public String getDescripcion() {
+<span class="nc" id="L163">        return descripcion;</span>
+    }
+
+    public void setDescripcion(String descripcion) {
+<span class="nc" id="L167">        this.descripcion = descripcion;</span>
+<span class="nc" id="L168">    }</span>
+
+    public Integer getHorasPerdidasAcc() {
+<span class="nc" id="L171">        return horasPerdidasAcc;</span>
+    }
+
+    public void setHorasPerdidasAcc(Integer horasPerdidasAcc) {
+<span class="nc" id="L175">        this.horasPerdidasAcc = horasPerdidasAcc;</span>
+<span class="nc" id="L176">    }</span>
+
+    public Double getCostoHoraAcc() {
+<span class="nc" id="L179">        return costoHoraAcc;</span>
+    }
+
+    public void setCostoHoraAcc(Double costoHoraAcc) {
+<span class="nc" id="L183">        this.costoHoraAcc = costoHoraAcc;</span>
+<span class="nc" id="L184">    }</span>
+
+    public Integer getDiasMejora() {
+<span class="nc" id="L187">        return diasMejora;</span>
+    }
+
+    public void setDiasMejora(Integer diasMejora) {
+<span class="nc" id="L191">        this.diasMejora = diasMejora;</span>
+<span class="nc" id="L192">    }</span>
+
+    public Double getImpDiarioMejora() {
+<span class="nc" id="L195">        return impDiarioMejora;</span>
+    }
+
+    public void setImpDiarioMejora(Double impDiarioMejora) {
+<span class="nc" id="L199">        this.impDiarioMejora = impDiarioMejora;</span>
+<span class="nc" id="L200">    }</span>
+
+    public Integer getDiasCotizacion() {
+<span class="nc" id="L203">        return diasCotizacion;</span>
+    }
+
+    public void setDiasCotizacion(Integer diasCotizacion) {
+<span class="nc" id="L207">        this.diasCotizacion = diasCotizacion;</span>
+<span class="nc" id="L208">    }</span>
+
+    public Double getImpDiarioCotizacion() {
+<span class="nc" id="L211">        return impDiarioCotizacion;</span>
+    }
+
+    public void setImpDiarioCotizacion(Double impDiarioCotizacion) {
+<span class="nc" id="L215">        this.impDiarioCotizacion = impDiarioCotizacion;</span>
+<span class="nc" id="L216">    }</span>
+
+    public Integer getHorasReparInternEdif() {
+<span class="nc" id="L219">        return horasReparInternEdif;</span>
+    }
+
+    public void setHorasReparInternEdif(Integer horasReparInternEdif) {
+<span class="nc" id="L223">        this.horasReparInternEdif = horasReparInternEdif;</span>
+<span class="nc" id="L224">    }</span>
+
+    public Double getCostoHoraReparInternEdif() {
+<span class="nc" id="L227">        return costoHoraReparInternEdif;</span>
+    }
+
+    public void setCostoHoraReparInternEdif(Double costoHoraReparInternEdif) {
+<span class="nc" id="L231">        this.costoHoraReparInternEdif = costoHoraReparInternEdif;</span>
+<span class="nc" id="L232">    }</span>
+
+    public Double getCostoMaterEdif() {
+<span class="nc" id="L235">        return costoMaterEdif;</span>
+    }
+
+    public void setCostoMaterEdif(Double costoMaterEdif) {
+<span class="nc" id="L239">        this.costoMaterEdif = costoMaterEdif;</span>
+<span class="nc" id="L240">    }</span>
+
+    public Double getCostoReparExternEdif() {
+<span class="nc" id="L243">        return costoReparExternEdif;</span>
+    }
+
+    public void setCostoReparExternEdif(Double costoReparExternEdif) {
+<span class="nc" id="L247">        this.costoReparExternEdif = costoReparExternEdif;</span>
+<span class="nc" id="L248">    }</span>
+
+    public Integer getHorasReparInternMaq() {
+<span class="nc" id="L251">        return horasReparInternMaq;</span>
+    }
+
+    public void setHorasReparInternMaq(Integer horasReparInternMaq) {
+<span class="nc" id="L255">        this.horasReparInternMaq = horasReparInternMaq;</span>
+<span class="nc" id="L256">    }</span>
+
+    public Double getCostoHoraReparInternMaq() {
+<span class="nc" id="L259">        return costoHoraReparInternMaq;</span>
+    }
+
+    public void setCostoHoraReparInternMaq(Double costoHoraReparInternMaq) {
+<span class="nc" id="L263">        this.costoHoraReparInternMaq = costoHoraReparInternMaq;</span>
+<span class="nc" id="L264">    }</span>
+
+    public Double getCostoMatMaq() {
+<span class="nc" id="L267">        return costoMatMaq;</span>
+    }
+
+    public void setCostoMatMaq(Double costoMatMaq) {
+<span class="nc" id="L271">        this.costoMatMaq = costoMatMaq;</span>
+<span class="nc" id="L272">    }</span>
+
+    public Double getCostoReparExternMaq() {
+<span class="nc" id="L275">        return costoReparExternMaq;</span>
+    }
+
+    public void setCostoReparExternMaq(Double costoReparExternMaq) {
+<span class="nc" id="L279">        this.costoReparExternMaq = costoReparExternMaq;</span>
+<span class="nc" id="L280">    }</span>
+
+    public Integer getNumUnidMaterPrim() {
+<span class="nc" id="L283">        return numUnidMaterPrim;</span>
+    }
+
+    public void setNumUnidMaterPrim(Integer numUnidMaterPrim) {
+<span class="nc" id="L287">        this.numUnidMaterPrim = numUnidMaterPrim;</span>
+<span class="nc" id="L288">    }</span>
+
+    public Double getCostoUnidMaterPrim() {
+<span class="nc" id="L291">        return costoUnidMaterPrim;</span>
+    }
+
+    public void setCostoUnidMaterPrim(Double costoUnidMaterPrim) {
+<span class="nc" id="L295">        this.costoUnidMaterPrim = costoUnidMaterPrim;</span>
+<span class="nc" id="L296">    }</span>
+
+    public Double getPerdidaProducc() {
+<span class="nc" id="L299">        return perdidaProducc;</span>
+    }
+
+    public void setPerdidaProducc(Double perdidaProducc) {
+<span class="nc" id="L303">        this.perdidaProducc = perdidaProducc;</span>
+<span class="nc" id="L304">    }</span>
+
+    public Double getPerdidaParadaMaq() {
+<span class="nc" id="L307">        return perdidaParadaMaq;</span>
+    }
+
+    public void setPerdidaParadaMaq(Double perdidaParadaMaq) {
+<span class="nc" id="L311">        this.perdidaParadaMaq = perdidaParadaMaq;</span>
+<span class="nc" id="L312">    }</span>
+
+    public Double getCostoHorasExtras() {
+<span class="nc" id="L315">        return costoHorasExtras;</span>
+    }
+
+    public void setCostoHorasExtras(Double costoHorasExtras) {
+<span class="nc" id="L319">        this.costoHorasExtras = costoHorasExtras;</span>
+<span class="nc" id="L320">    }</span>
+
+    public Double getCostoContratReemplazo() {
+<span class="nc" id="L323">        return costoContratReemplazo;</span>
+    }
+
+    public void setCostoContratReemplazo(Double costoContratReemplazo) {
+<span class="nc" id="L327">        this.costoContratReemplazo = costoContratReemplazo;</span>
+<span class="nc" id="L328">    }</span>
+
+    public Double getSubContratServ() {
+<span class="nc" id="L331">        return subContratServ;</span>
+    }
+
+    public void setSubContratServ(Double subContratServ) {
+<span class="nc" id="L335">        this.subContratServ = subContratServ;</span>
+<span class="nc" id="L336">    }</span>
+
+    public Double getOtrosCostosProducc() {
+<span class="nc" id="L339">        return otrosCostosProducc;</span>
+    }
+
+    public void setOtrosCostosProducc(Double otrosCostosProducc) {
+<span class="nc" id="L343">        this.otrosCostosProducc = otrosCostosProducc;</span>
+<span class="nc" id="L344">    }</span>
+
+    public Double getCostosMedidasPrev() {
+<span class="nc" id="L347">        return costosMedidasPrev;</span>
+    }
+
+    public void setCostosMedidasPrev(Double costosMedidasPrev) {
+<span class="nc" id="L351">        this.costosMedidasPrev = costosMedidasPrev;</span>
+<span class="nc" id="L352">    }</span>
+
+    public Double getCostoRespAdmin() {
+<span class="nc" id="L355">        return costoRespAdmin;</span>
+    }
+
+    public void setCostoRespAdmin(Double costoRespAdmin) {
+<span class="nc" id="L359">        this.costoRespAdmin = costoRespAdmin;</span>
+<span class="nc" id="L360">    }</span>
+
+    public Double getCostoRespSegSocial() {
+<span class="nc" id="L363">        return costoRespSegSocial;</span>
+    }
+
+    public void setCostoRespSegSocial(Double costoRespSegSocial) {
+<span class="nc" id="L367">        this.costoRespSegSocial = costoRespSegSocial;</span>
+<span class="nc" id="L368">    }</span>
+
+    public Double getCostoRespCivil() {
+<span class="nc" id="L371">        return costoRespCivil;</span>
+    }
+
+    public void setCostoRespCivil(Double costoRespCivil) {
+<span class="nc" id="L375">        this.costoRespCivil = costoRespCivil;</span>
+<span class="nc" id="L376">    }</span>
+
+    public Double getCostoRespJurid() {
+<span class="nc" id="L379">        return costoRespJurid;</span>
+    }
+
+    public void setCostoRespJurid(Double costoRespJurid) {
+<span class="nc" id="L383">        this.costoRespJurid = costoRespJurid;</span>
+<span class="nc" id="L384">    }</span>
+
+    public Double getOtrosCostos() {
+<span class="nc" id="L387">        return otrosCostos;</span>
+    }
+
+    public void setOtrosCostos(Double otrosCostos) {
+<span class="nc" id="L391">        this.otrosCostos = otrosCostos;</span>
+<span class="nc" id="L392">    }</span>
+
+    public AnalisisDesviacion getAnalisisDesviacion() {
+<span class="nc" id="L395">        return analisisDesviacion;</span>
+    }
+
+    public void setAnalisisDesviacion(AnalisisDesviacion analisisDesviacion) {
+<span class="nc" id="L399">        this.analisisDesviacion = analisisDesviacion;</span>
+<span class="nc" id="L400">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L404">        int hash = 0;</span>
+<span class="nc bnc" id="L405" title="All 2 branches missed.">        hash += (analisisDesviacionId != null ? analisisDesviacionId.hashCode() : 0);</span>
+<span class="nc" id="L406">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L412" title="All 2 branches missed.">        if (!(object instanceof AnalisisCosto)) {</span>
+<span class="nc" id="L413">            return false;</span>
+        }
+<span class="nc" id="L415">        AnalisisCosto other = (AnalisisCosto) object;</span>
+<span class="nc bnc" id="L416" title="All 8 branches missed.">        if ((this.analisisDesviacionId == null &amp;&amp; other.analisisDesviacionId != null) || (this.analisisDesviacionId != null &amp;&amp; !this.analisisDesviacionId.equals(other.analisisDesviacionId))) {</span>
+<span class="nc" id="L417">            return false;</span>
+        }
+<span class="nc" id="L419">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L424">        return &quot;co.sigess.entities.sec.AnalisisCosto[ pkAnalisisDesviacionId=&quot; + analisisDesviacionId + &quot; ]&quot;;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CieFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.com</a> &gt; <span class="el_source">CieFacade.java</span></div><h1>CieFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.com;
+
+import co.sigess.entities.com.Cie;
+import java.util.List;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Stateless
+public class CieFacade extends AbstractFacade&lt;Cie&gt; {
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+<span class="nc" id="L27">        return em;</span>
+    }
+
+    public CieFacade() {
+<span class="nc" id="L31">        super(Cie.class);</span>
+<span class="nc" id="L32">    }</span>
+
+    public List&lt;Cie&gt; buscar(String parametro) {
+<span class="nc" id="L35">        Query q = this.em.createQuery(&quot;SELECT c FROM Cie c WHERE c.codigo LIKE ?1 OR c.nombre LIKE ?1&quot;);</span>
+<span class="nc" id="L36">        q.setParameter(1, &quot;%&quot; + parametro.toUpperCase() + &quot;%&quot;);</span>
+<span class="nc" id="L37">        q.setMaxResults(10);</span>
+<span class="nc" id="L38">        List&lt;Cie&gt; list = q.getResultList();</span>
+<span class="nc" id="L39">        return list;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

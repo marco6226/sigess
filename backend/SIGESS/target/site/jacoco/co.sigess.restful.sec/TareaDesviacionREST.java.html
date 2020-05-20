@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TareaDesviacionREST.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.restful.sec</a> &gt; <span class="el_source">TareaDesviacionREST.java</span></div><h1>TareaDesviacionREST.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.restful.sec;
+
+import co.sigess.entities.emp.Empresa;
+import co.sigess.entities.sec.TareaDesviacion;
+import co.sigess.facade.sec.TareaDesviacionFacade;
+import co.sigess.restful.FilterQuery;
+import co.sigess.restful.ServiceREST;
+import co.sigess.restful.security.Secured;
+import co.sigess.restful.security.ValidadorArea;
+import co.sigess.util.Util;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Secured
+@Path(&quot;tarea&quot;)
+public class TareaDesviacionREST extends ServiceREST {
+
+    @EJB
+    private TareaDesviacionFacade tareaDesviacionFacade;
+
+    public TareaDesviacionREST() {
+<span class="nc" id="L40">        super(TareaDesviacionFacade.class);</span>
+<span class="nc" id="L41">    }    </span>
+
+    @ValidadorArea(&quot;areaResponsable.id&quot;)
+    @Override
+    public Response findWithFilter(FilterQuery filterQuery) {
+<span class="nc" id="L46">        return super.findWithFilter(filterQuery);</span>
+    }
+
+    @POST
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response create(TareaDesviacion tarea) {
+        try {
+<span class="nc" id="L53">            tarea.setEmpresa(new Empresa(super.getEmpresaIdRequestContext()));</span>
+<span class="nc" id="L54">            tarea = tareaDesviacionFacade.create(tarea);</span>
+<span class="nc" id="L55">            return Response.ok(tarea).build();</span>
+<span class="nc" id="L56">        } catch (Exception ex) {</span>
+<span class="nc" id="L57">            return Util.manageException(ex, TareaDesviacionREST.class);</span>
+        }
+    }
+
+    @PUT
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response edit(TareaDesviacion tarea) {
+        try {
+<span class="nc" id="L65">            tarea.setEmpresa(new Empresa(super.getEmpresaIdRequestContext()));</span>
+<span class="nc" id="L66">            tarea = tareaDesviacionFacade.edit(tarea);</span>
+<span class="nc" id="L67">            return Response.ok(tarea).build();</span>
+<span class="nc" id="L68">        } catch (Exception ex) {</span>
+<span class="nc" id="L69">            return Util.manageException(ex, TareaDesviacionREST.class);</span>
+        }
+    }
+
+    @PUT
+    @Path(&quot;reportarCumplimiento&quot;)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response reportarCumplimiento(TareaDesviacion tarea) {
+        try {
+<span class="nc" id="L78">            tarea = tareaDesviacionFacade.reportarCumplimiento(tarea, super.getUsuarioRequestContext());</span>
+<span class="nc" id="L79">            return Response.ok(tarea).build();</span>
+<span class="nc" id="L80">        } catch (Exception ex) {</span>
+<span class="nc" id="L81">            return Util.manageException(ex, TareaDesviacionREST.class);</span>
+        }
+    }
+
+    @PUT
+    @Path(&quot;reportarVerificacion&quot;)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response reportarVerificacion(TareaDesviacion tarea) {
+        try {
+<span class="nc" id="L90">            tarea = tareaDesviacionFacade.reportarVerificacion(tarea, super.getUsuarioRequestContext());</span>
+<span class="nc" id="L91">            return Response.ok(tarea).build();</span>
+<span class="nc" id="L92">        } catch (Exception ex) {</span>
+<span class="nc" id="L93">            return Util.manageException(ex, TareaDesviacionREST.class);</span>
+        }
+    }
+
+    @GET
+    @Path(&quot;analisis/{analisisId}&quot;)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response findByAnalisis(@PathParam(&quot;analisisId&quot;) Integer analisisId) {
+        try {
+<span class="nc" id="L102">            List&lt;TareaDesviacion&gt; list = tareaDesviacionFacade.findByAnalisisEmpresa(analisisId, super.getEmpresaIdRequestContext());</span>
+<span class="nc" id="L103">            return Response.ok(list).build();</span>
+<span class="nc" id="L104">        } catch (Exception ex) {</span>
+<span class="nc" id="L105">            return Util.manageException(ex, TareaDesviacionREST.class);</span>
+        }
+    }
+
+    @GET
+    @Path(&quot;usuario/{usuarioId}&quot;)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response findByUsuario(@PathParam(&quot;usuarioId&quot;) Integer usuarioId) {
+        try {
+<span class="nc bnc" id="L114" title="All 2 branches missed.">            if (!super.getUsuarioRequestContext().getId().equals(usuarioId)) {</span>
+                // Bloquear usuario
+            }
+<span class="nc" id="L117">            List&lt;TareaDesviacion&gt; list = tareaDesviacionFacade.findByUsuarioEmpresa(usuarioId, super.getEmpresaIdRequestContext());</span>
+<span class="nc" id="L118">            return Response.ok(list).build();</span>
+<span class="nc" id="L119">        } catch (Exception ex) {</span>
+<span class="nc" id="L120">            return Util.manageException(ex, TareaDesviacionREST.class);</span>
+        }
+    }
+
+    @DELETE
+    @Path(&quot;{tareaDesviacionId}&quot;)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response delete(@PathParam(&quot;tareaDesviacionId&quot;) Integer tareaDesviacionId) {
+        try {
+<span class="nc" id="L129">            TareaDesviacion tarea = tareaDesviacionFacade.remove(tareaDesviacionId);</span>
+<span class="nc" id="L130">            return Response.ok(tarea).build();</span>
+<span class="nc" id="L131">        } catch (Exception ex) {</span>
+<span class="nc" id="L132">            return Util.manageException(ex, TareaDesviacionREST.class);</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

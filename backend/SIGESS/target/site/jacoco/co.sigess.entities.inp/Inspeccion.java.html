@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Inspeccion.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.inp</a> &gt; <span class="el_source">Inspeccion.java</span></div><h1>Inspeccion.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.inp;
+
+import co.sigess.entities.conf.RespuestaCampo;
+import co.sigess.entities.emp.Area;
+import co.sigess.entities.emp.Empresa;
+import co.sigess.entities.emp.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+
+/**
+ *
+ * @author fmoreno
+ */
+
+@Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Table(name = &quot;inspeccion&quot;, schema = &quot;inp&quot;)
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;Inspeccion.findAll&quot;, query = &quot;SELECT i FROM Inspeccion i&quot;)})
+public class Inspeccion implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @SequenceGenerator(name = &quot;inspeccion_id_seq&quot;, schema = &quot;inp&quot;, sequenceName = &quot;inspeccion_id_seq&quot;, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = &quot;inspeccion_id_seq&quot;)
+    @Basic(optional = false)
+    @Column(name = &quot;id&quot;)
+    private Long id;
+
+    @Column(name = &quot;fecha_realizada&quot;)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaRealizada;
+    
+    @Column(name = &quot;fecha_modificacion&quot;)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaModificacion;
+
+    @Size(max = 1024)
+    @Column(name = &quot;observacion&quot;)
+    private String observacion;
+
+    @Size(max = 100)
+    @Column(name = &quot;lugar&quot;)
+    private String lugar;
+
+    @Size(max = 128)
+    @Column(name = &quot;equipo&quot;)
+    private String equipo;
+
+    @Size(max = 128)
+    @Column(name = &quot;marca&quot;)
+    private String marca;
+
+    @Size(max = 128)
+    @Column(name = &quot;modelo&quot;)
+    private String modelo;
+
+    @Size(max = 128)
+    @Column(name = &quot;serial&quot;)
+    private String serial;
+
+    @Size(max = 512)
+    @Column(name = &quot;descripcion&quot;)
+    private String descripcion;
+
+    @JoinColumn(name = &quot;fk_empresa_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Empresa empresa;
+
+    @OneToMany(mappedBy = &quot;inspeccion&quot;)
+    private List&lt;Calificacion&gt; calificacionList;
+
+    @JoinTable(name = &quot;inspeccion_respuesta_campo&quot;, schema = &quot;inp&quot;, joinColumns = {
+        @JoinColumn(name = &quot;fk_inspeccion_id&quot;, referencedColumnName = &quot;id&quot;)}, inverseJoinColumns = {
+        @JoinColumn(name = &quot;fk_respuesta_campo_id&quot;, referencedColumnName = &quot;id&quot;)})
+    @ManyToMany
+    private List&lt;RespuestaCampo&gt; respuestasCampoList;
+
+    @JoinColumn(name = &quot;fk_programacion_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private Programacion programacion;
+    
+    @JoinColumn(name = &quot;fk_usuario_registra_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne
+    private Usuario usuarioRegistra;
+    
+    @JoinColumn(name = &quot;fk_usuario_modifica_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne
+    private Usuario usuarioModifica;
+    
+    @JoinColumns({
+        @JoinColumn(name = &quot;fk_lista_inspeccion_id&quot;, referencedColumnName = &quot;id&quot;)
+        , @JoinColumn(name = &quot;fk_lista_inspeccion_version&quot;, referencedColumnName = &quot;version&quot;)})
+    @ManyToOne(optional = false)
+    private ListaInspeccion listaInspeccion;
+    
+    @JoinColumn(name = &quot;fk_area_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private Area area;
+
+<span class="nc" id="L133">    public Inspeccion() {</span>
+<span class="nc" id="L134">    }</span>
+
+<span class="nc" id="L136">    public Inspeccion(Long id) {</span>
+<span class="nc" id="L137">        this.id = id;</span>
+<span class="nc" id="L138">    }</span>
+
+    public Long getId() {
+<span class="nc" id="L141">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="nc" id="L145">        this.id = id;</span>
+<span class="nc" id="L146">    }</span>
+
+    public Date getFechaRealizada() {
+<span class="nc" id="L149">        return fechaRealizada;</span>
+    }
+
+    public void setFechaRealizada(Date fechaRealizada) {
+<span class="nc" id="L153">        this.fechaRealizada = fechaRealizada;</span>
+<span class="nc" id="L154">    }</span>
+
+    public String getObservacion() {
+<span class="nc" id="L157">        return observacion;</span>
+    }
+
+    public void setObservacion(String observacion) {
+<span class="nc" id="L161">        this.observacion = observacion;</span>
+<span class="nc" id="L162">    }</span>
+
+    public String getLugar() {
+<span class="nc" id="L165">        return lugar;</span>
+    }
+
+    public void setLugar(String lugar) {
+<span class="nc" id="L169">        this.lugar = lugar;</span>
+<span class="nc" id="L170">    }</span>
+
+    public String getEquipo() {
+<span class="nc" id="L173">        return equipo;</span>
+    }
+
+    public void setEquipo(String equipo) {
+<span class="nc" id="L177">        this.equipo = equipo;</span>
+<span class="nc" id="L178">    }</span>
+
+    public String getMarca() {
+<span class="nc" id="L181">        return marca;</span>
+    }
+
+    public void setMarca(String marca) {
+<span class="nc" id="L185">        this.marca = marca;</span>
+<span class="nc" id="L186">    }</span>
+
+    public String getModelo() {
+<span class="nc" id="L189">        return modelo;</span>
+    }
+
+    public void setModelo(String modelo) {
+<span class="nc" id="L193">        this.modelo = modelo;</span>
+<span class="nc" id="L194">    }</span>
+
+    public String getSerial() {
+<span class="nc" id="L197">        return serial;</span>
+    }
+
+    public void setSerial(String serial) {
+<span class="nc" id="L201">        this.serial = serial;</span>
+<span class="nc" id="L202">    }</span>
+
+    public String getDescripcion() {
+<span class="nc" id="L205">        return descripcion;</span>
+    }
+
+    public void setDescripcion(String descripcion) {
+<span class="nc" id="L209">        this.descripcion = descripcion;</span>
+<span class="nc" id="L210">    }</span>
+
+    public List&lt;Calificacion&gt; getCalificacionList() {
+<span class="nc" id="L213">        return calificacionList;</span>
+    }
+
+    public void setCalificacionList(List&lt;Calificacion&gt; calificacionList) {
+<span class="nc" id="L217">        this.calificacionList = calificacionList;</span>
+<span class="nc" id="L218">    }</span>
+
+    public Area getArea() {
+<span class="nc" id="L221">        return area;</span>
+    }
+
+    public void setArea(Area area) {
+<span class="nc" id="L225">        this.area = area;</span>
+<span class="nc" id="L226">    }</span>
+
+    @JsonIgnore
+    public Empresa getEmpresa() {
+<span class="nc" id="L230">        return empresa;</span>
+    }
+
+    @JsonProperty(value = &quot;empresa&quot;)
+    public void setEmpresa(Empresa empresa) {
+<span class="nc" id="L235">        this.empresa = empresa;</span>
+<span class="nc" id="L236">    }</span>
+
+    public Programacion getProgramacion() {
+<span class="nc" id="L239">        return programacion;</span>
+    }
+
+    public void setProgramacion(Programacion programacion) {
+<span class="nc" id="L243">        this.programacion = programacion;</span>
+<span class="nc" id="L244">    }</span>
+
+    public List&lt;RespuestaCampo&gt; getRespuestasCampoList() {
+<span class="nc" id="L247">        return respuestasCampoList;</span>
+    }
+
+    public void setRespuestasCampoList(List&lt;RespuestaCampo&gt; respuestasCampoList) {
+<span class="nc" id="L251">        this.respuestasCampoList = respuestasCampoList;</span>
+<span class="nc" id="L252">    }</span>
+
+    public Date getFechaModificacion() {
+<span class="nc" id="L255">        return fechaModificacion;</span>
+    }
+
+    public void setFechaModificacion(Date fechaModificacion) {
+<span class="nc" id="L259">        this.fechaModificacion = fechaModificacion;</span>
+<span class="nc" id="L260">    }</span>
+
+    public Usuario getUsuarioRegistra() {
+<span class="nc" id="L263">        return usuarioRegistra;</span>
+    }
+
+    public void setUsuarioRegistra(Usuario usuarioRegistra) {
+<span class="nc" id="L267">        this.usuarioRegistra = usuarioRegistra;</span>
+<span class="nc" id="L268">    }</span>
+
+    public Usuario getUsuarioModifica() {
+<span class="nc" id="L271">        return usuarioModifica;</span>
+    }
+
+    public void setUsuarioModifica(Usuario usuarioModifica) {
+<span class="nc" id="L275">        this.usuarioModifica = usuarioModifica;</span>
+<span class="nc" id="L276">    }</span>
+
+    public ListaInspeccion getListaInspeccion() {
+<span class="nc" id="L279">        return listaInspeccion;</span>
+    }
+
+    public void setListaInspeccion(ListaInspeccion listaInspeccion) {
+<span class="nc" id="L283">        this.listaInspeccion = listaInspeccion;</span>
+<span class="nc" id="L284">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L288">        int hash = 0;</span>
+<span class="nc bnc" id="L289" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L290">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L296" title="All 2 branches missed.">        if (!(object instanceof Inspeccion)) {</span>
+<span class="nc" id="L297">            return false;</span>
+        }
+<span class="nc" id="L299">        Inspeccion other = (Inspeccion) object;</span>
+<span class="nc bnc" id="L300" title="All 8 branches missed.">        if ((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id))) {</span>
+<span class="nc" id="L301">            return false;</span>
+        }
+<span class="nc" id="L303">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L308">        return &quot;co.sigess.entities.inp.Inspeccion[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

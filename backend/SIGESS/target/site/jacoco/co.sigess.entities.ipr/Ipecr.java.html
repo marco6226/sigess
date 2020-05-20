@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Ipecr.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.ipr</a> &gt; <span class="el_source">Ipecr.java</span></div><h1>Ipecr.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.ipr;
+
+import co.sigess.entities.emp.Area;
+import co.sigess.entities.emp.Cargo;
+import co.sigess.entities.emp.Empresa;
+import co.sigess.util.converter.StringListConverter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@Table(name = &quot;ipecr&quot;, schema = &quot;ipr&quot;)
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;Ipecr.findAll&quot;, query = &quot;SELECT i FROM Ipecr i&quot;)})
+public class Ipecr implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @SequenceGenerator(name = &quot;ipecr_id_seq&quot;, schema = &quot;ipr&quot;, sequenceName = &quot;ipecr_id_seq&quot;, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = &quot;ipecr_id_seq&quot;)
+    @Basic(optional = false)
+    @Column(name = &quot;id&quot;)
+    private Integer id;
+    
+    @Column(name = &quot;rutinario&quot;)
+    private Boolean rutinario;
+    
+    @Size(max = 45)
+    @Column(name = &quot;ejecucion&quot;)
+    private String ejecucion;
+    
+    @Size(max = 255)
+    @Column(name = &quot;actividad&quot;)
+    private String actividad;
+    
+    @Size(max = 512)
+    @Column(name = &quot;descripcion&quot;)
+    private String descripcion;
+    
+    @Size(max = 45)
+    @Column(name = &quot;proceso&quot;)
+    private String proceso;
+    
+    @Column(name = &quot;num_trabajadores_propios&quot;)
+    private Integer numTrabajadoresPropios;
+    
+    @Column(name = &quot;num_trabajadores_externos&quot;)
+    private Integer numTrabajadoresExternos;
+    
+    @Convert(converter = StringListConverter.class)
+    @Column(name = &quot;grupo_exp_similar&quot;)
+    private List&lt;String&gt; grupoExpSimilarList;
+    
+    @Column(name = &quot;fecha_elaboracion&quot;, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaElaboracion;
+    
+//    @JsonIgnore
+//    @OneToMany(mappedBy = &quot;ipecr&quot;)
+//    private List&lt;PeligroIpecr&gt; peligroIpecrList;    
+    
+    @JoinColumn(name = &quot;fk_cargo_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne()
+    private Cargo cargo;
+    
+    @JoinTable(name = &quot;area_ipecr&quot;, schema = &quot;ipr&quot;, joinColumns = {
+        @JoinColumn(name = &quot;fk_ipecr_id&quot;, referencedColumnName = &quot;id&quot;)}, inverseJoinColumns = {
+        @JoinColumn(name = &quot;fk_area_id&quot;, referencedColumnName = &quot;id&quot;)})
+    @ManyToMany
+    private List&lt;Area&gt; areaList;
+    
+    @Column(name = &quot;fk_usuario_id&quot;, updatable = false)
+    private Integer usuarioId;
+    
+    @JsonIgnore
+    @JoinColumn(name = &quot;fk_empresa_id&quot;, referencedColumnName = &quot;id&quot;, updatable = false)
+    @ManyToOne()
+    private Empresa empresa;
+
+<span class="nc" id="L110">    public Ipecr() {</span>
+<span class="nc" id="L111">    }</span>
+
+<span class="nc" id="L113">    public Ipecr(Integer id) {</span>
+<span class="nc" id="L114">        this.id = id;</span>
+<span class="nc" id="L115">    }</span>
+
+    public Integer getId() {
+<span class="nc" id="L118">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="nc" id="L122">        this.id = id;</span>
+<span class="nc" id="L123">    }</span>
+
+    public Boolean getRutinario() {
+<span class="nc" id="L126">        return rutinario;</span>
+    }
+
+    public void setRutinario(Boolean rutinario) {
+<span class="nc" id="L130">        this.rutinario = rutinario;</span>
+<span class="nc" id="L131">    }</span>
+
+    public String getEjecucion() {
+<span class="nc" id="L134">        return ejecucion;</span>
+    }
+
+    public void setEjecucion(String ejecucion) {
+<span class="nc" id="L138">        this.ejecucion = ejecucion;</span>
+<span class="nc" id="L139">    }</span>
+
+    public String getActividad() {
+<span class="nc" id="L142">        return actividad;</span>
+    }
+
+    public void setActividad(String actividad) {
+<span class="nc" id="L146">        this.actividad = actividad;</span>
+<span class="nc" id="L147">    }</span>
+
+    public String getDescripcion() {
+<span class="nc" id="L150">        return descripcion;</span>
+    }
+
+    public void setDescripcion(String descripcion) {
+<span class="nc" id="L154">        this.descripcion = descripcion;</span>
+<span class="nc" id="L155">    }</span>
+
+    public String getProceso() {
+<span class="nc" id="L158">        return proceso;</span>
+    }
+
+    public void setProceso(String proceso) {
+<span class="nc" id="L162">        this.proceso = proceso;</span>
+<span class="nc" id="L163">    }</span>
+
+    public Integer getNumTrabajadoresPropios() {
+<span class="nc" id="L166">        return numTrabajadoresPropios;</span>
+    }
+
+    public void setNumTrabajadoresPropios(Integer numTrabajadoresPropios) {
+<span class="nc" id="L170">        this.numTrabajadoresPropios = numTrabajadoresPropios;</span>
+<span class="nc" id="L171">    }</span>
+
+    public Integer getNumTrabajadoresExternos() {
+<span class="nc" id="L174">        return numTrabajadoresExternos;</span>
+    }
+
+    public void setNumTrabajadoresExternos(Integer numTrabajadoresExternos) {
+<span class="nc" id="L178">        this.numTrabajadoresExternos = numTrabajadoresExternos;</span>
+<span class="nc" id="L179">    }</span>
+
+    public Date getFechaElaboracion() {
+<span class="nc" id="L182">        return fechaElaboracion;</span>
+    }
+
+    public void setFechaElaboracion(Date fechaElaboracion) {
+<span class="nc" id="L186">        this.fechaElaboracion = fechaElaboracion;</span>
+<span class="nc" id="L187">    }</span>
+
+    public Integer getUsuarioId() {
+<span class="nc" id="L190">        return usuarioId;</span>
+    }
+
+    public void setUsuarioId(Integer usuarioId) {
+<span class="nc" id="L194">        this.usuarioId = usuarioId;</span>
+<span class="nc" id="L195">    }</span>
+
+    public Empresa getEmpresa() {
+<span class="nc" id="L198">        return empresa;</span>
+    }
+
+    public void setEmpresa(Empresa empresa) {
+<span class="nc" id="L202">        this.empresa = empresa;</span>
+<span class="nc" id="L203">    }</span>
+
+    public List&lt;String&gt; getGrupoExpSimilarList() {
+<span class="nc" id="L206">        return grupoExpSimilarList;</span>
+    }
+
+    public void setGrupoExpSimilarList(List&lt;String&gt; grupoExpSimilarList) {
+<span class="nc" id="L210">        this.grupoExpSimilarList = grupoExpSimilarList;</span>
+<span class="nc" id="L211">    }</span>
+
+    
+
+//    public List&lt;PeligroIpecr&gt; getPeligroIpecrList() {
+//        return peligroIpecrList;
+//    }
+//
+//    public void setPeligroIpecrList(List&lt;PeligroIpecr&gt; peligroIpecrList) {
+//        this.peligroIpecrList = peligroIpecrList;
+//    }
+
+    public List&lt;Area&gt; getAreaList() {
+<span class="nc" id="L224">        return areaList;</span>
+    }
+
+    public void setAreaList(List&lt;Area&gt; areaList) {
+<span class="nc" id="L228">        this.areaList = areaList;</span>
+<span class="nc" id="L229">    }</span>
+
+    public Cargo getCargo() {
+<span class="nc" id="L232">        return cargo;</span>
+    }
+
+    public void setCargo(Cargo cargo) {
+<span class="nc" id="L236">        this.cargo = cargo;</span>
+<span class="nc" id="L237">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L241">        int hash = 0;</span>
+<span class="nc bnc" id="L242" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L243">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L249" title="All 2 branches missed.">        if (!(object instanceof Ipecr)) {</span>
+<span class="nc" id="L250">            return false;</span>
+        }
+<span class="nc" id="L252">        Ipecr other = (Ipecr) object;</span>
+<span class="nc bnc" id="L253" title="All 8 branches missed.">        if ((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id))) {</span>
+<span class="nc" id="L254">            return false;</span>
+        }
+<span class="nc" id="L256">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L261">        return &quot;co.sigess.entities.ipr.Ipecr[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

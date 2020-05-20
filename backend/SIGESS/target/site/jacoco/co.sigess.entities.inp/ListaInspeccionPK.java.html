@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListaInspeccionPK.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.inp</a> &gt; <span class="el_source">ListaInspeccionPK.java</span></div><h1>ListaInspeccionPK.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.inp;
+
+import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotNull;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Embeddable
+public class ListaInspeccionPK implements Serializable {
+
+    @Basic(optional = false)
+    @Column(name = &quot;id&quot;)
+    @SequenceGenerator(name = &quot;lista_inspeccion_id_seq&quot;, schema = &quot;inp&quot;, sequenceName = &quot;lista_inspeccion_id_seq&quot;, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = &quot;lista_inspeccion_id_seq&quot;)
+    private int id;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = &quot;version&quot;)
+    private int version;
+
+<span class="nc" id="L35">    public ListaInspeccionPK() {</span>
+<span class="nc" id="L36">    }</span>
+
+<span class="nc" id="L38">    public ListaInspeccionPK(int id, int version) {</span>
+<span class="nc" id="L39">        this.id = id;</span>
+<span class="nc" id="L40">        this.version = version;</span>
+<span class="nc" id="L41">    }</span>
+
+    public int getId() {
+<span class="nc" id="L44">        return id;</span>
+    }
+
+    public void setId(int id) {
+<span class="nc" id="L48">        this.id = id;</span>
+<span class="nc" id="L49">    }</span>
+
+    public int getVersion() {
+<span class="nc" id="L52">        return version;</span>
+    }
+
+    public void setVersion(int version) {
+<span class="nc" id="L56">        this.version = version;</span>
+<span class="nc" id="L57">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L61">        int hash = 0;</span>
+<span class="nc" id="L62">        hash += (int) id;</span>
+<span class="nc" id="L63">        hash += (int) version;</span>
+<span class="nc" id="L64">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (!(object instanceof ListaInspeccionPK)) {</span>
+<span class="nc" id="L71">            return false;</span>
+        }
+<span class="nc" id="L73">        ListaInspeccionPK other = (ListaInspeccionPK) object;</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        if (this.id != other.id) {</span>
+<span class="nc" id="L75">            return false;</span>
+        }
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (this.version != other.version) {</span>
+<span class="nc" id="L78">            return false;</span>
+        }
+<span class="nc" id="L80">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L85">        return &quot;co.sigess.entities.inp.ListaInspeccionPK[ id=&quot; + id + &quot;, version=&quot; + version + &quot; ]&quot;;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Departamento.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.com</a> &gt; <span class="el_source">Departamento.java</span></div><h1>Departamento.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.com;
+
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@Table(name = &quot;departamento&quot;, schema = &quot;com&quot;)
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;Departamento.findAll&quot;, query = &quot;SELECT d FROM Departamento d&quot;)})
+public class Departamento implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = &quot;id&quot;)
+    private Integer id;
+    
+    @Size(max = 10)
+    @Column(name = &quot;codigo&quot;)
+    private String codigo;
+    
+    @Size(max = 45)
+    @Column(name = &quot;nombre&quot;)
+    private String nombre;
+    
+    @OneToMany(mappedBy = &quot;departamento&quot;)
+    private List&lt;Ciudad&gt; ciudadList;
+    
+    @JoinColumn(name = &quot;fk_pais_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private Pais pais;
+
+<span class="nc" id="L59">    public Departamento() {</span>
+<span class="nc" id="L60">    }</span>
+
+<span class="nc" id="L62">    public Departamento(Integer id) {</span>
+<span class="nc" id="L63">        this.id = id;</span>
+<span class="nc" id="L64">    }</span>
+
+    public Integer getId() {
+<span class="nc" id="L67">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="nc" id="L71">        this.id = id;</span>
+<span class="nc" id="L72">    }</span>
+
+    public String getCodigo() {
+<span class="nc" id="L75">        return codigo;</span>
+    }
+
+    public void setCodigo(String codigo) {
+<span class="nc" id="L79">        this.codigo = codigo;</span>
+<span class="nc" id="L80">    }</span>
+
+    public String getNombre() {
+<span class="nc" id="L83">        return nombre;</span>
+    }
+
+    public void setNombre(String nombre) {
+<span class="nc" id="L87">        this.nombre = nombre;</span>
+<span class="nc" id="L88">    }</span>
+
+    @XmlTransient
+    public List&lt;Ciudad&gt; getCiudadList() {
+<span class="nc" id="L92">        return ciudadList;</span>
+    }
+
+    public void setCiudadList(List&lt;Ciudad&gt; ciudadList) {
+<span class="nc" id="L96">        this.ciudadList = ciudadList;</span>
+<span class="nc" id="L97">    }</span>
+
+    public Pais getPais() {
+<span class="nc" id="L100">        return pais;</span>
+    }
+
+    public void setPais(Pais pais) {
+<span class="nc" id="L104">        this.pais = pais;</span>
+<span class="nc" id="L105">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L109">        int hash = 0;</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L111">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        if (!(object instanceof Departamento)) {</span>
+<span class="nc" id="L118">            return false;</span>
+        }
+<span class="nc" id="L120">        Departamento other = (Departamento) object;</span>
+<span class="nc bnc" id="L121" title="All 8 branches missed.">        if ((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id))) {</span>
+<span class="nc" id="L122">            return false;</span>
+        }
+<span class="nc" id="L124">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L129">        return &quot;co.sigess.entities.com.Departamento[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EmpleadoREST.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.restful.emp</a> &gt; <span class="el_source">EmpleadoREST.java</span></div><h1>EmpleadoREST.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.restful.emp;
+
+import co.sigess.entities.com.Mensaje;
+import co.sigess.entities.emp.Empleado;
+import co.sigess.facade.emp.EmpleadoFacade;
+import co.sigess.facade.emp.UsuarioFacade;
+import co.sigess.restful.Filter;
+import co.sigess.restful.FilterQuery;
+import co.sigess.restful.FilterResponse;
+import co.sigess.restful.ServiceREST;
+import co.sigess.restful.security.Auditable;
+import co.sigess.restful.security.Secured;
+import co.sigess.util.Util;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ws.rs.BeanParam;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Secured
+@Path(&quot;empleado&quot;)
+<span class="nc" id="L38">public class EmpleadoREST extends ServiceREST {</span>
+
+    @EJB
+    private EmpleadoFacade empleadoFacade;
+
+    @EJB
+    private UsuarioFacade usuarioFacade;
+
+    @GET
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Override
+    public Response findWithFilter(@BeanParam FilterQuery filterQuery) {
+        try {
+<span class="nc" id="L51">            boolean filtradoEmpresa = false;</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">            for (Filter filter : filterQuery.getFilterList()) {</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">                if (filter.getField().equals(&quot;cargo.empresa.id&quot;)) {</span>
+<span class="nc" id="L54">                    filtradoEmpresa = true;</span>
+<span class="nc" id="L55">                    break;</span>
+                }
+<span class="nc" id="L57">            }</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">            if (!filtradoEmpresa) {</span>
+<span class="nc" id="L59">                Filter empFilt = new Filter();</span>
+<span class="nc" id="L60">                empFilt.setCriteria(&quot;eq&quot;);</span>
+<span class="nc" id="L61">                empFilt.setField(&quot;cargo.empresa.id&quot;);</span>
+<span class="nc" id="L62">                empFilt.setValue1(super.getEmpresaIdRequestContext().toString());</span>
+<span class="nc" id="L63">                filterQuery.getFilterList().add(empFilt);</span>
+            }
+<span class="nc bnc" id="L65" title="All 2 branches missed.">            long numRows = filterQuery.isCount() ? empleadoFacade.countWithFilter(filterQuery) : -1;</span>
+<span class="nc" id="L66">            List list = empleadoFacade.findWithFilter(filterQuery);</span>
+
+<span class="nc" id="L68">            FilterResponse filterResponse = new FilterResponse();</span>
+<span class="nc" id="L69">            filterResponse.setData(list);</span>
+<span class="nc" id="L70">            filterResponse.setCount(numRows);</span>
+<span class="nc" id="L71">            return Response.ok(filterResponse).build();</span>
+<span class="nc" id="L72">        } catch (Exception ex) {</span>
+<span class="nc" id="L73">            return Util.manageException(ex, EmpleadoREST.class);</span>
+        }
+    }
+
+    @GET
+    @Path(&quot;buscar/{parametro}&quot;)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response buscar(@PathParam(&quot;parametro&quot;) String parametro) {
+        try {
+<span class="nc" id="L82">            List&lt;Empleado&gt; list = empleadoFacade.buscar(parametro, super.getEmpresaIdRequestContext());</span>
+<span class="nc" id="L83">            return Response.ok(list).build();</span>
+<span class="nc" id="L84">        } catch (Exception ex) {</span>
+<span class="nc" id="L85">            return Util.manageException(ex, EmpleadoREST.class);</span>
+        }
+    }
+
+    @POST
+    @Auditable
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response create(Empleado empleado) {
+        try {
+<span class="nc" id="L94">            empleadoFacade.create(empleado, super.getEmpresaIdRequestContext());</span>
+<span class="nc" id="L95">            return Response.ok(empleado).build();</span>
+<span class="nc" id="L96">        } catch (Exception ex) {</span>
+<span class="nc" id="L97">            return Util.manageException(ex, EmpleadoREST.class);</span>
+        }
+    }
+
+    @PUT
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response edit(Empleado empleado) {
+        try {
+<span class="nc" id="L105">            empleado = empleadoFacade.edit(empleado);</span>
+<span class="nc" id="L106">            usuarioFacade.filtrarUsuarioEmpresa(empleado.getUsuario(), super.getEmpresaIdRequestContext());</span>
+<span class="nc" id="L107">            return Response.ok(empleado).build();</span>
+<span class="nc" id="L108">        } catch (Exception ex) {</span>
+<span class="nc" id="L109">            return Util.manageException(ex, EmpleadoREST.class);</span>
+        }
+    }
+
+    @PUT
+    @Path(&quot;update&quot;)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response update(Empleado empleado) {
+        try {
+<span class="nc" id="L118">            empleado = empleadoFacade.update(empleado, super.getUsuarioRequestContext());</span>
+<span class="nc" id="L119">            return Response.ok(empleado).build();</span>
+<span class="nc" id="L120">        } catch (Exception ex) {</span>
+<span class="nc" id="L121">            return Util.manageException(ex, EmpleadoREST.class);</span>
+        }
+    }
+
+    @PUT
+    @Path(&quot;loadAll&quot;)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response loadAll(List&lt;Empleado&gt; list) {
+        try {
+<span class="nc" id="L130">            List&lt;Mensaje&gt; listErrors = empleadoFacade.loadAll(list, super.getEmpresaIdRequestContext());</span>
+<span class="nc" id="L131">            return Response.ok(listErrors).build();</span>
+<span class="nc" id="L132">        } catch (Exception ex) {</span>
+<span class="nc" id="L133">            return Util.manageException(ex, EmpleadoREST.class);</span>
+        }
+    }
+
+    @DELETE
+    @Path(&quot;{empleadoId}&quot;)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response delete(@PathParam(&quot;empleadoId&quot;) Integer empleadoId) {
+        try {
+<span class="nc" id="L142">            empleadoFacade.remove(empleadoId);</span>
+<span class="nc" id="L143">            return Response.ok().build();</span>
+<span class="nc" id="L144">        } catch (Exception ex) {</span>
+<span class="nc" id="L145">            return Util.manageException(ex, EmpleadoREST.class);</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

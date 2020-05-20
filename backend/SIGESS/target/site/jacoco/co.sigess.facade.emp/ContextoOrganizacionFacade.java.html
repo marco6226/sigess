@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ContextoOrganizacionFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.emp</a> &gt; <span class="el_source">ContextoOrganizacionFacade.java</span></div><h1>ContextoOrganizacionFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.emp;
+
+import co.sigess.entities.com.TipoMensaje;
+import co.sigess.entities.emp.Competencia;
+import co.sigess.entities.emp.ContextoOrganizacion;
+import co.sigess.exceptions.UserMessageException;
+import co.sigess.facade.com.AbstractFacade;
+import java.util.List;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Stateless
+public class ContextoOrganizacionFacade extends AbstractFacade&lt;ContextoOrganizacion&gt; {
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+<span class="nc" id="L31">        return em;</span>
+    }
+
+    public ContextoOrganizacionFacade() {
+<span class="nc" id="L35">        super(ContextoOrganizacion.class);</span>
+<span class="nc" id="L36">    }</span>
+
+    public ContextoOrganizacion findDefault(Integer empresaIdRequestContext) {
+<span class="nc" id="L39">        Query q = this.em.createQuery(&quot;select ctx from ContextoOrganizacion ctx where ctx.empresa.id = ?1 ORDER BY ctx.version DESC&quot;);</span>
+<span class="nc" id="L40">        q.setParameter(1, empresaIdRequestContext);</span>
+<span class="nc" id="L41">        q.setMaxResults(1);</span>
+        try {
+<span class="nc" id="L43">            ContextoOrganizacion ctx = (ContextoOrganizacion) q.getSingleResult();</span>
+<span class="nc" id="L44">            return ctx;</span>
+<span class="nc" id="L45">        } catch (Exception e) {</span>
+<span class="nc" id="L46">            return null;</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

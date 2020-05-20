@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TestigoReporte.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.rai</a> &gt; <span class="el_source">TestigoReporte.java</span></div><h1>TestigoReporte.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.rai;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+/**
+ *
+ * @author fmoreno
+ */
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Entity
+@Table(name = &quot;testigo_reporte&quot;, schema = &quot;rai&quot;)
+@NamedQueries({
+    @NamedQuery(name = &quot;TestigoReporte.findAll&quot;, query = &quot;SELECT t FROM TestigoReporte t&quot;)})
+public class TestigoReporte implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @SequenceGenerator(name = &quot;testigo_reporte_id_seq&quot;, schema = &quot;rai&quot;, sequenceName = &quot;testigo_reporte_id_seq&quot;, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = &quot;testigo_reporte_id_seq&quot;)
+    @Basic(optional = false)
+    @Column(name = &quot;id&quot;)
+    private Integer id;
+    
+    @Size(max = 100)
+    @Column(name = &quot;nombres&quot;)
+    private String nombres;
+    
+    @Size(max = 100)
+    @Column(name = &quot;apellidos&quot;)
+    private String apellidos;
+    
+    @Size(max = 100)
+    @Column(name = &quot;cargo&quot;)
+    private String cargo;
+    
+    @Size(max = 25)
+    @Column(name = &quot;tipo_identificacion&quot;)
+    private String tipoIdentificacion;
+    @Size(max = 20)
+    @Column(name = &quot;numero_identificacion&quot;)
+    private String numeroIdentificacion;
+    
+    @JsonIgnore
+    @JoinColumn(name = &quot;fk_reporte_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne
+    private Reporte reporte;
+
+<span class="nc" id="L68">    public TestigoReporte() {</span>
+<span class="nc" id="L69">    }</span>
+
+<span class="nc" id="L71">    public TestigoReporte(Integer id) {</span>
+<span class="nc" id="L72">        this.id = id;</span>
+<span class="nc" id="L73">    }</span>
+
+    public Integer getId() {
+<span class="nc" id="L76">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="nc" id="L80">        this.id = id;</span>
+<span class="nc" id="L81">    }</span>
+
+    public String getNombres() {
+<span class="nc" id="L84">        return nombres;</span>
+    }
+
+    public void setNombres(String nombres) {
+<span class="nc" id="L88">        this.nombres = nombres;</span>
+<span class="nc" id="L89">    }</span>
+
+    public String getApellidos() {
+<span class="nc" id="L92">        return apellidos;</span>
+    }
+
+    public void setApellidos(String apellidos) {
+<span class="nc" id="L96">        this.apellidos = apellidos;</span>
+<span class="nc" id="L97">    }</span>
+
+    public String getCargo() {
+<span class="nc" id="L100">        return cargo;</span>
+    }
+
+    public void setCargo(String cargo) {
+<span class="nc" id="L104">        this.cargo = cargo;</span>
+<span class="nc" id="L105">    }</span>
+
+    public String getTipoIdentificacion() {
+<span class="nc" id="L108">        return tipoIdentificacion;</span>
+    }
+
+    public void setTipoIdentificacion(String tipoIdentificacion) {
+<span class="nc" id="L112">        this.tipoIdentificacion = tipoIdentificacion;</span>
+<span class="nc" id="L113">    }</span>
+
+    public String getNumeroIdentificacion() {
+<span class="nc" id="L116">        return numeroIdentificacion;</span>
+    }
+
+    public void setNumeroIdentificacion(String numeroIdentificacion) {
+<span class="nc" id="L120">        this.numeroIdentificacion = numeroIdentificacion;</span>
+<span class="nc" id="L121">    }</span>
+
+    public Reporte getReporte() {
+<span class="nc" id="L124">        return reporte;</span>
+    }
+
+    public void setReporte(Reporte reporte) {
+<span class="nc" id="L128">        this.reporte = reporte;</span>
+<span class="nc" id="L129">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L133">        int hash = 0;</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L135">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L141" title="All 2 branches missed.">        if (!(object instanceof TestigoReporte)) {</span>
+<span class="nc" id="L142">            return false;</span>
+        }
+<span class="nc" id="L144">        TestigoReporte other = (TestigoReporte) object;</span>
+        
+<span class="nc bnc" id="L146" title="All 4 branches missed.">        if (this.id == null || other.id == null) {</span>
+<span class="nc" id="L147">            return false;</span>
+        }
+<span class="nc bnc" id="L149" title="All 2 branches missed.">        if (this.id == other.id) {</span>
+<span class="nc" id="L150">            return true;</span>
+        }
+<span class="nc" id="L152">        return false;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L157">        return &quot;co.sigess.entities.rai.TestigoReporte[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

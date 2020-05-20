@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoaderFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.core</a> &gt; <span class="el_source">LoaderFacade.java</span></div><h1>LoaderFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.core;
+
+import co.sigess.entities.com.ApiVersion;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Map;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.ws.rs.Path;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Singleton
+@Startup
+<span class="nc" id="L32">public class LoaderFacade {</span>
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    private String plantillaMail;
+    private String plantillaMailRecPasswd;
+    private String plantillaMailCambioPasswd;
+    private String plantillaMailCreacionUsuario;
+
+    private ApiVersion apiVersion;
+    private Properties smsProp;
+
+    @PostConstruct
+    public void init() {
+<span class="nc" id="L47">        getPlantillaMail();</span>
+<span class="nc" id="L48">        getPlantillaMailRecPasswd();</span>
+<span class="nc" id="L49">        getPlantillaMailCambioPasswd();</span>
+<span class="nc" id="L50">        getPlantillaMailCreacionUsuario();</span>
+<span class="nc" id="L51">        getApiVersion();</span>
+<span class="nc" id="L52">        getSmsProperties();</span>
+<span class="nc" id="L53">    }</span>
+
+   public String getPlantillaMail() {
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        if (this.plantillaMail == null) {</span>
+            try {
+<span class="nc" id="L58">                String ruta = getClass().getResource(Recursos.PLANTILLA_MAIL.getRuta()).getPath();</span>
+<span class="nc" id="L59">                int y = ruta.length(); </span>
+<span class="nc" id="L60">                String x = ruta.substring(1,y);</span>
+<span class="nc" id="L61">                this.plantillaMail = new String(Files.readAllBytes(Paths.get(x)));               </span>
+<span class="nc" id="L62">            } catch (IOException ex) {</span>
+<span class="nc" id="L63">                Logger.getLogger(LoaderFacade.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L64">                throw new IllegalArgumentException(&quot;No se ha podido inicializar correctamente la plantilla PLANTILLA_MAIL&quot;);</span>
+<span class="nc" id="L65">            }</span>
+        }
+<span class="nc" id="L67">        return plantillaMail;</span>
+    }
+
+    public String getPlantillaMailRecPasswd() {
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        if (this.plantillaMailRecPasswd == null) {</span>
+            try {
+<span class="nc" id="L73">                String ruta = getClass().getResource(Recursos.PLANTILLA_MAIL_REC_PASSW.getRuta()).getPath();</span>
+<span class="nc" id="L74">                int y = ruta.length(); </span>
+<span class="nc" id="L75">                String x = ruta.substring(1,y);</span>
+<span class="nc" id="L76">                this.plantillaMailRecPasswd = new String(Files.readAllBytes(Paths.get(x)));</span>
+<span class="nc" id="L77">            } catch (IOException ex) {</span>
+<span class="nc" id="L78">                Logger.getLogger(LoaderFacade.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L79">                throw new IllegalArgumentException(&quot;No se ha podido inicializar correctamente la plantilla PLANTILLA_MAIL_REC_PASSW&quot;);</span>
+<span class="nc" id="L80">            }</span>
+        }
+<span class="nc" id="L82">        return plantillaMailRecPasswd;</span>
+    }
+
+    public String getPlantillaMailCambioPasswd() {
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        if (this.plantillaMailCambioPasswd == null) {</span>
+            try {
+<span class="nc" id="L88">                String ruta = getClass().getResource(Recursos.PLANTILLA_MAIL_CAMBIO_PASSW.getRuta()).getPath();</span>
+<span class="nc" id="L89">                int y = ruta.length(); </span>
+<span class="nc" id="L90">                String x = ruta.substring(1,y);</span>
+<span class="nc" id="L91">                this.plantillaMailCambioPasswd = new String(Files.readAllBytes(Paths.get(x)));</span>
+<span class="nc" id="L92">            } catch (IOException ex) {</span>
+<span class="nc" id="L93">                Logger.getLogger(LoaderFacade.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L94">                throw new IllegalArgumentException(&quot;No se ha podido inicializar correctamente la plantilla PLANTILLA_MAIL_CAMBIO_PASSW&quot;);</span>
+<span class="nc" id="L95">            }</span>
+        }
+<span class="nc" id="L97">        return plantillaMailCambioPasswd;</span>
+    }
+
+    public String getPlantillaMailCreacionUsuario() {
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        if (this.plantillaMailCreacionUsuario == null) {</span>
+            try {
+<span class="nc" id="L103">                String ruta = getClass().getResource(Recursos.PLANTILLA_MAIL_CREACION_USUARIO.getRuta()).getPath();</span>
+<span class="nc" id="L104">                 int y = ruta.length(); </span>
+<span class="nc" id="L105">                String x = ruta.substring(1,y);</span>
+<span class="nc" id="L106">                this.plantillaMailCreacionUsuario = new String(Files.readAllBytes(Paths.get(x)));</span>
+<span class="nc" id="L107">            } catch (IOException ex) {</span>
+<span class="nc" id="L108">                Logger.getLogger(LoaderFacade.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L109">                throw new IllegalArgumentException(&quot;No se ha podido inicializar correctamente la plantilla PLANTILLA_MAIL_CREACION_USUARIO&quot;);</span>
+<span class="nc" id="L110">            }</span>
+        }
+<span class="nc" id="L112">        return plantillaMailCreacionUsuario;</span>
+    }
+
+    public ApiVersion getApiVersion() {
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        if (this.apiVersion == null) {</span>
+<span class="nc" id="L117">            Query q = this.em.createQuery(&quot;SELECT av FROM ApiVersion av ORDER BY av.id DESC&quot;);</span>
+<span class="nc" id="L118">            q.setMaxResults(1);</span>
+<span class="nc" id="L119">            this.apiVersion = (ApiVersion) q.getSingleResult();</span>
+<span class="nc" id="L120">            System.out.println(&quot;########################## Desplegando api version: &quot; + this.apiVersion.getVersionActual() + &quot; ##########################&quot;);</span>
+        }
+<span class="nc" id="L122">        return this.apiVersion;</span>
+    }
+
+    public ApiVersion refreshApiVersion() {
+<span class="nc" id="L126">        Query q = this.em.createQuery(&quot;SELECT av FROM ApiVersion av ORDER BY av.id DESC&quot;);</span>
+<span class="nc" id="L127">        q.setMaxResults(1);</span>
+<span class="nc" id="L128">        this.apiVersion = (ApiVersion) q.getSingleResult();</span>
+<span class="nc" id="L129">        System.out.println(&quot;########################## refrescando api version: &quot; + this.apiVersion.getVersionActual() + &quot; ##########################&quot;);</span>
+
+<span class="nc" id="L131">        return this.apiVersion;</span>
+    }
+
+    public Properties getSmsProperties() {
+<span class="nc bnc" id="L135" title="All 2 branches missed.">        if (this.smsProp == null) {</span>
+            try {
+<span class="nc" id="L137">                InputStream inputStream = getClass().getResourceAsStream(Recursos.SMS_INTEGRACION_PROPERTIES.getRuta());</span>
+<span class="nc" id="L138">                this.smsProp = new Properties();</span>
+<span class="nc" id="L139">                this.smsProp.load(inputStream);</span>
+<span class="nc" id="L140">            } catch (IOException ex) {</span>
+<span class="nc" id="L141">                Logger.getLogger(LoaderFacade.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L142">                throw new IllegalArgumentException(&quot;No se ha podido inicializar el archivo de propiedades de integracion SMS&quot;);</span>
+<span class="nc" id="L143">            }</span>
+        }
+<span class="nc" id="L145">        return this.smsProp;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

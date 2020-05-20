@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EvaluacionDesempeno.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.emp</a> &gt; <span class="el_source">EvaluacionDesempeno.java</span></div><h1>EvaluacionDesempeno.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.emp;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@Table(name = &quot;evaluacion_desempeno&quot;, schema = &quot;emp&quot;)
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;EvaluacionDesempeno.findAll&quot;, query = &quot;SELECT e FROM EvaluacionDesempeno e&quot;)})
+public class EvaluacionDesempeno implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @SequenceGenerator(name = &quot;evaluacion_desempeno_id_seq&quot;, schema = &quot;emp&quot;, sequenceName = &quot;evaluacion_desempeno_id_seq&quot;, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = &quot;evaluacion_desempeno_id_seq&quot;)
+    @Basic(optional = false)
+    @Column(name = &quot;id&quot;)
+    private Integer id;
+    
+    //@NotNull(message = &quot;Debe especificar la fecha de elaboración de la evaluacion&quot;)
+    @Column(name = &quot;fecha_elaboracion&quot;, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaElaboracion;
+    
+    @Column(name = &quot;comentario&quot;)
+    private String comentario;
+    
+    @OneToMany(mappedBy = &quot;evaluacionDesempeno&quot;)
+    private List&lt;CalificacionDesempeno&gt; calificacionDesempenoList;
+        
+    @NotNull(message = &quot;Debe especificar el empleado que esta siendo evaluado&quot;)
+    @JoinColumn(name = &quot;fk_empleado_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private Empleado empleado;
+    
+    @NotNull(message = &quot;Debe especificar el cargo del empleado que esta siendo evaluado&quot;)
+    @JoinColumn(name = &quot;fk_cargo_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private Cargo cargo;
+    
+    //@NotNull(message = &quot;Debe especificar el usuario que esta registrando la evaluacion&quot;)
+    @JoinColumn(name = &quot;fk_usuario_elabora_id&quot;, referencedColumnName = &quot;id&quot;, updatable = false)
+    @ManyToOne(optional = false)
+    private Usuario usuarioElabora;
+
+<span class="nc" id="L76">    public EvaluacionDesempeno() {</span>
+<span class="nc" id="L77">    }</span>
+
+<span class="nc" id="L79">    public EvaluacionDesempeno(Integer id) {</span>
+<span class="nc" id="L80">        this.id = id;</span>
+<span class="nc" id="L81">    }</span>
+
+    public Integer getId() {
+<span class="nc" id="L84">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="nc" id="L88">        this.id = id;</span>
+<span class="nc" id="L89">    }</span>
+
+    public Date getFechaElaboracion() {
+<span class="nc" id="L92">        return fechaElaboracion;</span>
+    }
+
+    public void setFechaElaboracion(Date fechaElaboracion) {
+<span class="nc" id="L96">        this.fechaElaboracion = fechaElaboracion;</span>
+<span class="nc" id="L97">    }</span>
+
+    public List&lt;CalificacionDesempeno&gt; getCalificacionDesempenoList() {
+<span class="nc" id="L100">        return calificacionDesempenoList;</span>
+    }
+
+    public void setCalificacionDesempenoList(List&lt;CalificacionDesempeno&gt; calificacionDesempenoList) {
+<span class="nc" id="L104">        this.calificacionDesempenoList = calificacionDesempenoList;</span>
+<span class="nc" id="L105">    }</span>
+
+    public Empleado getEmpleado() {
+<span class="nc" id="L108">        return empleado;</span>
+    }
+
+    public void setEmpleado(Empleado empleado) {
+<span class="nc" id="L112">        this.empleado = empleado;</span>
+<span class="nc" id="L113">    }</span>
+
+    public Cargo getCargo() {
+<span class="nc" id="L116">        return cargo;</span>
+    }
+
+    public void setCargo(Cargo cargo) {
+<span class="nc" id="L120">        this.cargo = cargo;</span>
+<span class="nc" id="L121">    }</span>
+
+    public Usuario getUsuarioElabora() {
+<span class="nc" id="L124">        return usuarioElabora;</span>
+    }
+
+    public void setUsuarioElabora(Usuario usuarioElabora) {
+<span class="nc" id="L128">        this.usuarioElabora = usuarioElabora;</span>
+<span class="nc" id="L129">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L133">        int hash = 0;</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L135">        return hash;</span>
+    }
+
+    public String getComentario() {
+<span class="nc" id="L139">        return comentario;</span>
+    }
+
+    public void setComentario(String comentario) {
+<span class="nc" id="L143">        this.comentario = comentario;</span>
+<span class="nc" id="L144">    }</span>
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L149" title="All 2 branches missed.">        if (!(object instanceof EvaluacionDesempeno)) {</span>
+<span class="nc" id="L150">            return false;</span>
+        }
+<span class="nc" id="L152">        EvaluacionDesempeno other = (EvaluacionDesempeno) object;</span>
+<span class="nc bnc" id="L153" title="All 8 branches missed.">        if ((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id))) {</span>
+<span class="nc" id="L154">            return false;</span>
+        }
+<span class="nc" id="L156">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L161">        return &quot;co.sigess.entities.emp.EvaluacionDesempeno[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

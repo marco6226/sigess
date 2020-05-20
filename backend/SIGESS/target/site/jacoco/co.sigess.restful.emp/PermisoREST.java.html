@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PermisoREST.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.restful.emp</a> &gt; <span class="el_source">PermisoREST.java</span></div><h1>PermisoREST.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.restful.emp;
+
+import co.sigess.entities.emp.Empresa;
+import co.sigess.entities.emp.Permiso;
+import co.sigess.facade.emp.PermisoFacade;
+import co.sigess.restful.FilterQuery;
+import co.sigess.restful.ServiceREST;
+import co.sigess.restful.security.Auditable;
+import co.sigess.restful.security.Secured;
+import co.sigess.util.Util;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Secured
+@Path(&quot;permiso&quot;)
+<span class="nc" id="L32">public class PermisoREST extends ServiceREST {</span>
+
+    @EJB
+    private PermisoFacade permisoFacade;
+
+    @Override
+    public Response findWithFilter(FilterQuery filterQuery) {
+        try {
+<span class="nc" id="L40">            List&lt;Permiso&gt; list = permisoFacade.findAllByEmpresa(super.getEmpresaIdRequestContext(), super.getUsuarioRequestContext().getId());</span>
+//            Set&lt;Permiso&gt; set = new HashSet&lt;&gt;();
+//            list.stream().forEach(permiso -&gt; set.add(permiso));
+<span class="nc" id="L43">            return Response.ok(list).build();</span>
+<span class="nc" id="L44">        } catch (Exception ex) {</span>
+<span class="nc" id="L45">            return Util.manageException(ex, PermisoREST.class);</span>
+        }
+    }
+    
+    
+
+    @GET
+    @Path(&quot;perfil/{perfilId}&quot;)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response findAllByPerfil(@PathParam(&quot;perfilId&quot;) Integer perfilId) {
+        try {
+<span class="nc" id="L56">            List&lt;Permiso&gt; list = permisoFacade.findAllByPerfil(super.getEmpresaIdRequestContext(), perfilId);</span>
+<span class="nc" id="L57">            return Response.ok(list).build();</span>
+<span class="nc" id="L58">        } catch (Exception ex) {</span>
+<span class="nc" id="L59">            return Util.manageException(ex, PermisoREST.class);</span>
+        }
+    }
+
+    @PUT
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Auditable
+    public Response actualizarPermiso(Permiso permiso) {
+        try {
+<span class="nc" id="L68">            permiso.setEmpresa(new Empresa(super.getEmpresaIdRequestContext()));</span>
+<span class="nc" id="L69">            permisoFacade.edit(permiso);</span>
+<span class="nc" id="L70">            return Response.ok(permiso).build();</span>
+<span class="nc" id="L71">        } catch (Exception ex) {</span>
+<span class="nc" id="L72">            return Util.manageException(ex, PermisoREST.class);</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

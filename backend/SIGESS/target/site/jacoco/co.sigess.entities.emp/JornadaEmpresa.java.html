@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JornadaEmpresa.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.emp</a> &gt; <span class="el_source">JornadaEmpresa.java</span></div><h1>JornadaEmpresa.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.emp;
+
+import co.sigess.util.converter.DurationConverter;
+import java.io.Serializable;
+import java.time.Duration;
+import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@Table(name = &quot;jornada_empresa&quot;, schema = &quot;emp&quot;)
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;JornadaEmpresa.findAll&quot;, query = &quot;SELECT j FROM JornadaEmpresa j&quot;)})
+public class JornadaEmpresa implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = &quot;id&quot;)
+    private Long id;
+
+    @Column(name = &quot;hora_inicio&quot;)
+    @Temporal(TemporalType.TIME)
+    private Date horaInicio;
+
+    @Column(name = &quot;hora_fin&quot;)
+    @Temporal(TemporalType.TIME)
+    private Date horaFin;
+
+    @Column(name = &quot;receso&quot;)
+    @Convert(converter = DurationConverter.class)
+    private Date receso;
+
+    @Size(max = 15)
+    @Column(name = &quot;dia&quot;)
+    private String dia;
+
+    @Column(name = &quot;labora&quot;)
+    private Boolean labora;
+
+<span class="nc" id="L64">    public JornadaEmpresa() {</span>
+<span class="nc" id="L65">    }</span>
+
+<span class="nc" id="L67">    public JornadaEmpresa(Long id) {</span>
+<span class="nc" id="L68">        this.id = id;</span>
+<span class="nc" id="L69">    }</span>
+
+    public Long getId() {
+<span class="nc" id="L72">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="nc" id="L76">        this.id = id;</span>
+<span class="nc" id="L77">    }</span>
+
+    public Date getHoraInicio() {
+<span class="nc" id="L80">        return horaInicio;</span>
+    }
+
+    public void setHoraInicio(Date horaInicio) {
+<span class="nc" id="L84">        this.horaInicio = horaInicio;</span>
+<span class="nc" id="L85">    }</span>
+
+    public Date getHoraFin() {
+<span class="nc" id="L88">        return horaFin;</span>
+    }
+
+    public void setHoraFin(Date horaFin) {
+<span class="nc" id="L92">        this.horaFin = horaFin;</span>
+<span class="nc" id="L93">    }</span>
+
+    public Date getReceso() {
+<span class="nc" id="L96">        return receso;</span>
+    }
+
+    public void setReceso(Date receso) {
+<span class="nc" id="L100">        this.receso = receso;</span>
+<span class="nc" id="L101">    }</span>
+
+    public String getDia() {
+<span class="nc" id="L104">        return dia;</span>
+    }
+
+    public void setDia(String dia) {
+<span class="nc" id="L108">        this.dia = dia;</span>
+<span class="nc" id="L109">    }</span>
+
+    public Boolean getLabora() {
+<span class="nc" id="L112">        return labora;</span>
+    }
+
+    public void setLabora(Boolean labora) {
+<span class="nc" id="L116">        this.labora = labora;</span>
+<span class="nc" id="L117">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L121">        int hash = 0;</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L123">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (!(object instanceof JornadaEmpresa)) {</span>
+<span class="nc" id="L130">            return false;</span>
+        }
+<span class="nc" id="L132">        JornadaEmpresa other = (JornadaEmpresa) object;</span>
+<span class="nc bnc" id="L133" title="All 8 branches missed.">        if ((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id))) {</span>
+<span class="nc" id="L134">            return false;</span>
+        }
+<span class="nc" id="L136">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L141">        return &quot;co.sigess.entities.emp.JornadaEmpresa[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

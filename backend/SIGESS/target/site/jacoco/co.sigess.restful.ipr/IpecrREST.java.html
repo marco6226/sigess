@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IpecrREST.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.restful.ipr</a> &gt; <span class="el_source">IpecrREST.java</span></div><h1>IpecrREST.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.restful.ipr;
+
+import co.sigess.entities.com.Mensaje;
+import co.sigess.entities.com.TipoMensaje;
+import co.sigess.entities.emp.Empresa;
+import co.sigess.entities.ipr.Ipecr;
+import co.sigess.facade.ipr.IpecrFacade;
+import co.sigess.facade.ipr.PeligroFacade;
+import co.sigess.restful.FilterQuery;
+import co.sigess.restful.ServiceREST;
+import co.sigess.restful.security.Secured;
+import co.sigess.util.Util;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.persistence.PersistenceException;
+import javax.ws.rs.BeanParam;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Secured
+@Path(&quot;ipecr&quot;)
+public class IpecrREST extends ServiceREST {
+
+    @EJB
+    private IpecrFacade ipecrFacade;
+
+    public IpecrREST() {
+<span class="nc" id="L44">        super(IpecrFacade.class);</span>
+<span class="nc" id="L45">    }</span>
+    
+//    @GET
+//    @Path(&quot;filter&quot;)
+//    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+//    public Response findWithFilter(@BeanParam FilterQuery filterQuery) {
+//        try {
+//            List&lt;Ipecr&gt; list = ipecrFacade.findWithFilter(filterQuery);
+//            return Response.ok(list).build();
+//        } catch (Exception ex) {
+//            return Util.manageException(ex, IpecrREST.class);
+//        }
+//    }
+
+//    @GET
+//    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+//    public Response findAll() {
+//        try {
+//            List&lt;Ipecr&gt; list = ipecrFacade.findAllByEmpresa(super.getEmpresaIdRequestContext());
+//            return Response.ok(list).build();
+//        } catch (Exception ex) {
+//            return Util.manageException(ex, IpecrREST.class);
+//        }
+//    }
+
+    @POST
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response create(Ipecr ipecr) {
+        try {
+<span class="nc" id="L74">            ipecr.setEmpresa(new Empresa(super.getEmpresaIdRequestContext()));</span>
+<span class="nc" id="L75">            ipecr.setUsuarioId(super.getUsuarioRequestContext().getId());</span>
+<span class="nc" id="L76">            ipecr = ipecrFacade.create(ipecr);</span>
+<span class="nc" id="L77">            return Response.ok(ipecr).build();</span>
+<span class="nc" id="L78">        } catch (Exception ex) {</span>
+<span class="nc" id="L79">            return Util.manageException(ex, IpecrREST.class);</span>
+        }
+    }
+
+    @PUT
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response edit(Ipecr ipecr) {
+        try {
+<span class="nc bnc" id="L87" title="All 2 branches missed.">            if (ipecr.getId() == null) {</span>
+<span class="nc" id="L88">                throw new IllegalArgumentException(&quot;Debe establecer el campo id para realizar la actualización&quot;);</span>
+            }
+<span class="nc" id="L90">            ipecr = ipecrFacade.edit(ipecr);</span>
+<span class="nc" id="L91">            return Response.ok(ipecr).build();</span>
+<span class="nc" id="L92">        } catch (Exception ex) {</span>
+<span class="nc" id="L93">            return Util.manageException(ex, IpecrREST.class);</span>
+        }
+    }
+
+    @DELETE
+    @Path(&quot;{id}&quot;)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response remove(@PathParam(&quot;id&quot;) Integer id) {
+        try {
+<span class="nc" id="L102">            Ipecr ipecr = ipecrFacade.find(id);</span>
+<span class="nc" id="L103">            ipecrFacade.remove(ipecr);</span>
+<span class="nc" id="L104">            return Response.ok(ipecr).build();</span>
+<span class="nc" id="L105">        } catch (Exception ex) {</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">            if (ex.getCause().getCause() instanceof PersistenceException) {</span>
+<span class="nc" id="L107">                Mensaje msg = new Mensaje();</span>
+<span class="nc" id="L108">                msg.setTipoMensaje(TipoMensaje.warn);</span>
+<span class="nc" id="L109">                msg.setMensaje(&quot;Eliminación no realizada&quot;);</span>
+<span class="nc" id="L110">                msg.setDetalle(&quot;No es posible eliminar el peligro ya que existen fuentes, efectos o controles enlazados a este peligro&quot;);</span>
+<span class="nc" id="L111">                return Response.status(Response.Status.BAD_REQUEST).entity(msg).build();</span>
+            } else {
+<span class="nc" id="L113">                return Util.manageException(ex, IpecrREST.class);</span>
+            }
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

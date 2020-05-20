@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Observacion.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.auc</a> &gt; <span class="el_source">Observacion.java</span></div><h1>Observacion.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.auc;
+
+import co.sigess.entities.ado.Documento;
+import co.sigess.entities.conf.NivelRiesgo;
+import co.sigess.entities.emp.Area;
+import co.sigess.entities.emp.Usuario;
+import co.sigess.entities.sec.CausaRaiz;
+import co.sigess.util.converter.StringListConverter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Table(name = &quot;observacion&quot;, schema = &quot;auc&quot;)
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;Observacion.findAll&quot;, query = &quot;SELECT o FROM Observacion o&quot;)})
+public class Observacion implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @SequenceGenerator(name = &quot;observacion_id_seq&quot;, schema = &quot;auc&quot;, sequenceName = &quot;observacion_id_seq&quot;, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = &quot;observacion_id_seq&quot;)
+    @Basic(optional = false)
+    @Column(name = &quot;id&quot;)
+    private Long id;
+
+    @Size(max = 100)
+    @Column(name = &quot;tipo_observacion&quot;)
+    private String tipoObservacion;
+
+    @Convert(converter = StringListConverter.class)
+    @Column(name = &quot;afecta&quot;)
+    private List&lt;String&gt; afecta;
+
+    @Size(max = 512)
+    @Column(name = &quot;descripcion&quot;)
+    private String descripcion;
+
+    @Size(max = 512)
+    @Column(name = &quot;recomendacion&quot;)
+    private String recomendacion;
+
+    @Column(name = &quot;fecha_observacion&quot;)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaObservacion;
+    @Column(name = &quot;aceptada&quot;)
+    private Boolean aceptada;
+
+    @Size(max = 512)
+    @Column(name = &quot;motivo&quot;)
+    private String motivo;
+
+    @Column(name = &quot;fecha_respuesta&quot;)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaRespuesta;
+
+    @JoinColumn(name = &quot;fk_usuario_reporta_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private Usuario usuarioReporta;
+
+    @JoinColumn(name = &quot;fk_usuario_revisa_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private Usuario usuarioRevisa;
+
+    @JoinColumn(name = &quot;fk_area_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private Area area;
+
+    @JoinColumn(name = &quot;fk_nivel_riesgo_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne()
+    private NivelRiesgo nivelRiesgo;
+
+    @JoinTable(name = &quot;implicacion_observacion&quot;, schema = &quot;auc&quot;, joinColumns = {
+        @JoinColumn(name = &quot;fk_observacion_id&quot;, referencedColumnName = &quot;id&quot;)}, inverseJoinColumns = {
+        @JoinColumn(name = &quot;fk_implicacion_id&quot;, referencedColumnName = &quot;id&quot;)})
+    @ManyToMany
+    private List&lt;Implicacion&gt; implicacionList;
+    
+    @JoinTable(name = &quot;documento_observacion&quot;, schema = &quot;auc&quot;, joinColumns = {
+        @JoinColumn(name = &quot;fk_observacion_id&quot;, referencedColumnName = &quot;id&quot;)}, inverseJoinColumns = {
+        @JoinColumn(name = &quot;fk_documento_id&quot;, referencedColumnName = &quot;id&quot;)})
+    @ManyToMany
+    private List&lt;Documento&gt; documentoList;
+
+    @JoinTable(name = &quot;causa_raiz_observacion&quot;, schema = &quot;auc&quot;, joinColumns = {
+        @JoinColumn(name = &quot;fk_observacion_id&quot;, referencedColumnName = &quot;id&quot;)}, inverseJoinColumns = {
+        @JoinColumn(name = &quot;fk_causa_raiz_id&quot;, referencedColumnName = &quot;id&quot;)})
+    @ManyToMany
+    private List&lt;CausaRaiz&gt; causaRaizList;
+
+    @JoinTable(name = &quot;causa_raiz_aprobada_observacion&quot;, schema = &quot;auc&quot;, joinColumns = {
+        @JoinColumn(name = &quot;fk_observacion_id&quot;, referencedColumnName = &quot;id&quot;)}, inverseJoinColumns = {
+        @JoinColumn(name = &quot;fk_causa_raiz_id&quot;, referencedColumnName = &quot;id&quot;)})
+    @ManyToMany
+    private List&lt;CausaRaiz&gt; causaRaizAprobadaList;
+
+    @JoinColumn(name = &quot;fk_tarjeta_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private Tarjeta tarjeta;
+
+<span class="nc" id="L132">    public Observacion() {</span>
+<span class="nc" id="L133">    }</span>
+
+<span class="nc" id="L135">    public Observacion(Long id) {</span>
+<span class="nc" id="L136">        this.id = id;</span>
+<span class="nc" id="L137">    }</span>
+
+    public Long getId() {
+<span class="nc" id="L140">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="nc" id="L144">        this.id = id;</span>
+<span class="nc" id="L145">    }</span>
+
+    public String getTipoObservacion() {
+<span class="nc" id="L148">        return tipoObservacion;</span>
+    }
+
+    public void setTipoObservacion(String tipoObservacion) {
+<span class="nc" id="L152">        this.tipoObservacion = tipoObservacion;</span>
+<span class="nc" id="L153">    }</span>
+
+    public List&lt;String&gt; getAfecta() {
+<span class="nc" id="L156">        return afecta;</span>
+    }
+
+    public void setAfecta(List&lt;String&gt; afecta) {
+<span class="nc" id="L160">        this.afecta = afecta;</span>
+<span class="nc" id="L161">    }</span>
+
+    public String getDescripcion() {
+<span class="nc" id="L164">        return descripcion;</span>
+    }
+
+    public void setDescripcion(String descripcion) {
+<span class="nc" id="L168">        this.descripcion = descripcion;</span>
+<span class="nc" id="L169">    }</span>
+
+    public String getRecomendacion() {
+<span class="nc" id="L172">        return recomendacion;</span>
+    }
+
+    public void setRecomendacion(String recomendacion) {
+<span class="nc" id="L176">        this.recomendacion = recomendacion;</span>
+<span class="nc" id="L177">    }</span>
+
+    public Date getFechaObservacion() {
+<span class="nc" id="L180">        return fechaObservacion;</span>
+    }
+
+    public void setFechaObservacion(Date fechaObservacion) {
+<span class="nc" id="L184">        this.fechaObservacion = fechaObservacion;</span>
+<span class="nc" id="L185">    }</span>
+
+    public Boolean getAceptada() {
+<span class="nc" id="L188">        return aceptada;</span>
+    }
+
+    public void setAceptada(Boolean aceptada) {
+<span class="nc" id="L192">        this.aceptada = aceptada;</span>
+<span class="nc" id="L193">    }</span>
+
+    public String getMotivo() {
+<span class="nc" id="L196">        return motivo;</span>
+    }
+
+    public void setMotivo(String motivo) {
+<span class="nc" id="L200">        this.motivo = motivo;</span>
+<span class="nc" id="L201">    }</span>
+
+    public Date getFechaRespuesta() {
+<span class="nc" id="L204">        return fechaRespuesta;</span>
+    }
+
+    public void setFechaRespuesta(Date fechaRespuesta) {
+<span class="nc" id="L208">        this.fechaRespuesta = fechaRespuesta;</span>
+<span class="nc" id="L209">    }</span>
+
+    public List&lt;Implicacion&gt; getImplicacionList() {
+<span class="nc" id="L212">        return implicacionList;</span>
+    }
+
+    public void setImplicacionList(List&lt;Implicacion&gt; implicacionList) {
+<span class="nc" id="L216">        this.implicacionList = implicacionList;</span>
+<span class="nc" id="L217">    }</span>
+
+    public Usuario getUsuarioReporta() {
+<span class="nc" id="L220">        return usuarioReporta;</span>
+    }
+
+    public void setUsuarioReporta(Usuario usuarioReporta) {
+<span class="nc" id="L224">        this.usuarioReporta = usuarioReporta;</span>
+<span class="nc" id="L225">    }</span>
+
+    public Usuario getUsuarioRevisa() {
+<span class="nc" id="L228">        return usuarioRevisa;</span>
+    }
+
+    public void setUsuarioRevisa(Usuario usuarioRevisa) {
+<span class="nc" id="L232">        this.usuarioRevisa = usuarioRevisa;</span>
+<span class="nc" id="L233">    }</span>
+
+    public Area getArea() {
+<span class="nc" id="L236">        return area;</span>
+    }
+
+    public void setArea(Area area) {
+<span class="nc" id="L240">        this.area = area;</span>
+<span class="nc" id="L241">    }</span>
+
+    public NivelRiesgo getNivelRiesgo() {
+<span class="nc" id="L244">        return nivelRiesgo;</span>
+    }
+
+    public void setNivelRiesgo(NivelRiesgo nivelRiesgo) {
+<span class="nc" id="L248">        this.nivelRiesgo = nivelRiesgo;</span>
+<span class="nc" id="L249">    }</span>
+
+    public Tarjeta getTarjeta() {
+<span class="nc" id="L252">        return tarjeta;</span>
+    }
+
+    public void setTarjeta(Tarjeta tarjeta) {
+<span class="nc" id="L256">        this.tarjeta = tarjeta;</span>
+<span class="nc" id="L257">    }</span>
+
+    public List&lt;CausaRaiz&gt; getCausaRaizList() {
+<span class="nc" id="L260">        return causaRaizList;</span>
+    }
+
+    public void setCausaRaizList(List&lt;CausaRaiz&gt; causaRaizList) {
+<span class="nc" id="L264">        this.causaRaizList = causaRaizList;</span>
+<span class="nc" id="L265">    }</span>
+
+    public List&lt;CausaRaiz&gt; getCausaRaizAprobadaList() {
+<span class="nc" id="L268">        return causaRaizAprobadaList;</span>
+    }
+
+    public void setCausaRaizAprobadaList(List&lt;CausaRaiz&gt; causaRaizAprobadaList) {
+<span class="nc" id="L272">        this.causaRaizAprobadaList = causaRaizAprobadaList;</span>
+<span class="nc" id="L273">    }</span>
+
+    public List&lt;Documento&gt; getDocumentoList() {
+<span class="nc" id="L276">        return documentoList;</span>
+    }
+
+    public void setDocumentoList(List&lt;Documento&gt; documentoList) {
+<span class="nc" id="L280">        this.documentoList = documentoList;</span>
+<span class="nc" id="L281">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L285">        int hash = 0;</span>
+<span class="nc bnc" id="L286" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L287">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L293" title="All 2 branches missed.">        if (!(object instanceof Observacion)) {</span>
+<span class="nc" id="L294">            return false;</span>
+        }
+<span class="nc" id="L296">        Observacion other = (Observacion) object;</span>
+<span class="nc bnc" id="L297" title="All 8 branches missed.">        if ((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id))) {</span>
+<span class="nc" id="L298">            return false;</span>
+        }
+<span class="nc" id="L300">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L305">        return &quot;co.sigess.entities.auc.Observacion[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PeligroIpecr.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.ipr</a> &gt; <span class="el_source">PeligroIpecr.java</span></div><h1>PeligroIpecr.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.ipr;
+
+import co.sigess.entities.conf.Consecuencia;
+import co.sigess.entities.conf.NivelRiesgo;
+import co.sigess.entities.conf.Probabilidad;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Table(name = &quot;peligro_ipecr&quot;, schema = &quot;ipr&quot;)
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;PeligroIpecr.findAll&quot;, query = &quot;SELECT p FROM PeligroIpecr p&quot;)})
+public class PeligroIpecr implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @SequenceGenerator(name = &quot;peligro_ipecr_id_seq&quot;, schema = &quot;ipr&quot;, sequenceName = &quot;peligro_ipecr_id_seq&quot;, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = &quot;peligro_ipecr_id_seq&quot;)
+    @Basic(optional = false)
+    @Column(name = &quot;id&quot;)
+    private Long id;
+    
+    @Column(name = &quot;proceso&quot;, length = 255)
+    private String proceso;
+    
+    @Column(name = &quot;zona_lugar&quot;, length = 255)
+    private String zonaLugar;
+    
+    @Column(name = &quot;tarea&quot;, length = 255)
+    private String tarea;    
+    
+    @Column(name = &quot;actividad&quot;, length = 255)
+    private String actividad;
+    
+    @Column(name = &quot;peor_consecuencia&quot;, length = 255)
+    private String peorConsecuencia;
+    
+    @Column(name = &quot;rutinario&quot;)
+    private Boolean rutinario;
+    
+    @Column(name = &quot;nivel_deficiencia&quot;)
+    private Short nivelDeficiencia;
+    
+    @Column(name = &quot;nivel_exposicion&quot;)
+    private Short nivelExposicion;
+    
+    @Column(name = &quot;numero_expuestos&quot;)
+    private Short numeroExpuestos;
+    
+    @Column(name = &quot;valor_probabilidad&quot;)
+    private Short valorProbabilidad;
+    
+    @Column(name = &quot;valor_riesgo&quot;)
+    private Short valorRiesgo;
+    
+    @JoinColumn(name = &quot;fk_probabilidad_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private Probabilidad probabilidad;
+    
+    @JoinColumn(name = &quot;fk_consecuencia_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private Consecuencia consecuencia;
+    
+    @JoinTable(name = &quot;fuente_peligro_ipecr&quot;, schema = &quot;ipr&quot;, joinColumns = {
+        @JoinColumn(name = &quot;fk_peligro_ipecr_id&quot;, referencedColumnName = &quot;id&quot;)}, inverseJoinColumns = {
+        @JoinColumn(name = &quot;fk_fuente_id&quot;, referencedColumnName = &quot;id&quot;)})
+    @ManyToMany
+    private List&lt;Fuente&gt; fuenteList;
+    
+    @JoinTable(name = &quot;efecto_peligro_ipecr&quot;, schema = &quot;ipr&quot;, joinColumns = {
+        @JoinColumn(name = &quot;fk_peligro_ipecr_id&quot;, referencedColumnName = &quot;id&quot;)}, inverseJoinColumns = {
+        @JoinColumn(name = &quot;fk_efecto_id&quot;, referencedColumnName = &quot;id&quot;)})
+    @ManyToMany
+    private List&lt;Efecto&gt; efectoList;
+    
+    @JoinTable(name = &quot;control_peligro_ipecr&quot;, schema = &quot;ipr&quot;, joinColumns = {
+        @JoinColumn(name = &quot;fk_peligro_ipecr_id&quot;, referencedColumnName = &quot;id&quot;)}, inverseJoinColumns = {
+        @JoinColumn(name = &quot;fk_control_id&quot;, referencedColumnName = &quot;id&quot;)})
+    @ManyToMany
+    private List&lt;Control&gt; controlList;
+    
+    @JoinTable(name = &quot;necesidad_control_peligro_ipecr&quot;, schema = &quot;ipr&quot;, joinColumns = {
+        @JoinColumn(name = &quot;fk_peligro_ipecr_id&quot;, referencedColumnName = &quot;id&quot;)}, inverseJoinColumns = {
+        @JoinColumn(name = &quot;fk_control_id&quot;, referencedColumnName = &quot;id&quot;)})
+    @ManyToMany
+    private List&lt;Control&gt; necesidadControlList;
+            
+    @JoinColumn(name = &quot;fk_nivel_riesgo_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private NivelRiesgo nivelRiesgo;
+        
+    @JoinColumn(name = &quot;fk_peligro_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private Peligro peligro;
+
+    @JoinColumn(name = &quot;fk_ipecr_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private Ipecr ipecr;
+    
+<span class="nc" id="L129">    public PeligroIpecr() {</span>
+<span class="nc" id="L130">    }</span>
+
+<span class="nc" id="L132">    public PeligroIpecr(Long id) {</span>
+<span class="nc" id="L133">        this.id = id;</span>
+<span class="nc" id="L134">    }</span>
+
+    public Long getId() {
+<span class="nc" id="L137">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="nc" id="L141">        this.id = id;</span>
+<span class="nc" id="L142">    }</span>
+
+    public Short getNumeroExpuestos() {
+<span class="nc" id="L145">        return numeroExpuestos;</span>
+    }
+
+    public void setNumeroExpuestos(Short numeroExpuestos) {
+<span class="nc" id="L149">        this.numeroExpuestos = numeroExpuestos;</span>
+<span class="nc" id="L150">    }</span>
+
+    public NivelRiesgo getNivelRiesgo() {
+<span class="nc" id="L153">        return nivelRiesgo;</span>
+    }
+
+    public void setNivelRiesgo(NivelRiesgo nivelRiesgo) {
+<span class="nc" id="L157">        this.nivelRiesgo = nivelRiesgo;</span>
+<span class="nc" id="L158">    }</span>
+
+    public Probabilidad getProbabilidad() {
+<span class="nc" id="L161">        return probabilidad;</span>
+    }
+
+    public void setProbabilidad(Probabilidad probabilidad) {
+<span class="nc" id="L165">        this.probabilidad = probabilidad;</span>
+<span class="nc" id="L166">    }</span>
+
+    public Consecuencia getConsecuencia() {
+<span class="nc" id="L169">        return consecuencia;</span>
+    }
+
+    public void setConsecuencia(Consecuencia consecuencia) {
+<span class="nc" id="L173">        this.consecuencia = consecuencia;</span>
+<span class="nc" id="L174">    }</span>
+
+    public String getProceso() {
+<span class="nc" id="L177">        return proceso;</span>
+    }
+
+    public void setProceso(String proceso) {
+<span class="nc" id="L181">        this.proceso = proceso;</span>
+<span class="nc" id="L182">    }</span>
+
+    public String getZonaLugar() {
+<span class="nc" id="L185">        return zonaLugar;</span>
+    }
+
+    public void setZonaLugar(String zonaLugar) {
+<span class="nc" id="L189">        this.zonaLugar = zonaLugar;</span>
+<span class="nc" id="L190">    }</span>
+
+    public String getTarea() {
+<span class="nc" id="L193">        return tarea;</span>
+    }
+
+    public void setTarea(String tarea) {
+<span class="nc" id="L197">        this.tarea = tarea;</span>
+<span class="nc" id="L198">    }</span>
+
+    public String getActividad() {
+<span class="nc" id="L201">        return actividad;</span>
+    }
+
+    public void setActividad(String actividad) {
+<span class="nc" id="L205">        this.actividad = actividad;</span>
+<span class="nc" id="L206">    }</span>
+
+    public Boolean getRutinario() {
+<span class="nc" id="L209">        return rutinario;</span>
+    }
+
+    public void setRutinario(Boolean rutinario) {
+<span class="nc" id="L213">        this.rutinario = rutinario;</span>
+<span class="nc" id="L214">    }</span>
+
+    public Short getNivelDeficiencia() {
+<span class="nc" id="L217">        return nivelDeficiencia;</span>
+    }
+
+    public void setNivelDeficiencia(Short nivelDeficiencia) {
+<span class="nc" id="L221">        this.nivelDeficiencia = nivelDeficiencia;</span>
+<span class="nc" id="L222">    }</span>
+
+    public Short getNivelExposicion() {
+<span class="nc" id="L225">        return nivelExposicion;</span>
+    }
+
+    public void setNivelExposicion(Short nivelExposicion) {
+<span class="nc" id="L229">        this.nivelExposicion = nivelExposicion;</span>
+<span class="nc" id="L230">    }</span>
+
+    public Short getValorProbabilidad() {
+<span class="nc" id="L233">        return valorProbabilidad;</span>
+    }
+
+    public void setValorProbabilidad(Short valorProbabilidad) {
+<span class="nc" id="L237">        this.valorProbabilidad = valorProbabilidad;</span>
+<span class="nc" id="L238">    }</span>
+
+    public Short getValorRiesgo() {
+<span class="nc" id="L241">        return valorRiesgo;</span>
+    }
+
+    public void setValorRiesgo(Short valorRiesgo) {
+<span class="nc" id="L245">        this.valorRiesgo = valorRiesgo;</span>
+<span class="nc" id="L246">    }</span>
+
+    @JsonIgnore
+    public Ipecr getIpecr() {
+<span class="nc" id="L250">        return ipecr;</span>
+    }
+
+    @JsonProperty(&quot;ipecr&quot;)
+    public void setIpecr(Ipecr ipecr) {
+<span class="nc" id="L255">        this.ipecr = ipecr;</span>
+<span class="nc" id="L256">    }</span>
+
+    public List&lt;Fuente&gt; getFuenteList() {
+<span class="nc" id="L259">        return fuenteList;</span>
+    }
+
+    public void setFuenteList(List&lt;Fuente&gt; fuenteList) {
+<span class="nc" id="L263">        this.fuenteList = fuenteList;</span>
+<span class="nc" id="L264">    }</span>
+
+    public List&lt;Efecto&gt; getEfectoList() {
+<span class="nc" id="L267">        return efectoList;</span>
+    }
+
+    public void setEfectoList(List&lt;Efecto&gt; efectoList) {
+<span class="nc" id="L271">        this.efectoList = efectoList;</span>
+<span class="nc" id="L272">    }</span>
+
+    public List&lt;Control&gt; getControlList() {
+<span class="nc" id="L275">        return controlList;</span>
+    }
+
+    public void setControlList(List&lt;Control&gt; controlList) {
+<span class="nc" id="L279">        this.controlList = controlList;</span>
+<span class="nc" id="L280">    }</span>
+
+    public List&lt;Control&gt; getNecesidadControlList() {
+<span class="nc" id="L283">        return necesidadControlList;</span>
+    }
+
+    public void setNecesidadControlList(List&lt;Control&gt; necesidadControlList) {
+<span class="nc" id="L287">        this.necesidadControlList = necesidadControlList;</span>
+<span class="nc" id="L288">    }</span>
+
+    public String getPeorConsecuencia() {
+<span class="nc" id="L291">        return peorConsecuencia;</span>
+    }
+
+    public void setPeorConsecuencia(String peorConsecuencia) {
+<span class="nc" id="L295">        this.peorConsecuencia = peorConsecuencia;</span>
+<span class="nc" id="L296">    }</span>
+
+    public Peligro getPeligro() {
+<span class="nc" id="L299">        return peligro;</span>
+    }
+
+    public void setPeligro(Peligro peligro) {
+<span class="nc" id="L303">        this.peligro = peligro;</span>
+<span class="nc" id="L304">    }</span>
+    @Override
+    public int hashCode() {
+<span class="nc" id="L307">        int hash = 0;</span>
+<span class="nc bnc" id="L308" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L309">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L315" title="All 2 branches missed.">        if (!(object instanceof PeligroIpecr)) {</span>
+<span class="nc" id="L316">            return false;</span>
+        }
+<span class="nc" id="L318">        PeligroIpecr other = (PeligroIpecr) object;</span>
+<span class="nc bnc" id="L319" title="All 8 branches missed.">        if ((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id))) {</span>
+<span class="nc" id="L320">            return false;</span>
+        }
+<span class="nc" id="L322">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L327">        return &quot;co.sigess.entities.ipr.PeligroIpecr[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DesviacionFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.sec</a> &gt; <span class="el_source">DesviacionFacade.java</span></div><h1>DesviacionFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.sec;
+
+import co.sigess.entities.com.TipoMensaje;
+import co.sigess.entities.sec.Desviacion;
+import co.sigess.exceptions.UserMessageException;
+import co.sigess.facade.com.AbstractFacade;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Stateless
+public class DesviacionFacade extends AbstractFacade&lt;Desviacion&gt; {
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+<span class="nc" id="L33">        return em;</span>
+    }
+
+    public DesviacionFacade() {
+<span class="nc" id="L37">        super(Desviacion.class);</span>
+<span class="nc" id="L38">    }</span>
+
+    public List&lt;Desviacion&gt; findByEmpresa(Integer empresaIdRequestContext) {
+<span class="nc" id="L41">        Query query = this.em.createQuery(&quot;SELECT d FROM Desviacion d WHERE d.empresaId = ?1&quot;);</span>
+<span class="nc" id="L42">        query.setParameter(1, empresaIdRequestContext);</span>
+<span class="nc" id="L43">        List&lt;Desviacion&gt; list = (List&lt;Desviacion&gt;) query.getResultList();</span>
+<span class="nc" id="L44">        return list;</span>
+    }
+
+    public ByteArrayOutputStream consultarConsolidado(Integer empresaId, Date invDesde, Date invHasta) throws IOException {
+<span class="nc" id="L48">        Query q = this.em.createNativeQuery(&quot;SELECT data FROM sec.generar_consolidado_analisis(?1, ?2, ?3, ?4, ?5)&quot;);</span>
+<span class="nc" id="L49">        q.setParameter(1, empresaId);</span>
+<span class="nc" id="L50">        q.setParameter(2, invDesde);</span>
+<span class="nc" id="L51">        q.setParameter(3, invHasta);</span>
+<span class="nc" id="L52">        q.setParameter(4, invDesde);</span>
+<span class="nc" id="L53">        q.setParameter(5, invDesde);</span>
+<span class="nc" id="L54">        List&lt;String&gt; lines = q.getResultList();</span>
+<span class="nc bnc" id="L55" title="All 4 branches missed.">        if (lines.isEmpty() || lines.size() &lt;= 1) {</span>
+<span class="nc" id="L56">            throw new UserMessageException(&quot;Datos no encontrados&quot;, &quot;No se hallaron investigaciones en el rango de fechas seleccionado&quot;, TipoMensaje.info);</span>
+        }
+
+<span class="nc" id="L59">        ByteArrayOutputStream bOutput = new ByteArrayOutputStream(2_000 + (lines.size() * 400));</span>
+
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        for (String line : lines) {</span>
+<span class="nc" id="L62">            bOutput.write(line.getBytes());</span>
+<span class="nc" id="L63">            bOutput.write(&quot;\n&quot;.getBytes());</span>
+<span class="nc" id="L64">        }</span>
+<span class="nc" id="L65">        return bOutput;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

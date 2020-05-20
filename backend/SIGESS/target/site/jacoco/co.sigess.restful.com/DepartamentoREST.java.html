@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DepartamentoREST.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.restful.com</a> &gt; <span class="el_source">DepartamentoREST.java</span></div><h1>DepartamentoREST.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.restful.com;
+
+import co.sigess.entities.ado.Directorio;
+import co.sigess.entities.com.Departamento;
+import co.sigess.facade.com.DepartamentoFacade;
+import co.sigess.restful.Filter;
+import co.sigess.restful.FilterQuery;
+import co.sigess.restful.ado.DirectorioREST;
+import co.sigess.util.Util;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ws.rs.BeanParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Path(&quot;departamento&quot;)
+<span class="nc" id="L30">public class DepartamentoREST {</span>
+
+    @EJB
+    private DepartamentoFacade departamentoFacade;
+
+//    @GET
+//    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+//    public Response findAll() {
+//        List&lt;Departamento&gt; deptoList = departamentoFacade.findAll();
+//        return Response.ok(deptoList).build();
+//    }
+
+    @GET
+    @Path(&quot;pais/{paisId}&quot;)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response findByPais(@PathParam(&quot;paisId&quot;) Short paisId) {
+<span class="nc" id="L46">        List&lt;Departamento&gt; deptoList = departamentoFacade.findByPais(paisId);</span>
+<span class="nc" id="L47">        return Response.ok(deptoList).build();</span>
+    }
+    
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response findWithFilter(@BeanParam FilterQuery filterQuery) {
+//        try {            
+//            List&lt;Departamento&gt; deptoList = departamentoFacade.findWithFilter(filterQuery);
+//            return Response.ok(deptoList).build();
+//        } catch (Exception ex) {
+//            return Util.manageException(ex, DepartamentoREST.class);
+//        }
+//    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GeneradorReportesDOCX.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.reports.sge</a> &gt; <span class="el_source">GeneradorReportesDOCX.java</span></div><h1>GeneradorReportesDOCX.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.reports.sge;
+
+import org.apache.poi.util.Units;
+import co.sigess.util.Util;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Paint;
+import java.awt.Rectangle;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableCell;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.StandardBarPainter;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.graphics2d.svg.SVGGraphics2D;
+import org.jfree.graphics2d.svg.SVGUtils;
+
+/**
+ *
+ * @author fmoreno
+ */
+<span class="nc" id="L45">public class GeneradorReportesDOCX {</span>
+
+    public static File generar(Map&lt;String, Object&gt; params, Map&lt;String, ReportDataSource&gt; datasources, File template, String nombre) throws FileNotFoundException, IOException, InvalidFormatException {
+
+<span class="nc" id="L49">        File reporte = new File(Util.TMP_DIR + nombre + &quot;.docx&quot;);</span>
+
+<span class="nc" id="L51">        FileInputStream fis = new FileInputStream(template);</span>
+<span class="nc" id="L52">        XWPFDocument doc = new XWPFDocument(fis);</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        for (XWPFParagraph p : doc.getParagraphs()) {</span>
+<span class="nc" id="L54">            String text = p.getText();</span>
+<span class="nc" id="L55">            List&lt;XWPFRun&gt; runs = p.getRuns();</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">            for (int indexRun = 0; indexRun &lt; runs.size(); indexRun++) {</span>
+<span class="nc" id="L57">                XWPFRun currentRun = runs.get(indexRun);</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">                if (text.contains(&quot;G{&quot;)) {</span>
+<span class="nc" id="L59">                    createChart(p, text, datasources);</span>
+<span class="nc" id="L60">                    break;</span>
+                }
+
+<span class="nc bnc" id="L63" title="All 2 branches missed.">                for (String keyParam : params.keySet()) {</span>
+<span class="nc bnc" id="L64" title="All 4 branches missed.">                    if (text != null &amp;&amp; text.contains(keyParam)) {</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">                        text = text.replace(keyParam, params.get(keyParam) == null ? &quot;&quot; : params.get(keyParam).toString());</span>
+<span class="nc" id="L66">                        currentRun.setText(text, 0);</span>
+                    }
+<span class="nc" id="L68">                }</span>
+            }
+<span class="nc" id="L70">        }</span>
+
+<span class="nc" id="L72">        Map&lt;String, XWPFTable&gt; tblMap = new HashMap&lt;&gt;();</span>
+
+        FOR_TBL:
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        for (XWPFTable tbl : doc.getTables()) {</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">            for (XWPFTableRow row : tbl.getRows()) {</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">                for (XWPFTableCell cell : row.getTableCells()) {</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">                    for (XWPFParagraph p : cell.getParagraphs()) {</span>
+<span class="nc" id="L79">                        String text = p.getText().trim();</span>
+
+<span class="nc bnc" id="L81" title="All 2 branches missed.">                        for (String key : datasources.keySet()) {</span>
+<span class="nc bnc" id="L82" title="All 4 branches missed.">                            if (text != null &amp;&amp; text.contains(key)) {</span>
+<span class="nc" id="L83">                                tblMap.put(key, tbl);</span>
+<span class="nc" id="L84">                                continue FOR_TBL;</span>
+                            }
+<span class="nc" id="L86">                        }</span>
+
+<span class="nc bnc" id="L88" title="All 2 branches missed.">                        for (XWPFRun r : p.getRuns()) {</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">                            for (String keyParam : params.keySet()) {</span>
+<span class="nc bnc" id="L90" title="All 4 branches missed.">                                if (text != null &amp;&amp; text.contains(keyParam)) {</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">                                    text = text.replace(keyParam, params.get(keyParam) == null ? &quot;&quot; : params.get(keyParam).toString());</span>
+<span class="nc" id="L92">                                    r.setText(text, 0);</span>
+<span class="nc" id="L93">                                    break;</span>
+                                }
+<span class="nc" id="L95">                            }</span>
+<span class="nc" id="L96">                        }</span>
+<span class="nc" id="L97">                    }</span>
+<span class="nc" id="L98">                }</span>
+<span class="nc" id="L99">            }</span>
+<span class="nc" id="L100">        }</span>
+
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        for (String key : tblMap.keySet()) {</span>
+<span class="nc" id="L103">            generateRows(tblMap.get(key), datasources.get(key));</span>
+<span class="nc" id="L104">        }</span>
+
+<span class="nc" id="L106">        reporte.createNewFile();</span>
+<span class="nc" id="L107">        doc.write(new FileOutputStream(reporte));</span>
+
+<span class="nc" id="L109">        return reporte;</span>
+    }
+
+    private static void generateRows(XWPFTable tbl, ReportDataSource ds) {
+<span class="nc" id="L113">        XWPFTableRow rowRef = tbl.getRow(2);</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        for (int i = 0; i &lt; ds.getValues().length; i++) {</span>
+<span class="nc" id="L115">            XWPFTableRow row = tbl.createRow();</span>
+<span class="nc" id="L116">            int cellIndex = 0;</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">            for (XWPFTableCell cellRef : rowRef.getTableCells()) {</span>
+<span class="nc" id="L118">                String key = extractText(cellRef);</span>
+<span class="nc" id="L119">                Object valor = ds.getValue(i, key);</span>
+
+<span class="nc" id="L121">                XWPFParagraph paragraphRef = cellRef.getParagraphs().get(0);</span>
+<span class="nc" id="L122">                XWPFRun runRef = paragraphRef.getRuns().get(0);</span>
+
+<span class="nc" id="L124">                XWPFTableCell newCell = row.getCell(cellIndex);</span>
+<span class="nc" id="L125">                XWPFParagraph p = newCell.getParagraphs().get(0);</span>
+<span class="nc" id="L126">                p.setAlignment(paragraphRef.getAlignment());</span>
+<span class="nc" id="L127">                p.setVerticalAlignment(paragraphRef.getVerticalAlignment());</span>
+
+<span class="nc" id="L129">                XWPFRun run = p.createRun();</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">                run.setText(valor == null ? &quot;&quot; : valor.toString());</span>
+<span class="nc" id="L131">                run.setBold(runRef.isBold());</span>
+<span class="nc" id="L132">                run.setColor(runRef.getColor());</span>
+<span class="nc" id="L133">                run.setFontFamily(runRef.getFontFamily());</span>
+<span class="nc" id="L134">                run.setFontSize(runRef.getFontSize());</span>
+<span class="nc" id="L135">                run.setTextPosition(runRef.getTextPosition());</span>
+<span class="nc" id="L136">                cellIndex++;</span>
+<span class="nc" id="L137">            }</span>
+        }
+<span class="nc" id="L139">        tbl.removeRow(1);</span>
+        // El eliminar la fila 1, la que ocupa la posición 2 pasa a ocupar la posición 1
+<span class="nc" id="L141">        tbl.removeRow(1);</span>
+<span class="nc" id="L142">    }</span>
+
+    private static String extractText(XWPFTableCell cell) {
+<span class="nc bnc" id="L145" title="All 2 branches missed.">        for (XWPFParagraph p : cell.getParagraphs()) {</span>
+<span class="nc" id="L146">            return p.getText().trim();</span>
+        }
+<span class="nc" id="L148">        return &quot;&quot;;</span>
+    }
+
+    private static void createChart(XWPFParagraph paragraph, String json, Map&lt;String, ReportDataSource&gt; datasources) throws IOException, InvalidFormatException {
+<span class="nc bnc" id="L152" title="All 2 branches missed.">        while (paragraph.getRuns().size() &gt; 0) {</span>
+<span class="nc" id="L153">            paragraph.removeRun(0);</span>
+        }
+
+<span class="nc" id="L156">        ChartModel chartModel = ChartModel.fromJson(json.replaceFirst(&quot;G&quot;, &quot;&quot;));</span>
+<span class="nc" id="L157">        ReportDataSource ds = datasources.get(chartModel.getDatasource());</span>
+
+<span class="nc" id="L159">        final DefaultCategoryDataset dataset = new DefaultCategoryDataset();</span>
+<span class="nc" id="L160">        int i = 0;</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">        for (Object value : ds.getValues()) {</span>
+<span class="nc" id="L162">            Object[] row = (Object[]) value;</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">            for (String header : ds.getHeaders()) {</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">                String rowSeriesLabel = chartModel.getRowKey().contains(&quot;F{&quot;) ? (String) ds.getValue(i, chartModel.getRowKey()) : chartModel.getRowKey();</span>
+<span class="nc bnc" id="L165" title="All 2 branches missed.">                String columnSeriesLabel = chartModel.getColumnKey().contains(&quot;F{&quot;) ? (String) ds.getValue(i, chartModel.getColumnKey()) : chartModel.getColumnKey();</span>
+<span class="nc" id="L166">                dataset.addValue((Number) ds.getValue(i, chartModel.getValueKey()), columnSeriesLabel, rowSeriesLabel);</span>
+            }
+<span class="nc" id="L168">            i++;</span>
+        }
+
+<span class="nc" id="L171">        JFreeChart barChart = ChartFactory.createBarChart(chartModel.getTitle(), &quot;&quot;, &quot;&quot;, dataset);</span>
+
+<span class="nc" id="L173">        CategoryPlot cp = barChart.getCategoryPlot();  // Get the Plot object for a bar graph              </span>
+
+<span class="nc" id="L175">        barChart.getTitle().setPaint(new Color(chartModel.getTitleColor()));</span>
+<span class="nc" id="L176">        cp.setBackgroundPaint(new Color(chartModel.getBackgroundPlotColor()));       // Set the plot background colour  </span>
+<span class="nc" id="L177">        cp.setRangeGridlinePaint(new Color(chartModel.getRangeGridlineColor()));</span>
+<span class="nc" id="L178">        cp.setOutlineVisible(false);</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">        cp.setOrientation(chartModel.isVerticalOrientation() ? PlotOrientation.VERTICAL : PlotOrientation.HORIZONTAL);</span>
+
+<span class="nc" id="L181">        Random random = new Random(System.currentTimeMillis());</span>
+<span class="nc" id="L182">        BarRenderer br = new CustomRenderer(</span>
+                new Paint[]{
+<span class="nc" id="L184">                    new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255))</span>
+                }
+        );
+<span class="nc" id="L187">        br.setItemLabelGenerator(new StandardCategoryItemLabelGenerator());</span>
+<span class="nc" id="L188">        br.setItemLabelsVisible(true);</span>
+<span class="nc" id="L189">        br.setItemLabelFont(Font.decode(chartModel.getItemLabelFont()));</span>
+<span class="nc" id="L190">        br.setGradientPaintTransformer(null);</span>
+<span class="nc" id="L191">        br.setDrawBarOutline(false);</span>
+<span class="nc" id="L192">        br.setShadowVisible(false);</span>
+<span class="nc" id="L193">        br.setBarPainter(new StandardBarPainter());</span>
+<span class="nc" id="L194">        cp.setRenderer(br);</span>
+
+<span class="nc" id="L196">        SVGGraphics2D g2 = new SVGGraphics2D(chartModel.getWidth(), chartModel.getHeight());</span>
+<span class="nc" id="L197">        Rectangle r = new Rectangle(0, 0, chartModel.getWidth(), chartModel.getHeight());</span>
+<span class="nc" id="L198">        barChart.draw(g2, r);</span>
+<span class="nc" id="L199">        File imgChart = new File(Util.TMP_DIR + &quot;barChart.svg&quot;);</span>
+<span class="nc" id="L200">        SVGUtils.writeToSVG(imgChart, g2.getSVGElement());</span>
+
+<span class="nc" id="L202">        XWPFRun run = paragraph.createRun();</span>
+<span class="nc" id="L203">        run.addPicture(new FileInputStream(imgChart), XWPFDocument.PICTURE_TYPE_JPEG, imgChart.getName(), Units.toEMU(chartModel.getWidth() / 2), Units.toEMU(chartModel.getHeight() / 2));</span>
+
+<span class="nc" id="L205">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

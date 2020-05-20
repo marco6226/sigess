@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PermisoFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.emp</a> &gt; <span class="el_source">PermisoFacade.java</span></div><h1>PermisoFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.emp;
+
+import co.sigess.facade.com.AbstractFacade;
+import co.sigess.entities.emp.Permiso;
+import co.sigess.entities.emp.Recurso;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author fmoreno
+ */
+@javax.ejb.Stateless
+public class PermisoFacade extends AbstractFacade&lt;Permiso&gt; {
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+<span class="nc" id="L30">        return em;</span>
+    }
+
+    public PermisoFacade() {
+<span class="nc" id="L34">        super(Permiso.class);</span>
+<span class="nc" id="L35">    }</span>
+
+    public List&lt;Permiso&gt; findAllByEmpresa(Integer empresaId, Integer usuarioId) {
+<span class="nc" id="L38">        Query query = this.em.createNativeQuery(&quot;WITH permisos AS (\n&quot;</span>
+                + &quot;	SELECT\n&quot;
+                + &quot;	    p.fk_recurso_id,\n&quot;
+                + &quot;	    array_cat_agg(DISTINCT p.areas::bigint[])::text AS areas\n&quot;
+                + &quot;	FROM emp.usuario_empresa ue\n&quot;
+                + &quot;	    LEFT JOIN emp.perfil per ON per.id = ue.pk_perfil_id\n&quot;
+                + &quot;	    LEFT JOIN emp.permiso p ON p.fk_perfil_id = per.id\n&quot;
+                + &quot;	WHERE ue.pk_empresa_id = ?1\n&quot;
+                + &quot;	    AND ue.pk_usuario_id = ?2\n&quot;
+                + &quot;         AND p.valido = true\n&quot;
+                + &quot;	GROUP BY p.fk_recurso_id\n&quot;
+                + &quot;)\n&quot;
+                + &quot;SELECT r.id, r.modulo, r.tipo, r.nombre, r.codigo, r.validacion_area, p.areas\n&quot;
+                + &quot;FROM permisos p\n&quot;
+                + &quot;	INNER JOIN emp.recurso r ON r.id = p.fk_recurso_id&quot;);
+<span class="nc" id="L53">        query.setParameter(1, empresaId);</span>
+<span class="nc" id="L54">        query.setParameter(2, usuarioId);</span>
+<span class="nc" id="L55">        List&lt;Permiso&gt; permisos = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L56">        List&lt;Object[]&gt; list = query.getResultList();</span>
+<span class="nc" id="L57">        list.forEach((object) -&gt; {</span>
+<span class="nc" id="L58">            Permiso p = new Permiso();</span>
+<span class="nc" id="L59">            Recurso rec = new Recurso((Integer) object[0]);</span>
+<span class="nc" id="L60">            rec.setCodigo(object[4].toString());</span>
+<span class="nc" id="L61">            rec.setValidacionArea((Boolean)object[5]);</span>
+<span class="nc" id="L62">            p.setRecurso(rec);</span>
+<span class="nc" id="L63">            p.setValido(true);</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">            p.setAreas(object[6] == null ? null : object[6].toString());</span>
+<span class="nc" id="L65">            permisos.add(p);</span>
+<span class="nc" id="L66">        });</span>
+<span class="nc" id="L67">        return permisos;</span>
+    }
+
+    public List&lt;Permiso&gt; findAllByPerfil(Integer empresaId, Integer perfilId) {
+<span class="nc" id="L71">        Query query = this.em.createQuery(&quot;SELECT p FROM Permiso p WHERE p.empresa.id = ?1 AND p.perfil.id = ?2&quot;);</span>
+<span class="nc" id="L72">        query.setParameter(1, empresaId);</span>
+<span class="nc" id="L73">        query.setParameter(2, perfilId);</span>
+<span class="nc" id="L74">        List&lt;Permiso&gt; list = (List&lt;Permiso&gt;) query.getResultList();</span>
+<span class="nc" id="L75">        return list;</span>
+    }
+
+    /**
+     *
+     * @param permiso
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Permiso edit(Permiso permiso) throws Exception {
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        if (permiso == null) {</span>
+<span class="nc" id="L87">            throw new IllegalArgumentException(&quot;Objeto permiso no puede ser null&quot;);</span>
+        }
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        if (permiso.getEmpresa() == null) {</span>
+<span class="nc" id="L90">            throw new IllegalArgumentException(&quot;Permiso debe estar asociado a una empresa&quot;);</span>
+        }
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        if (permiso.getPerfil() == null) {</span>
+<span class="nc" id="L93">            throw new IllegalArgumentException(&quot;Permiso debe estar asociado a un perfil&quot;);</span>
+        }
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (permiso.getRecurso() == null) {</span>
+<span class="nc" id="L96">            throw new IllegalArgumentException(&quot;Permiso debe estar asociado a un recurso&quot;);</span>
+        }
+
+<span class="nc" id="L99">        Permiso permisoDB = this.existePermiso(permiso);</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        if (permisoDB == null) {</span>
+<span class="nc" id="L101">            permiso.setId(null);</span>
+<span class="nc" id="L102">            super.create(permiso);</span>
+<span class="nc" id="L103">            return permiso;</span>
+        } else {
+<span class="nc" id="L105">            permisoDB.setValido(permiso.isValido());</span>
+<span class="nc" id="L106">            permisoDB.setAreas(permiso.getAreas());</span>
+<span class="nc" id="L107">            super.edit(permisoDB);</span>
+<span class="nc" id="L108">            return permisoDB;</span>
+        }
+    }
+
+    public Permiso existePermiso(Permiso permiso) {
+<span class="nc" id="L113">        Query query = this.em.createQuery(&quot;SELECT p FROM Permiso p WHERE p.empresa.id = ?1 AND p.recurso.id = ?2 AND p.perfil.id = ?3&quot;);</span>
+<span class="nc" id="L114">        query.setParameter(1, permiso.getEmpresa().getId());</span>
+<span class="nc" id="L115">        query.setParameter(2, permiso.getRecurso().getId());</span>
+<span class="nc" id="L116">        query.setParameter(3, permiso.getPerfil().getId());</span>
+
+        try {
+<span class="nc" id="L119">            Permiso permisoDB = (Permiso) query.getSingleResult();</span>
+<span class="nc" id="L120">            return permisoDB;</span>
+<span class="nc" id="L121">        } catch (NoResultException nre) {</span>
+<span class="nc" id="L122">            return null;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileEncryption.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.restful.security</a> &gt; <span class="el_source">FileEncryption.java</span></div><h1>FileEncryption.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.restful.security;
+
+import java.io.InputStream;
+import java.io.OutputStream;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.spec.KeySpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.IvParameterSpec;
+
+/**
+ *
+ * @author fmoreno
+ */
+public class FileEncryption {
+
+    private final static int BUFFER_LENGHT = 65536;
+    private final static int KEY_LENGHT = 256;
+    private final static int ITERATOR_COUNT = 10000;
+    private final static String PASSWD = &quot;FDCBqujbBe6HWep4vxckxAHCUXQjWmkdAMFBRPC4EjBcpA7uHUqRkWjQxZKjWU8nhDNYh2Sza5n9v5t4PGKYfTsCJ2xwMvvFYTgSLY3LFfxZaPTQnurtYGFyz3FWnLtWgZg7YFH9GshXZZ6PR97v6MPtVdpURJcXz5G9Ae97g3V8DRMmBwsxTRArUNannXbxTHx5yg3FUzqp2Mkt8nAC4ZSzqSMntzJWSRRfXvLuEZHgDDknRKQwAjGAN5M6unDb&quot;;
+<span class="fc" id="L28">    private final byte[] salt = {8, 25, 100, 125, 85, 45, 63, 7};</span>
+<span class="fc" id="L29">    private final byte[] iv = {74, 85, 96, 1, 4, 85, 42, 63, 98, 7, 45, 0, 63, 23, 10, 91};</span>
+    private final SecretKeySpec skey;
+
+    private static FileEncryption instance;
+
+    public static FileEncryption getInstance() throws Exception {
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (instance == null) {</span>
+<span class="fc" id="L36">            instance = new FileEncryption();</span>
+        }
+<span class="fc" id="L38">        return instance;</span>
+    }
+
+<span class="fc" id="L41">    private FileEncryption() throws Exception {</span>
+<span class="fc" id="L42">        SecretKeyFactory factory = SecretKeyFactory.getInstance(&quot;PBKDF2WithHmacSHA256&quot;);</span>
+<span class="fc" id="L43">        KeySpec spec = new PBEKeySpec(PASSWD.toCharArray(), salt, ITERATOR_COUNT, KEY_LENGHT);</span>
+<span class="fc" id="L44">        SecretKey tmp = factory.generateSecret(spec);</span>
+<span class="fc" id="L45">        skey = new SecretKeySpec(tmp.getEncoded(), &quot;AES&quot;);</span>
+<span class="fc" id="L46">    }</span>
+
+    public void encrypt(InputStream fis, OutputStream fos) throws Exception {
+<span class="fc" id="L49">        IvParameterSpec ivspec = new IvParameterSpec(iv);</span>
+<span class="fc" id="L50">        Cipher ci = Cipher.getInstance(&quot;AES/CBC/PKCS5Padding&quot;);</span>
+<span class="fc" id="L51">        ci.init(Cipher.ENCRYPT_MODE, skey, ivspec);</span>
+<span class="fc" id="L52">        processFile(ci, fis, fos);</span>
+<span class="fc" id="L53">    }</span>
+
+    public void decrypt(InputStream in, OutputStream out) throws Exception {
+<span class="fc" id="L56">        Cipher ci = Cipher.getInstance(&quot;AES/CBC/PKCS5Padding&quot;);</span>
+<span class="fc" id="L57">        ci.init(Cipher.DECRYPT_MODE, skey, new IvParameterSpec(iv));</span>
+<span class="fc" id="L58">        processFile(ci, in, out);</span>
+<span class="fc" id="L59">    }</span>
+
+    static private void processFile(Cipher ci, InputStream in, OutputStream out)
+            throws javax.crypto.IllegalBlockSizeException,
+            javax.crypto.BadPaddingException,
+            java.io.IOException {
+<span class="fc" id="L65">        byte[] ibuf = new byte[BUFFER_LENGHT];</span>
+        int len;
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        while ((len = in.read(ibuf)) != -1) {</span>
+<span class="fc" id="L68">            byte[] obuf = ci.update(ibuf, 0, len);</span>
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">            if (obuf != null) {</span>
+<span class="fc" id="L70">                out.write(obuf);</span>
+            }
+<span class="fc" id="L72">        }</span>
+<span class="fc" id="L73">        byte[] obuf = ci.doFinal();</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">        if (obuf != null) {</span>
+<span class="fc" id="L75">            out.write(obuf);</span>
+<span class="fc" id="L76">            out.flush();</span>
+<span class="fc" id="L77">            out.close();</span>
+        }
+<span class="fc" id="L79">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

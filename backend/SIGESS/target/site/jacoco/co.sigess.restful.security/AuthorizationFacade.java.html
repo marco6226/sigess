@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthorizationFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.restful.security</a> &gt; <span class="el_source">AuthorizationFacade.java</span></div><h1>AuthorizationFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.restful.security;
+
+import co.sigess.entities.com.ApiVersion;
+import co.sigess.entities.com.Mensaje;
+import co.sigess.entities.com.TipoMensaje;
+import co.sigess.entities.emp.EstadoUsuario;
+import co.sigess.entities.emp.TokenActivo;
+import co.sigess.entities.emp.Usuario;
+import co.sigess.exceptions.UserMessageException;
+import co.sigess.facade.core.LoaderFacade;
+import co.sigess.facade.emp.TokenFacade;
+import co.sigess.facade.emp.UsuarioFacade;
+import co.sigess.util.Util;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import java.lang.reflect.Method;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ResourceInfo;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.Response;
+import org.glassfish.jersey.server.ExtendedUriInfo;
+import org.glassfish.jersey.uri.UriTemplate;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Stateless
+<span class="nc" id="L49">public class AuthorizationFacade {</span>
+
+    @Context
+    private ResourceInfo resourceInfo;
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    @EJB
+    private UsuarioFacade usuarioFacade;
+
+    @EJB
+    private TokenFacade tokenFacade;
+
+    @EJB
+    private LoaderFacade loaderFacade;
+
+    @Context
+    private HttpServletRequest httpRequest;
+
+    protected EntityManager getEntityManager() {
+<span class="nc" id="L70">        return em;</span>
+    }
+
+    public Response validate(ContainerRequestContext requestContext) throws Exception {
+<span class="nc" id="L74">        String appVersion = requestContext.getHeaderString(UtilSecurity.APP_VERSION_HEADER_NAME);</span>
+<span class="nc" id="L75">        Map&lt;String, Object&gt; map = (Map&lt;String, Object&gt;) this.loaderFacade.getApiVersion().getSoportado().get(appVersion);</span>
+<span class="nc bnc" id="L76" title="All 4 branches missed.">        if (map == null || (Boolean) map.get(&quot;req_update&quot;)) {</span>
+<span class="nc" id="L77">            Mensaje msg = new Mensaje(</span>
+                    &quot;La versión de la app no es compatible&quot;,
+                    &quot;Por favor asegurese de actualizar a la versión mas reciente&quot;,
+<span class="nc" id="L80">                    TipoMensaje.warn, Mensaje.COD_VERSION_APP_NO_COMPATIBLE</span>
+            );
+<span class="nc" id="L82">            Map&lt;String, String&gt; msgData = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L83">            msgData.put(&quot;playStoreUrl&quot;, appVersion);</span>
+<span class="nc" id="L84">            msgData.put(&quot;appStoreUrl&quot;, appVersion);</span>
+<span class="nc" id="L85">            msg.setMetaData(msgData);</span>
+<span class="nc" id="L86">            return Response.status(Response.Status.FORBIDDEN).entity(msg).build();</span>
+        }
+
+<span class="nc" id="L89">        String tParam = requestContext.getHeaderString(UtilSecurity.TOKEN_NAME);</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        if (tParam == null) {</span>
+<span class="nc" id="L91">            Mensaje msg = new Mensaje(&quot;ACCESO DENEGADO&quot;, &quot;Token proporcionado no es válido&quot;, TipoMensaje.error, Mensaje.COD_TOKEN_NO_VALIDO);</span>
+<span class="nc" id="L92">            return Response.status(Response.Status.FORBIDDEN).entity(msg).build();</span>
+        }
+<span class="nc" id="L94">        String[] paramArr = tParam.split(&quot; &quot;);</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (paramArr.length != 2) {</span>
+<span class="nc" id="L96">            Mensaje msg = new Mensaje(&quot;ACCESO DENEGADO&quot;, &quot;Token proporcionado no es válido&quot;, TipoMensaje.error, Mensaje.COD_TOKEN_NO_VALIDO);</span>
+<span class="nc" id="L97">            return Response.status(Response.Status.FORBIDDEN).entity(msg).build();</span>
+        }
+
+<span class="nc" id="L100">        String token = paramArr[1];</span>
+<span class="nc bnc" id="L101" title="All 4 branches missed.">        if (token == null || token.isEmpty()) {</span>
+<span class="nc" id="L102">            Mensaje msg = new Mensaje(&quot;ACCESO DENEGADO&quot;, &quot;Token proporcionado no es válido&quot;, TipoMensaje.error, Mensaje.COD_TOKEN_NO_VALIDO);</span>
+<span class="nc" id="L103">            return Response.status(Response.Status.FORBIDDEN).entity(msg).build();</span>
+        }
+
+<span class="nc" id="L106">        String method = requestContext.getMethod();</span>
+<span class="nc" id="L107">        List&lt;UriTemplate&gt; listTemp = ((ExtendedUriInfo) requestContext.getUriInfo()).getMatchedTemplates();</span>
+<span class="nc" id="L108">        String ruta = &quot;&quot;;</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">        for (int i = listTemp.size() - 1; i &gt;= 0; i--) {</span>
+<span class="nc" id="L110">            ruta += listTemp.get(i).getTemplate();</span>
+        }
+<span class="nc" id="L112">        String empresa_id = requestContext.getHeaderString(&quot;param-emp&quot;);</span>
+
+<span class="nc" id="L114">        TokenActivo tokenAct = null;</span>
+        try {
+<span class="nc" id="L116">            tokenAct = UtilSecurity.verifyJWT(token, false);</span>
+<span class="nc" id="L117">        } catch (ExpiredJwtException ex) {</span>
+<span class="nc" id="L118">            Mensaje msg = new Mensaje(&quot;TOKEN EXPIRADO&quot;, &quot;Token de sesión expirado&quot;, TipoMensaje.warn, Mensaje.COD_TOKEN_EXPIRADO);</span>
+<span class="nc" id="L119">            Logger.getLogger(AuthorizationFacade.class.getName()).log(Level.INFO, msg.toString(), ex);</span>
+<span class="nc" id="L120">            return Response.status(Response.Status.UNAUTHORIZED).entity(msg).build();</span>
+<span class="nc" id="L121">        } catch (SignatureException sex) {</span>
+<span class="nc" id="L122">            String jsonUser = UtilSecurity.getTokenClaims(token).getSubject();</span>
+<span class="nc" id="L123">            Usuario user = Util.fromJson(jsonUser, Usuario.class);</span>
+<span class="nc" id="L124">            this.usuarioFacade.bloquearUsuario(user);</span>
+
+<span class="nc" id="L126">            Mensaje msg = new Mensaje(&quot;TOKEN FIRMA INVALIDA&quot;, &quot;La firma del token recibido presenta inconsistencias: &quot; + token, TipoMensaje.error, Mensaje.COD_TOKEN_FIRMA_INVALIDA);</span>
+<span class="nc" id="L127">            Logger.getLogger(AuthorizationFacade.class.getName()).log(Level.SEVERE, msg.toString(), sex);</span>
+<span class="nc" id="L128">            return Response.status(Response.Status.FORBIDDEN).entity(new Mensaje()).build();</span>
+<span class="nc" id="L129">        } catch (UnsupportedJwtException ex) {</span>
+<span class="nc" id="L130">            Logger.getLogger(AuthorizationFacade.class.getName()).log(Level.SEVERE, &quot;&quot;, ex);</span>
+<span class="nc" id="L131">            return Response.status(Response.Status.BAD_REQUEST).build();</span>
+<span class="nc" id="L132">        }</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        if (tokenAct != null) {</span>
+<span class="nc" id="L134">            boolean tienePermiso = false;</span>
+<span class="nc" id="L135">            boolean permisoArea = false;</span>
+<span class="nc" id="L136">            String estado = &quot;&quot;;</span>
+<span class="nc" id="L137">            boolean passwdVigente = false;</span>
+<span class="nc" id="L138">            String codigoRecurso = &quot;&quot;;</span>
+<span class="nc" id="L139">            String nombreRecurso = &quot;&quot;;</span>
+<span class="nc" id="L140">            String idToken = null;</span>
+<span class="nc" id="L141">            Date expToken = null;</span>
+<span class="nc" id="L142">            boolean ipValida = false;</span>
+
+<span class="nc" id="L144">            Method resourceMethod = resourceInfo.getResourceMethod();</span>
+<span class="nc" id="L145">            Secured methodAnnot = resourceMethod.getAnnotation(Secured.class);</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">            ruta = ruta.endsWith(&quot;/count&quot;) ? ruta.replace(&quot;/count&quot;, &quot;&quot;) : ruta;</span>
+
+<span class="nc bnc" id="L148" title="All 4 branches missed.">            if (methodAnnot != null &amp;&amp; !methodAnnot.validarPermiso()) {</span>
+<span class="nc" id="L149">                return Response.status(Response.Status.OK).entity(tokenAct.getUsuario().getAsJSON()).build();</span>
+            }
+
+<span class="nc bnc" id="L152" title="All 4 branches missed.">            if (methodAnnot == null || methodAnnot.requiereEmpresaId()) {</span>
+<span class="nc" id="L153">                Query query = this.em.createNativeQuery(&quot;WITH validacion AS (\n&quot;</span>
+                        + &quot;SELECT\n&quot;
+                        + &quot;    u.estado,\n&quot;
+                        + &quot;    u.expira_password &gt; NOW() AS passwd_vigente,\n&quot;
+                        + &quot;    u.ip_permitida,\n&quot;
+                        + &quot;    COALESCE(pe.valido,false) AS tiene_permiso,\n&quot;
+                        + &quot;    pe.areas::bigint[],\n&quot;
+                        + &quot;    rec.nombre,\n&quot;
+                        + &quot;    rec.codigo,\n&quot;
+                        + &quot;    rec.validacion_area,\n&quot;
+                        + &quot;    tb.id,\n&quot;
+                        + &quot;    tb.expira\n&quot;
+                        + &quot;FROM emp.usuario u\n&quot;
+                        + &quot;    LEFT JOIN emp.recurso rec ON rec.tipo = ?1 AND rec.ruta = ?2\n&quot;
+                        + &quot;    LEFT JOIN emp.usuario_empresa ue on ue.pk_usuario_id = u.id AND ue.pk_empresa_id = ?3\n&quot;
+                        + &quot;    LEFT JOIN emp.perfil p on p.id = ue.pk_perfil_id\n&quot;
+                        + &quot;    LEFT JOIN emp.permiso pe ON pe.fk_perfil_id = p.id AND pe.fk_recurso_id = rec.id AND pe.valido = true\n&quot;
+                        + &quot;    LEFT JOIN emp.token_activo tb ON tb.fk_usuario_id = u.id AND tb.id = ?4\n&quot;
+                        + &quot;WHERE u.id = ?5\n&quot;
+                        + &quot;)\n&quot;
+                        + &quot;SELECT v.estado, \n&quot;
+                        + &quot;	v.passwd_vigente, \n&quot;
+                        + &quot;	bool_or(v.tiene_permiso) AS tiene_permiso, \n&quot;
+                        + &quot;	CASE WHEN v.validacion_area = true THEN array_cat_agg(v.areas) @&gt; ?6::bigint[] ELSE true END AS permiso_area, \n&quot;
+                        + &quot;	v.nombre, \n&quot;
+                        + &quot;	v.codigo, \n&quot;
+                        + &quot;	v.id, \n&quot;
+                        + &quot;	v.expira,\n&quot;
+                        + &quot;	CASE WHEN ?7::inet &lt;&lt;= ANY(v.ip_permitida) THEN true ELSE false END AS ip_valida  \n&quot;
+                        + &quot;FROM validacion v\n&quot;
+                        + &quot;GROUP BY v.estado, v.passwd_vigente, v.nombre, v.codigo, v.id, v.expira, v.validacion_area, v.ip_permitida&quot;);
+                ;
+<span class="nc" id="L185">                ValidadorArea areaVal = resourceMethod.getAnnotation(ValidadorArea.class);</span>
+<span class="nc" id="L186">                String param = &quot;{}&quot;;</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">                if (areaVal != null) {</span>
+<span class="nc bnc" id="L188" title="All 2 branches missed.">                    if (requestContext.getUriInfo().getQueryParameters().get(&quot;filterList&quot;) == null) {</span>
+<span class="nc" id="L189">                        Mensaje msg = new Mensaje(&quot;ACCESO NO PERMITIDO&quot;, &quot;No ha establecido el area a consultar&quot;, TipoMensaje.warn);</span>
+<span class="nc" id="L190">                        return Response.status(Response.Status.FORBIDDEN).entity(msg).build();</span>
+                    }
+<span class="nc" id="L192">                    String filterList = requestContext.getUriInfo().getQueryParameters().get(&quot;filterList&quot;).get(0);</span>
+<span class="nc" id="L193">                    List&lt;LinkedHashMap&gt; filtro = Util.fromJson(filterList, List.class);</span>
+<span class="nc bnc" id="L194" title="All 2 branches missed.">                    for (LinkedHashMap filt : filtro) {</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">                        if (((String) filt.get(&quot;field&quot;)).equals(areaVal.value())) {</span>
+<span class="nc" id="L196">                            param = ((String) filt.get(&quot;value1&quot;));</span>
+                        }
+<span class="nc" id="L198">                    }</span>
+<span class="nc bnc" id="L199" title="All 4 branches missed.">                    if (param == null || param.equals(&quot;{}&quot;)) {</span>
+<span class="nc" id="L200">                        Mensaje msg = new Mensaje(&quot;ACCESO NO PERMITIDO&quot;, &quot;No ha establecido el area a consultar&quot;, TipoMensaje.warn);</span>
+<span class="nc" id="L201">                        return Response.status(Response.Status.FORBIDDEN).entity(msg).build();</span>
+                    }
+                }
+
+<span class="nc" id="L205">                query.setParameter(1, method);</span>
+<span class="nc" id="L206">                query.setParameter(2, ruta);</span>
+<span class="nc" id="L207">                query.setParameter(3, Integer.parseInt(empresa_id));</span>
+<span class="nc" id="L208">                query.setParameter(4, tokenAct.getId());</span>
+<span class="nc" id="L209">                query.setParameter(5, tokenAct.getUsuario().getId());</span>
+<span class="nc" id="L210">                query.setParameter(6, param);</span>
+<span class="nc" id="L211">                query.setParameter(7, httpRequest.getRemoteAddr());</span>
+
+<span class="nc" id="L213">                Object[] tupla = (Object[]) query.getSingleResult();</span>
+<span class="nc" id="L214">                estado = (String) tupla[0];</span>
+<span class="nc bnc" id="L215" title="All 2 branches missed.">                passwdVigente = tupla[1] == null ? false : (Boolean) tupla[1];</span>
+<span class="nc bnc" id="L216" title="All 2 branches missed.">                tienePermiso = tupla[2] == null ? false : (Boolean) tupla[2];</span>
+<span class="nc bnc" id="L217" title="All 2 branches missed.">                permisoArea = tupla[3] == null ? false : (Boolean) tupla[3];</span>
+<span class="nc" id="L218">                nombreRecurso = (String) tupla[4];</span>
+<span class="nc" id="L219">                codigoRecurso = (String) tupla[5];</span>
+<span class="nc" id="L220">                idToken = (String) tupla[6];</span>
+<span class="nc" id="L221">                expToken = (Date) tupla[7];</span>
+<span class="nc" id="L222">                ipValida = (Boolean) tupla[8];</span>
+
+<span class="nc bnc" id="L224" title="All 2 branches missed.">                if (!ipValida) {</span>
+<span class="nc" id="L225">                    Mensaje msg = new Mensaje(</span>
+                            &quot;ACCESO NO PERMITIDO&quot;,
+                            &quot;Su dirección IP no se encuentra autorizada para realizar peticiones. &quot;
+                            + &quot;Por favor pongase en contacto con el administrador.&quot;,
+                            TipoMensaje.warn
+                    );
+<span class="nc" id="L231">                    return Response.status(Response.Status.FORBIDDEN).entity(msg).build();</span>
+                }
+
+                // TODO: Se debe determinar que tratamiento dar cuando no es posible recibir el id de empresa de la sesión
+<span class="nc bnc" id="L235" title="All 2 branches missed.">                if (idToken != null) {</span>
+                    // En este punto, si las fechas de expiración del token en DB es diferente a la recibida en el token, el token pudo ser manipulado
+                    // y la firma del mismo fue vulnerada, supondría una situación de alto riesgo
+<span class="nc bnc" id="L238" title="All 2 branches missed.">                    if (expToken.compareTo(tokenAct.getExpira()) != 0) {</span>
+<span class="nc" id="L239">                        tokenFacade.remove(new TokenActivo(idToken));</span>
+<span class="nc" id="L240">                        Mensaje msg = new Mensaje(&quot;TOKEN ALTERADO&quot;, &quot;Fechas de expiración no coinciden, posible alteración de token: &quot; + token, TipoMensaje.error, Mensaje.COD_TOKEN_ALTERADO);</span>
+<span class="nc" id="L241">                        Logger.getLogger(AuthorizationFacade.class.getName()).log(Level.SEVERE, msg.toString());</span>
+<span class="nc" id="L242">                        this.usuarioFacade.bloquearUsuario(tokenAct.getUsuario());</span>
+<span class="nc" id="L243">                        return Response.status(Response.Status.FORBIDDEN).entity(new Mensaje()).build();</span>
+                    }
+<span class="nc bnc" id="L245" title="All 2 branches missed.">                    if (expToken.before(new Date())) {</span>
+<span class="nc" id="L246">                        tokenFacade.remove(new TokenActivo(idToken));</span>
+<span class="nc" id="L247">                        Mensaje msg = new Mensaje(&quot;TOKEN EXPIRADO&quot;, &quot;Token de sesión expirado&quot;, TipoMensaje.warn, Mensaje.COD_TOKEN_EXPIRADO);</span>
+<span class="nc" id="L248">                        return Response.status(Response.Status.UNAUTHORIZED).entity(msg).build();</span>
+                    }
+                } else {
+<span class="nc" id="L251">                    Mensaje msg = new Mensaje(&quot;TOKEN EXPIRADO&quot;, &quot;Token de sesión expirado&quot;, TipoMensaje.warn, Mensaje.COD_TOKEN_EXPIRADO);</span>
+<span class="nc" id="L252">                    return Response.status(Response.Status.UNAUTHORIZED).entity(msg).build();</span>
+                }
+
+                // si idToken != null indica que se recibió un token que no se encuentra en la lista blanca
+<span class="nc bnc" id="L256" title="All 2 branches missed.">                if (EstadoUsuario.CAMBIO_PASSWD.name().equals(estado)) {</span>
+<span class="nc" id="L257">                    Mensaje msg = new Mensaje(&quot;CONTRASEÑA EXPIRADA&quot;, &quot;Por favor actualice su contraseña para continuar&quot;, TipoMensaje.warn, Mensaje.COD_PASSWD_EXPIRADO);</span>
+<span class="nc" id="L258">                    return Response.status(Response.Status.UNAUTHORIZED).entity(msg).build();</span>
+                }
+
+<span class="nc bnc" id="L261" title="All 2 branches missed.">                if (!EstadoUsuario.ACTIVO.name().equals(estado)) {</span>
+<span class="nc" id="L262">                    Mensaje msg = new Mensaje(&quot;USUARIO NO VALIDO&quot;, &quot;El usuario no se encuentra activo actualmente&quot;, TipoMensaje.error);</span>
+<span class="nc" id="L263">                    return Response.status(Response.Status.FORBIDDEN).entity(msg).build();</span>
+                }
+
+<span class="nc bnc" id="L266" title="All 2 branches missed.">                if (!passwdVigente) {</span>
+                    // Establece el estado del usuario para cambio de contraseña
+<span class="nc" id="L268">                    Usuario usrDB = usuarioFacade.find(tokenAct.getUsuario().getId());</span>
+<span class="nc" id="L269">                    usrDB.setEstado(EstadoUsuario.CAMBIO_PASSWD);</span>
+<span class="nc" id="L270">                    usuarioFacade.edit(usrDB);</span>
+<span class="nc" id="L271">                    Mensaje msg = new Mensaje(&quot;CONTRASEÑA EXPIRADA&quot;, &quot;Por favor actualice su contraseña para continuar&quot;, TipoMensaje.warn, Mensaje.COD_PASSWD_EXPIRADO);</span>
+<span class="nc" id="L272">                    return Response.status(Response.Status.UNAUTHORIZED).entity(msg).build();</span>
+                }
+<span class="nc bnc" id="L274" title="All 2 branches missed.">                if (!tienePermiso) {</span>
+<span class="nc" id="L275">                    Mensaje msg = new Mensaje(&quot;ACCESO DENEGADO&quot;, &quot;No tiene asignado el permiso \&quot;&quot; + nombreRecurso + &quot;\&quot; [&quot; + codigoRecurso + &quot;]&quot;, TipoMensaje.warn, Mensaje.COD_PERMISOS_INSUFICIENTES);</span>
+<span class="nc" id="L276">                    return Response.status(Response.Status.FORBIDDEN).entity(msg).build();</span>
+                }
+
+<span class="nc bnc" id="L279" title="All 2 branches missed.">                if (!permisoArea) {</span>
+<span class="nc" id="L280">                    Mensaje msg = new Mensaje(&quot;ACCESO DENEGADO&quot;, &quot;No tiene permisos para acceder a los datos de area&quot;, TipoMensaje.warn, Mensaje.COD_VALIDACION_AREA);</span>
+<span class="nc" id="L281">                    return Response.status(Response.Status.UNAUTHORIZED).entity(msg).build();</span>
+                }
+<span class="nc" id="L283">            } else {</span>
+<span class="nc" id="L284">                tienePermiso = true;</span>
+            }
+
+<span class="nc bnc" id="L287" title="All 2 branches missed.">            if (tienePermiso) {</span>
+<span class="nc" id="L288">                return Response.status(Response.Status.OK).entity(tokenAct.getUsuario().getAsJSON()).build();</span>
+            }
+<span class="nc" id="L290">            Mensaje msg = new Mensaje(&quot;ACCESO DENEGADO&quot;, &quot;No tiene asignado el permiso \&quot;&quot; + nombreRecurso + &quot;\&quot; [&quot; + codigoRecurso + &quot;]&quot;, TipoMensaje.warn, Mensaje.COD_PERMISOS_INSUFICIENTES);</span>
+<span class="nc" id="L291">            return Response.status(Response.Status.FORBIDDEN).entity(msg).build();</span>
+        } else {
+<span class="nc" id="L293">            Mensaje msg = new Mensaje(&quot;ACCESO DENEGADO&quot;, &quot;Token proporcionado no es válido&quot;, TipoMensaje.error, Mensaje.COD_TOKEN_NO_VALIDO);</span>
+<span class="nc" id="L294">            return Response.status(Response.Status.FORBIDDEN).entity(msg).build();</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

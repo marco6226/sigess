@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReporteSGEFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.sge</a> &gt; <span class="el_source">ReporteSGEFacade.java</span></div><h1>ReporteSGEFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.sge;
+
+import co.sigess.entities.sge.Evaluacion;
+import co.sigess.reports.sge.ReportDataSource;
+import co.sigess.reports.sge.GeneradorReportesDOCX;
+import co.sigess.reports.sge.GeneradorReportesHTML;
+import co.sigess.reports.sge.GeneradorPlanTrabajoXSLX;
+import co.sigess.util.Util;
+import java.io.File;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Stateless
+<span class="nc" id="L29">public class ReporteSGEFacade {</span>
+
+    @EJB
+    private EvaluacionFacade evaluacionFacade;
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    public File generarReporteEvaluacion(Integer evaluacionId, String type) throws Exception {
+<span class="nc" id="L38">        Evaluacion evaluacion = evaluacionFacade.find(evaluacionId);</span>
+
+<span class="nc" id="L40">        Map&lt;String, ReportDataSource&gt; datasources = new HashMap&lt;&gt;();</span>
+
+<span class="nc bnc" id="L42" title="All 3 branches missed.">        switch (type) {</span>
+            case &quot;docx&quot;:
+            case &quot;html&quot;: {
+<span class="nc" id="L45">                String nombreReporte = &quot;ReporteEvaluacion_&quot; + Util.getFechaId();</span>
+<span class="nc" id="L46">                Query query = em.createNativeQuery(&quot;SELECT elemento_codigo, elemento_nombre, descripcion_calificacion, round((promedio * 100)::numeric, 2) FROM sge.informe_sge(?1)&quot;);</span>
+<span class="nc" id="L47">                query.setParameter(1, evaluacion.getId());</span>
+<span class="nc" id="L48">                ReportDataSource rds = new ReportDataSource(new String[]{&quot;F{elemento_codigo}&quot;, &quot;F{elemento_nombre}&quot;, &quot;F{descripcion_calificacion}&quot;, &quot;F{promedio}&quot;}, query.getResultList().toArray());</span>
+<span class="nc" id="L49">                datasources.put(&quot;DS{tblResumen}&quot;, rds);</span>
+
+<span class="nc" id="L51">                query = em.createNativeQuery(&quot;SELECT elemento_codigo, elemento_nombre, descripcion_calificacion, round((promedio * 100)::numeric, 2) FROM sge.informe_sge(?1)  AS inf WHERE inf.elemento_padre_id IS NULL;&quot;);</span>
+<span class="nc" id="L52">                query.setParameter(1, evaluacion.getId());</span>
+<span class="nc" id="L53">                ReportDataSource chartDesempeño = new ReportDataSource(new String[]{&quot;F{elemento_codigo}&quot;, &quot;F{elemento_nombre}&quot;, &quot;F{descripcion_calificacion}&quot;, &quot;F{promedio}&quot;}, query.getResultList().toArray());</span>
+<span class="nc" id="L54">                datasources.put(&quot;DS{chartDesempeño}&quot;, chartDesempeño);</span>
+
+<span class="nc" id="L56">                query = em.createNativeQuery(&quot;SELECT inf.elemento_nombre AS ciclo_nombre,\n&quot;</span>
+                        + &quot;        inf.promedio AS ciclo_promedio,\n&quot;
+                        + &quot;        inf2.elemento_nombre AS estandar_nombre,\n&quot;
+                        + &quot;        round((inf2.promedio * 100)::numeric, 2) AS estandar_promedio\n&quot;
+                        + &quot;    FROM sge.informe_sge(?1) as inf\n&quot;
+                        + &quot;    INNER JOIN sge.informe_sge(?1) as inf2 ON inf2.elemento_padre_id = inf.elemento_id\n&quot;
+                        + &quot;    WHERE inf.elemento_padre_id IS NULL;&quot;);
+<span class="nc" id="L63">                query.setParameter(1, evaluacion.getId());</span>
+<span class="nc" id="L64">                ReportDataSource chartResumen = new ReportDataSource(new String[]{&quot;F{ciclo_nombre}&quot;, &quot;F{ciclo_promedio}&quot;, &quot;F{estandar_nombre}&quot;, &quot;F{estandar_promedio}&quot;}, query.getResultList().toArray());</span>
+<span class="nc" id="L65">                datasources.put(&quot;DS{chartResumen}&quot;, chartResumen);</span>
+
+<span class="nc" id="L67">                Float total = 0.0F;</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">                for (Object value : chartDesempeño.getValues()) {</span>
+<span class="nc" id="L69">                    total += ((BigDecimal) ((Object[]) value)[3]).floatValue();</span>
+                }
+<span class="nc" id="L71">                total = total / chartDesempeño.getValues().length;</span>
+
+<span class="nc" id="L73">                Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L74">                params.put(&quot;P{nombreEmpresa}&quot;, evaluacion.getEmpresa().getNombreComercial());</span>
+<span class="nc" id="L75">                params.put(&quot;P{nitEmpresa}&quot;, evaluacion.getEmpresa().getNit());</span>
+<span class="nc" id="L76">                params.put(&quot;P{nombreResponsable}&quot;, evaluacion.getNombreResponsable());</span>
+<span class="nc" id="L77">                params.put(&quot;P{emailResponsable}&quot;, evaluacion.getEmailResponsable());</span>
+<span class="nc" id="L78">                params.put(&quot;P{fechaElaboracion}&quot;, evaluacion.getFechaFinalizacion());</span>
+<span class="nc" id="L79">                params.put(&quot;P{ciudad}&quot;, evaluacion.getCiudad());</span>
+<span class="nc" id="L80">                params.put(&quot;P{direccion}&quot;, evaluacion.getDireccion());</span>
+<span class="nc" id="L81">                params.put(&quot;P{telefono}&quot;, evaluacion.getTelefono());</span>
+<span class="nc" id="L82">                params.put(&quot;P{actividadEconomica}&quot;, evaluacion.getActividadEconomica());</span>
+<span class="nc" id="L83">                params.put(&quot;P{numeroTrabajadores}&quot;, evaluacion.getNumeroTrabajadores());</span>
+<span class="nc" id="L84">                params.put(&quot;P{nombreEvaluador}&quot;, evaluacion.getNombreEvaluador());</span>
+<span class="nc" id="L85">                params.put(&quot;P{licencia}&quot;, evaluacion.getLicenciaEvaluador());</span>
+<span class="nc" id="L86">                params.put(&quot;P{evaluacionId}&quot;, evaluacion.getId());</span>
+<span class="nc" id="L87">                params.put(&quot;P{totalCumplimiento}&quot;, total);</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">                if (type.equals(&quot;docx&quot;)) {</span>
+<span class="nc" id="L89">                    String template = getClass().getResource(Util.RSRC_REPORTE_EVALUACION_SGE).getPath();</span>
+<span class="nc" id="L90">                    return GeneradorReportesDOCX.generar(params, datasources, new File(template), nombreReporte);</span>
+                } else {
+<span class="nc" id="L92">                    String template = getClass().getResource(Util.RSRC_HTML_REPORTE_EVALUACION_SGE).getPath();</span>
+<span class="nc" id="L93">                    return GeneradorReportesHTML.generar(params, datasources, new File(template), nombreReporte);</span>
+                }
+            }
+            case &quot;xlsx&quot;: {
+<span class="nc" id="L97">                String nombreReporte = &quot;CronogramaAutoEvaluacion_&quot; + Util.getFechaId();</span>
+<span class="nc" id="L98">                Query query = em.createNativeQuery(&quot;select &quot;</span>
+                        + &quot;elemento_codigo, &quot;
+                        + &quot;elemento_nombre, &quot;
+                        + &quot;respuesta_actividad, &quot;
+                        + &quot;respuesta_responsable, &quot;
+                        + &quot;respuesta_recursos, &quot;
+                        + &quot;respuesta_meta &quot;
+                        + &quot;from sge.informe_sge(?1) where ok = 'f';&quot;);
+<span class="nc" id="L106">                query.setParameter(1, evaluacion.getId());</span>
+<span class="nc" id="L107">                ReportDataSource desvDS = new ReportDataSource(new String[]{&quot;F{codigo}&quot;, &quot;F{elemento}&quot;, &quot;F{actividad}&quot;, &quot;F{responsable}&quot;, &quot;F{recursos}&quot;, &quot;F{meta}&quot;}, query.getResultList().toArray());</span>
+<span class="nc" id="L108">                datasources.put(&quot;DS{planTrabajoDS}&quot;, desvDS);</span>
+<span class="nc" id="L109">                String template = getClass().getResource(Util.RSRC_PLAN_TRABAJO_SGE).getPath();</span>
+<span class="nc" id="L110">                return GeneradorPlanTrabajoXSLX.generar(null, datasources, new File(template), nombreReporte);</span>
+            }
+            default:
+<span class="nc" id="L113">                throw new IllegalArgumentException(&quot;No ha especificado el tipo de reporte a generar&quot;);</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

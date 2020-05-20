@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UtilsREST.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.restful.emp</a> &gt; <span class="el_source">UtilsREST.java</span></div><h1>UtilsREST.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.restful.emp;
+
+import co.sigess.entities.emp.Empresa;
+import co.sigess.entities.sge.Elemento;
+import co.sigess.entities.sge.OpcionRespuesta;
+import co.sigess.entities.sge.SistemaGestion;
+import co.sigess.entities.sge.SistemaGestionPK;
+import co.sigess.facade.sge.ElementoFacade;
+import co.sigess.facade.sge.SistemaGestionFacade;
+import co.sigess.restful.security.UtilSecurity;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ws.rs.Produces;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+/**
+ * REST Web Service
+ *
+ * @author fernando
+ */
+@Path(&quot;utils&quot;)
+public class UtilsREST {
+
+    @EJB
+    private SistemaGestionFacade sistemaGestionFacade;
+
+    @EJB
+    private ElementoFacade elementoFacade;
+
+    /**
+     * Creates a new instance of Authentication
+     */
+<span class="nc" id="L43">    public UtilsREST() {</span>
+<span class="nc" id="L44">    }</span>
+
+    /**
+     * Devuelve una codificacion SHA256 de la cadena enviada
+     *
+     * @param cadena
+     * @return an instance of co.colaborapp.core.ws.response.Respuesta
+     */
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path(&quot;toSHA256/{string}&quot;)
+
+    public String toSHA256(@PathParam(&quot;string&quot;) String cadena) {
+<span class="nc" id="L57">        return UtilSecurity.toSHA256(cadena);</span>
+    }
+
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path(&quot;clonarSistemaGestion&quot;)
+    public Response clonarSistemaGestion(
+            @QueryParam(&quot;empresaId&quot;) int empresaId,
+            @QueryParam(&quot;sgeId&quot;) int sgeId,
+            @QueryParam(&quot;sgeVersion&quot;) short sgeVersion) throws Exception {
+
+<span class="nc" id="L68">        SistemaGestion sge = this.sistemaGestionFacade.find(new SistemaGestionPK(sgeId, sgeVersion));</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if (sge == null) {</span>
+<span class="nc" id="L70">            return Response.status(Response.Status.BAD_REQUEST).entity(&quot;No se encontró algún sistema de gestión con el id y version proporcionado&quot;).build();</span>
+        }
+
+<span class="nc" id="L73">        limpiarElementos(sge.getElementoList());</span>
+<span class="nc" id="L74">        sge.setEvaluacionList(null);</span>
+<span class="nc" id="L75">        sge.setSistemaGestionPK(new SistemaGestionPK());</span>
+<span class="nc" id="L76">        sge.getSistemaGestionPK().setVersion((short) 1);</span>
+<span class="nc" id="L77">        sge.setEmpresa(new Empresa(empresaId));</span>
+
+<span class="nc" id="L79">        sge = sistemaGestionFacade.create(sge);</span>
+//        Integer numeroPreguntas = elementoFacade.createElementosSGE(sge);
+//        sge.setNumeroPreguntas(numeroPreguntas);
+//        sge = sistemaGestionFacade.edit(sge);
+
+<span class="nc" id="L84">        return Response.status(Response.Status.OK).entity(&quot;Se realizó correctamente la clonación&quot;).build();</span>
+    }
+
+    private void limpiarElementos(List&lt;Elemento&gt; elementosList) {
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if(elementosList == null){</span>
+<span class="nc" id="L89">            return;</span>
+        }
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        for (Elemento elemento : elementosList) {</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">            if (elemento.getElementoList() != null) {</span>
+<span class="nc" id="L93">                limpiarElementos(elemento.getElementoList());</span>
+            }
+<span class="nc" id="L95">            elemento.setDocumentosList(null);</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">            if (elemento.getOpcionRespuestaList() != null) {</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">                for (OpcionRespuesta opc : elemento.getOpcionRespuestaList()) {</span>
+<span class="nc" id="L98">                    opc.setRespuestaList(null);</span>
+<span class="nc" id="L99">                    opc.setId(null);</span>
+<span class="nc" id="L100">                }</span>
+            }
+<span class="nc" id="L102">            elemento.setId(null);</span>
+<span class="nc" id="L103">        }</span>
+<span class="nc" id="L104">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

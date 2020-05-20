@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReportesSGEREST.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.restful.sge</a> &gt; <span class="el_source">ReportesSGEREST.java</span></div><h1>ReportesSGEREST.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.restful.sge;
+
+import co.sigess.facade.sge.ReporteSGEFacade;
+import co.sigess.restful.ServiceREST;
+import co.sigess.restful.security.Secured;
+import co.sigess.util.Util;
+import java.io.File;
+import javax.ejb.EJB;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Secured
+@Path(&quot;reportesSGE&quot;)
+<span class="nc" id="L28">public class ReportesSGEREST extends ServiceREST{</span>
+
+    @EJB
+    private ReporteSGEFacade reporteSGEFacade;
+
+    @GET
+    @Path(&quot;evaluacion/{evaluacionId}&quot;)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_OCTET_STREAM})
+    public Response find(@PathParam(&quot;evaluacionId&quot;) Integer evaluacionId, @QueryParam(&quot;type&quot;) String type) {
+        try {
+<span class="nc" id="L38">            long ini = System.currentTimeMillis();</span>
+<span class="nc" id="L39">            File reporte = reporteSGEFacade.generarReporteEvaluacion(evaluacionId, type);</span>
+
+<span class="nc" id="L41">            String nombreReporte = reporte.getName();</span>
+<span class="nc" id="L42">            String extension = nombreReporte.substring(nombreReporte.lastIndexOf(&quot;.&quot;) + 1, nombreReporte.length());</span>
+
+<span class="nc" id="L44">            System.out.println(&quot;generado en: &quot; + (System.currentTimeMillis() - ini) + &quot;mS&quot;);</span>
+<span class="nc" id="L45">            Response.ResponseBuilder resp = Response.ok(reporte, MediaType.APPLICATION_OCTET_STREAM);</span>
+<span class="nc" id="L46">            resp.type(&quot;application/&quot; + extension + &quot;;&quot;);</span>
+<span class="nc" id="L47">            resp.header(&quot;Content-Disposition&quot;, &quot;atachment;filename=\&quot;&quot; + reporte.getName() + &quot;\&quot;&quot;);</span>
+<span class="nc" id="L48">            return resp.build();</span>
+
+<span class="nc" id="L50">        } catch (Exception ex) {</span>
+<span class="nc" id="L51">            return Util.manageException(ex, ReportesSGEREST.class);</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

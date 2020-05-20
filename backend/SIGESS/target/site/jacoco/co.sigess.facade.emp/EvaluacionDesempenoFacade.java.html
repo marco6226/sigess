@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EvaluacionDesempenoFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.emp</a> &gt; <span class="el_source">EvaluacionDesempenoFacade.java</span></div><h1>EvaluacionDesempenoFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.emp;
+
+import co.sigess.entities.com.TipoMensaje;
+import co.sigess.entities.emp.CalificacionDesempeno;
+import co.sigess.entities.emp.EvaluacionDesempeno;
+import co.sigess.exceptions.UserMessageException;
+import co.sigess.facade.com.AbstractFacade;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Stateless
+public class EvaluacionDesempenoFacade extends AbstractFacade&lt;EvaluacionDesempeno&gt; {
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    @EJB
+    private CalificacionDesempenoFacade calificacionDesempenoFacade;
+
+    @Override
+    protected EntityManager getEntityManager() {
+<span class="nc" id="L33">        return em;</span>
+    }
+
+    public EvaluacionDesempenoFacade() {
+<span class="nc" id="L37">        super(EvaluacionDesempeno.class);</span>
+<span class="nc" id="L38">    }</span>
+
+    @Override
+    public EvaluacionDesempeno create(EvaluacionDesempeno entity) throws Exception {
+<span class="nc bnc" id="L42" title="All 4 branches missed.">        if (entity.getCalificacionDesempenoList() == null || entity.getCalificacionDesempenoList().isEmpty()) {</span>
+<span class="nc" id="L43">            throw new UserMessageException(&quot;Evaluación no válida&quot;, &quot;La evaluación que intenta crear no contiene respuestas&quot;, TipoMensaje.error);</span>
+        }
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        for (CalificacionDesempeno calfDesemp : entity.getCalificacionDesempenoList()) {</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">            if (calfDesemp.getCompetencia() == null) {</span>
+<span class="nc" id="L47">                throw new UserMessageException(&quot;Calificación no válida&quot;, &quot;Una de las calificaciones no tiene relacionada la competencia&quot;, TipoMensaje.error);</span>
+            }
+<span class="nc" id="L49">        }</span>
+<span class="nc" id="L50">        entity = super.create(entity); //To change body of generated methods, choose Tools | Templates.</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        for (CalificacionDesempeno calfDesemp : entity.getCalificacionDesempenoList()) {</span>
+<span class="nc" id="L52">            calfDesemp.setEvaluacionDesempeno(entity);</span>
+<span class="nc" id="L53">            this.calificacionDesempenoFacade.create(calfDesemp);</span>
+<span class="nc" id="L54">        }</span>
+<span class="nc" id="L55">        return entity;</span>
+    }
+
+    @Override
+    public EvaluacionDesempeno edit(EvaluacionDesempeno entity) throws Exception {
+
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        for (CalificacionDesempeno calfDesemp : entity.getCalificacionDesempenoList()) {</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">            if (calfDesemp.getCompetencia() == null) {</span>
+<span class="nc" id="L63">                throw new UserMessageException(&quot;Calificación no válida&quot;, &quot;Una de las calificaciones no tiene relacionada la competencia&quot;, TipoMensaje.error);</span>
+            }
+<span class="nc bnc" id="L65" title="All 2 branches missed.">            if (calfDesemp.getId() == null) {</span>
+<span class="nc" id="L66">                throw new UserMessageException(&quot;Calificación no válida&quot;, &quot;Una de las calificaciones no tiene relacionado el id&quot;, TipoMensaje.error);</span>
+            }
+<span class="nc" id="L68">            calfDesemp.setEvaluacionDesempeno(entity);</span>
+<span class="nc" id="L69">            this.calificacionDesempenoFacade.edit(calfDesemp);</span>
+<span class="nc" id="L70">        }</span>
+<span class="nc" id="L71">        return super.edit(entity);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

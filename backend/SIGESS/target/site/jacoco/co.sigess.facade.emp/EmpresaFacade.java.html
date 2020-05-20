@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EmpresaFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.emp</a> &gt; <span class="el_source">EmpresaFacade.java</span></div><h1>EmpresaFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.emp;
+
+import co.sigess.facade.com.AbstractFacade;
+import co.sigess.entities.emp.Empresa;
+import co.sigess.entities.emp.Perfil;
+import co.sigess.entities.emp.Permiso;
+import co.sigess.entities.emp.Recurso;
+import co.sigess.entities.emp.UsuarioEmpresa;
+import co.sigess.entities.emp.UsuarioEmpresaPK;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author fmoreno
+ */
+@javax.ejb.Stateless
+public class EmpresaFacade extends AbstractFacade&lt;Empresa&gt; {
+
+    @EJB
+    private PermisoFacade permisoFacade;
+
+    @EJB
+    private PerfilFacade perfilFacade;
+
+    @EJB
+    private RecursoFacade recursoFacade;
+
+    @EJB
+    private UsuarioEmpresaFacade usuarioEmpresaFacade;
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+<span class="nc" id="L45">        return em;</span>
+    }
+
+    public EmpresaFacade() {
+<span class="nc" id="L49">        super(Empresa.class);</span>
+<span class="nc" id="L50">    }</span>
+
+    public List&lt;Empresa&gt; findByUsuario(Integer usuarioId) {
+<span class="nc" id="L53">        Query query = this.em.createQuery(&quot;SELECT DISTINCT emp  FROM Empresa emp  JOIN emp.usuarioEmpresaList ue WHERE ue.usuario.id = :usuarioId ORDER BY emp.razonSocial&quot;);</span>
+
+<span class="nc" id="L55">        query.setParameter(&quot;usuarioId&quot;, usuarioId);</span>
+<span class="nc" id="L56">        List&lt;Empresa&gt; emp = (List&lt;Empresa&gt;) query.getResultList();</span>
+
+<span class="nc" id="L58">        return emp;</span>
+    }
+
+    public Empresa adicionar(Empresa empresa, Integer usuarioId) throws Exception {
+
+        // Si el id de arl es null, la entidad arl debe cargarse como null
+<span class="nc bnc" id="L64" title="All 4 branches missed.">        if (empresa.getArl() != null &amp;&amp; empresa.getArl().getId() == null) {</span>
+<span class="nc" id="L65">            empresa.setArl(null);</span>
+        }
+<span class="nc" id="L67">        empresa = super.create(empresa);</span>
+
+        // Crea un perfil por defecto para la nueva empresa
+<span class="nc" id="L70">        Perfil perfil = new Perfil();</span>
+<span class="nc" id="L71">        perfil.setNombre(&quot;Administrador&quot;);</span>
+<span class="nc" id="L72">        perfil.setDescripcion(&quot;Perfil administrador creado automáticamente&quot;);</span>
+<span class="nc" id="L73">        perfil.setEmpresa(empresa);</span>
+<span class="nc" id="L74">        perfil = perfilFacade.create(perfil);</span>
+
+        // Crea la relacion usuario-empresa y asigna perfil por defecto
+<span class="nc" id="L77">        UsuarioEmpresa ue = new UsuarioEmpresa();</span>
+<span class="nc" id="L78">        ue.setUsuarioEmpresaPK(new UsuarioEmpresaPK(usuarioId, empresa.getId(), perfil.getId()));</span>
+<span class="nc" id="L79">        usuarioEmpresaFacade.create(ue);</span>
+
+        // Crea los permisos para el perfil del usuario que crea la empresa
+<span class="nc" id="L82">        List&lt;Recurso&gt; recursosList = recursoFacade.findAll();</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        for (Recurso recurso : recursosList) {</span>
+<span class="nc" id="L84">            Permiso permiso = new Permiso();</span>
+<span class="nc" id="L85">            permiso.setValido(true);</span>
+<span class="nc" id="L86">            permiso.setEmpresa(empresa);</span>
+<span class="nc" id="L87">            permiso.setPerfil(perfil);</span>
+<span class="nc" id="L88">            permiso.setRecurso(recurso);</span>
+<span class="nc" id="L89">            permisoFacade.create(permiso);</span>
+<span class="nc" id="L90">        }</span>
+
+<span class="nc" id="L92">        return empresa;</span>
+    }
+
+    @Override
+    public Empresa edit(Empresa emp) throws Exception {
+<span class="nc" id="L97">        Empresa empresaDB = this.find(emp.getId());</span>
+<span class="nc" id="L98">        empresaDB.setRazonSocial(emp.getRazonSocial());</span>
+<span class="nc" id="L99">        empresaDB.setNombreComercial(emp.getNombreComercial());</span>
+<span class="nc bnc" id="L100" title="All 4 branches missed.">        if (emp.getArl() != null &amp;&amp; emp.getArl().getId() == null) {</span>
+<span class="nc" id="L101">            empresaDB.setArl(null);</span>
+        } else {
+<span class="nc" id="L103">            empresaDB.setArl(emp.getArl());</span>
+        }
+<span class="nc bnc" id="L105" title="All 4 branches missed.">        if (emp.getCiiu() != null &amp;&amp; emp.getCiiu().getId() == null) {</span>
+<span class="nc" id="L106">            empresaDB.setCiiu(null);</span>
+        } else {
+<span class="nc" id="L108">            empresaDB.setCiiu(emp.getCiiu());</span>
+        }
+<span class="nc" id="L110">        empresaDB.setNit(emp.getNit());</span>
+<span class="nc" id="L111">        return super.edit(empresaDB); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    @Override
+    public void remove(Empresa empresa) throws Exception {
+<span class="nc" id="L116">        super.remove(empresa); //To change body of generated methods, choose Tools | Templates.</span>
+<span class="nc" id="L117">    }</span>
+
+    public boolean vincularContratista(Integer empresaId, Empresa contratista) throws Exception {
+        //Query
+<span class="nc" id="L121">        Empresa empresa = this.find(empresaId);</span>
+<span class="nc" id="L122">        boolean vinculado = false;</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">        if (empresa.getEmpresasContratistasList().contains(contratista)) {</span>
+<span class="nc" id="L124">            empresa.getEmpresasContratistasList().remove(contratista);</span>
+        } else {
+<span class="nc" id="L126">            empresa.getEmpresasContratistasList().add(contratista);</span>
+<span class="nc" id="L127">            vinculado = true;</span>
+        }
+<span class="nc" id="L129">        super.edit(empresa);</span>
+<span class="nc" id="L130">        return vinculado;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

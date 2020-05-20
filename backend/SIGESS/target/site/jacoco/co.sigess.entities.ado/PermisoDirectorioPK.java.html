@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PermisoDirectorioPK.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.ado</a> &gt; <span class="el_source">PermisoDirectorioPK.java</span></div><h1>PermisoDirectorioPK.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.ado;
+
+import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Embeddable
+public class PermisoDirectorioPK implements Serializable {
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = &quot;pk_directorio_id&quot;)
+    private long pkDirectorioId;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = &quot;pk_usuario_id&quot;)
+    private int pkUsuarioId;
+
+<span class="nc" id="L30">    public PermisoDirectorioPK() {</span>
+<span class="nc" id="L31">    }</span>
+
+<span class="nc" id="L33">    public PermisoDirectorioPK(long pkDirectorioId, int pkUsuarioId) {</span>
+<span class="nc" id="L34">        this.pkDirectorioId = pkDirectorioId;</span>
+<span class="nc" id="L35">        this.pkUsuarioId = pkUsuarioId;</span>
+<span class="nc" id="L36">    }</span>
+
+    public long getPkDirectorioId() {
+<span class="nc" id="L39">        return pkDirectorioId;</span>
+    }
+
+    public void setPkDirectorioId(long pkDirectorioId) {
+<span class="nc" id="L43">        this.pkDirectorioId = pkDirectorioId;</span>
+<span class="nc" id="L44">    }</span>
+
+    public int getPkUsuarioId() {
+<span class="nc" id="L47">        return pkUsuarioId;</span>
+    }
+
+    public void setPkUsuarioId(int pkUsuarioId) {
+<span class="nc" id="L51">        this.pkUsuarioId = pkUsuarioId;</span>
+<span class="nc" id="L52">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L56">        int hash = 0;</span>
+<span class="nc" id="L57">        hash += (int) pkDirectorioId;</span>
+<span class="nc" id="L58">        hash += (int) pkUsuarioId;</span>
+<span class="nc" id="L59">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        if (!(object instanceof PermisoDirectorioPK)) {</span>
+<span class="nc" id="L66">            return false;</span>
+        }
+<span class="nc" id="L68">        PermisoDirectorioPK other = (PermisoDirectorioPK) object;</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if (this.pkDirectorioId != other.pkDirectorioId) {</span>
+<span class="nc" id="L70">            return false;</span>
+        }
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        if (this.pkUsuarioId != other.pkUsuarioId) {</span>
+<span class="nc" id="L73">            return false;</span>
+        }
+<span class="nc" id="L75">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L80">        return &quot;co.sigess.entities.ado.PermisoDirectorioPK[ pkDirectorioId=&quot; + pkDirectorioId + &quot;, pkUsuarioId=&quot; + pkUsuarioId + &quot; ]&quot;;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

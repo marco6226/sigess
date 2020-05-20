@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DirectorioFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.ado</a> &gt; <span class="el_source">DirectorioFacade.java</span></div><h1>DirectorioFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.ado;
+
+import co.sigess.entities.ado.Directorio;
+import co.sigess.entities.ado.Documento;
+import co.sigess.entities.ado.Modulo;
+import co.sigess.entities.com.TipoMensaje;
+import co.sigess.entities.inp.Calificacion;
+import co.sigess.exceptions.UserMessageException;
+import co.sigess.facade.auc.ObservacionFacade;
+import co.sigess.facade.com.AbstractFacade;
+import co.sigess.facade.cop.ActaFacade;
+import co.sigess.facade.emp.EmpleadoFacade;
+import co.sigess.facade.inp.CalificacionFacade;
+import co.sigess.facade.sec.AnalisisDesviacionFacade;
+import co.sigess.util.FileUtil;
+import java.io.File;
+import java.io.OutputStream;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Stateless
+public class DirectorioFacade extends AbstractFacade&lt;Directorio&gt; {
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    @EJB
+    private DocumentoFacade documentoFacade;
+
+    @EJB
+    private EmpleadoFacade empleadoFacade;
+
+    @EJB
+    private CalificacionFacade calificacionFacade;
+
+    @EJB
+    private AnalisisDesviacionFacade analisisDesviacionFacade;
+
+    @EJB
+    private ObservacionFacade observacionFacade;
+    
+    @EJB
+    private ActaFacade actaFacade;
+
+    @Override
+    protected EntityManager getEntityManager() {
+<span class="nc" id="L63">        return em;</span>
+    }
+
+    public DirectorioFacade() {
+<span class="nc" id="L67">        super(Directorio.class);</span>
+<span class="nc" id="L68">    }</span>
+
+    public List&lt;Directorio&gt; findAllByUsuarioEmpresa(Integer empresaId, Integer usuarioId) {
+<span class="nc" id="L71">        Query q = this.em.createQuery(&quot;SELECT dir FROM Directorio dir LEFT JOIN dir.permisoDirectorioList pd WHERE dir.eliminado = false AND dir.directorioPadre IS NULL AND dir.empresa.id = ?1 AND dir.usuario.id = ?2 OR (pd.publico = true OR pd.usuario.id = ?2)&quot;);</span>
+<span class="nc" id="L72">        q.setParameter(1, empresaId);</span>
+<span class="nc" id="L73">        q.setParameter(2, usuarioId);</span>
+<span class="nc" id="L74">        List&lt;Directorio&gt; list = (List&lt;Directorio&gt;) q.getResultList();</span>
+<span class="nc" id="L75">        return list;</span>
+    }
+
+    @Override
+    public Directorio create(Directorio entity) throws Exception {
+<span class="nc" id="L80">        return this.create(entity, null);</span>
+    }
+
+    public Directorio create(Directorio directorio, String modParam) throws Exception {
+<span class="nc" id="L84">        directorio.setFechaCreacion(new Date());</span>
+<span class="nc" id="L85">        Documento documento = directorio.getDocumento();</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        if (documento == null) {</span>
+<span class="nc" id="L87">            directorio.setEsDocumento(false);</span>
+<span class="nc" id="L88">            super.create(directorio);</span>
+        } else {
+<span class="nc" id="L90">            directorio.setDocumento(null);</span>
+<span class="nc" id="L91">            super.create(directorio);</span>
+<span class="nc" id="L92">            documento.setId(directorio.getId());</span>
+<span class="nc" id="L93">            documento.setDirectorio(directorio);</span>
+<span class="nc" id="L94">            documentoFacade.create(documento);</span>
+<span class="nc" id="L95">            directorio.setDocumento(documento);</span>
+
+<span class="nc bnc" id="L97" title="All 6 branches missed.">            switch (documento.getModulo()) {</span>
+                case EMP:
+<span class="nc" id="L99">                    Integer empleadoId = Integer.valueOf(modParam);</span>
+<span class="nc" id="L100">                    this.empleadoFacade.relacionarDocumento(documento, empleadoId);</span>
+<span class="nc" id="L101">                    break;</span>
+                case INP:
+<span class="nc" id="L103">                    Long calificacionId = Long.valueOf(modParam);</span>
+<span class="nc" id="L104">                    this.calificacionFacade.relacionarDocumento(documento, calificacionId);</span>
+<span class="nc" id="L105">                    break;</span>
+                case SEC:
+<span class="nc" id="L107">                    Integer analisisId = Integer.valueOf(modParam);</span>
+<span class="nc" id="L108">                    this.analisisDesviacionFacade.relacionarDocumento(documento, analisisId);</span>
+<span class="nc" id="L109">                    break;</span>
+                case AUC:
+<span class="nc" id="L111">                    Long observacionId = Long.valueOf(modParam);</span>
+<span class="nc" id="L112">                    this.observacionFacade.relacionarDocumento(documento, observacionId);</span>
+<span class="nc" id="L113">                    break;</span>
+                case COP:
+<span class="nc" id="L115">                    Long actaId = Long.valueOf(modParam);</span>
+<span class="nc" id="L116">                    this.actaFacade.relacionarDocumento(documento, actaId);</span>
+                default:
+                    break;
+            }
+
+        }
+<span class="nc" id="L122">        directorio.setEliminado(Boolean.FALSE);</span>
+<span class="nc" id="L123">        return directorio;</span>
+    }
+
+    public OutputStream findFile(Long documentoId) {
+<span class="nc" id="L127">        Documento documento = documentoFacade.find(documentoId);</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        if (documento == null) {</span>
+<span class="nc" id="L129">            throw new IllegalArgumentException(&quot;parámetro id no válido&quot;);</span>
+        }
+
+        OutputStream file;
+        try {
+<span class="nc" id="L134">            file = FileUtil.getFromVirtualFS(documento.getRuta());</span>
+<span class="nc" id="L135">        } catch (Exception ex) {</span>
+<span class="nc" id="L136">            Logger.getLogger(DirectorioFacade.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L137">            throw new UserMessageException(&quot;ERROR AL SOLICITAR DOCUMENTO&quot;, &quot;Error de archivo grave: FNTE-&quot; + documento.getId(), TipoMensaje.error);</span>
+<span class="nc" id="L138">        }</span>
+<span class="nc" id="L139">        return file;</span>
+    }
+
+    public OutputStream encontrarDocumentoModulo(Long documentoId, Modulo mod, Integer empresaId) {
+<span class="nc" id="L143">        Query q = this.em.createQuery(&quot;SELECT doc.ruta FROM Documento doc WHERE doc.id = ?1 AND doc.modulo = ?2 AND doc.directorio.empresa.id = ?3&quot;);</span>
+<span class="nc" id="L144">        q.setParameter(1, documentoId);</span>
+<span class="nc" id="L145">        q.setParameter(2, mod);</span>
+<span class="nc" id="L146">        q.setParameter(3, empresaId);</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">        String ruta = q.getResultList().isEmpty() ? null : (String) q.getResultList().get(0);</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        if (ruta == null) {</span>
+<span class="nc" id="L149">            throw new UserMessageException(&quot;ARCHIVO NO ENCONTRADO&quot;, &quot;El archivo que intenta descargar ya no se encuentra disponible&quot;, TipoMensaje.warn);</span>
+        }
+
+        OutputStream file;
+        try {
+<span class="nc" id="L154">            file = FileUtil.getFromVirtualFS(ruta);</span>
+<span class="nc" id="L155">        } catch (Exception ex) {</span>
+<span class="nc" id="L156">            Logger.getLogger(DirectorioFacade.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L157">            throw new UserMessageException(&quot;ERROR AL SOLICITAR DOCUMENTO&quot;, &quot;Error de archivo grave: FNTE-&quot; + documentoId, TipoMensaje.error);</span>
+<span class="nc" id="L158">        }</span>
+<span class="nc" id="L159">        return file;</span>
+    }
+
+    @Override
+    public Directorio edit(Directorio directorio) throws Exception {
+<span class="nc bnc" id="L164" title="All 4 branches missed.">        if (directorio == null || directorio.getId() == null) {</span>
+<span class="nc" id="L165">            throw new IllegalArgumentException(&quot;directorio a actualizar inválido&quot;);</span>
+        }
+<span class="nc" id="L167">        Directorio dirDB = this.find(directorio.getId());</span>
+<span class="nc" id="L168">        dirDB.setNombre(directorio.getNombre());</span>
+<span class="nc" id="L169">        dirDB.setDirectorioPadre(directorio.getDirectorioPadre());</span>
+<span class="nc" id="L170">        return dirDB;</span>
+    }
+
+    public List&lt;Directorio&gt; findByParent(Long directorioId) {
+<span class="nc" id="L174">        Query q = this.em.createQuery(&quot;SELECT dir FROM Directorio dir WHERE dir.directorioPadre.id = ?1 AND dir.eliminado = false&quot;);</span>
+<span class="nc" id="L175">        q.setParameter(1, directorioId);</span>
+<span class="nc" id="L176">        List&lt;Directorio&gt; list = (List&lt;Directorio&gt;) q.getResultList();</span>
+<span class="nc" id="L177">        return list;</span>
+    }
+
+    public Directorio eliminar(Long directorioId) throws Exception {
+<span class="nc" id="L181">        Directorio dirDB = this.find(directorioId);</span>
+<span class="nc" id="L182">        dirDB.setEliminado(Boolean.TRUE);</span>
+<span class="nc" id="L183">        super.edit(dirDB);</span>
+<span class="nc" id="L184">        return dirDB;</span>
+    }
+
+    public List&lt;Directorio&gt; buscarDocumentos(Integer empresaId, Integer usuarioId, String parametro) {
+<span class="nc" id="L188">        Query q = this.em.createQuery(&quot;SELECT dir FROM Directorio dir LEFT JOIN dir.permisoDirectorioList pd WHERE LOWER(dir.nombre) LIKE ?3 AND dir.esDocumento = true AND dir.eliminado = false AND dir.empresa.id = ?1 AND dir.usuario.id = ?2 OR (pd.publico = true OR pd.usuario.id = ?2)&quot;);</span>
+<span class="nc" id="L189">        q.setParameter(1, empresaId);</span>
+<span class="nc" id="L190">        q.setParameter(2, usuarioId);</span>
+<span class="nc" id="L191">        q.setParameter(3, &quot;%&quot; + parametro.toLowerCase() + &quot;%&quot;);</span>
+<span class="nc" id="L192">        List&lt;Directorio&gt; list = (List&lt;Directorio&gt;) q.getResultList();</span>
+<span class="nc" id="L193">        return list;</span>
+    }
+
+    public void eliminarDocumentos(String modulo, String modParam) throws Exception {
+<span class="nc bnc" id="L197" title="All 3 branches missed.">        switch (Modulo.valueOf(modulo)) {</span>
+            case EMP:
+
+<span class="nc" id="L200">                break;</span>
+            case INP:
+<span class="nc" id="L202">                Calificacion calificacion = calificacionFacade.find(Long.valueOf(modParam));</span>
+<span class="nc bnc" id="L203" title="All 2 branches missed.">                for (int i = 0; i &lt; calificacion.getDocumentosList().size(); i++) {</span>
+<span class="nc" id="L204">                    Documento doc = calificacion.getDocumentosList().get(i);</span>
+<span class="nc" id="L205">                    documentoFacade.remove(doc);</span>
+<span class="nc" id="L206">                    i--;</span>
+                }
+<span class="nc" id="L208">                calificacion.setDocumentosList(null);</span>
+<span class="nc" id="L209">                calificacionFacade.edit(calificacion);</span>
+                break;
+        }
+<span class="nc" id="L212">    }</span>
+
+    /**
+     * Realiza la validación de los parámetros recibidos al subir un nuevo
+     * documento, y genera excepcion de resultar inválidos los mismos
+     *
+     * @param modulo
+     * @param modParam
+     */
+    public void validarParametrosUpload(String modulo, String modParam) {
+<span class="nc bnc" id="L222" title="All 2 branches missed.">        if (modulo == null) {</span>
+<span class="nc" id="L223">            throw new IllegalArgumentException(&quot;No se ha especificado el módulo del documento&quot;);</span>
+        }
+        Modulo mod;
+        try {
+<span class="nc" id="L227">            mod = Modulo.valueOf(modulo);</span>
+<span class="nc" id="L228">        } catch (Exception e) {</span>
+<span class="nc" id="L229">            throw new IllegalArgumentException(&quot;El módulo especificado no es válido&quot;);</span>
+<span class="nc" id="L230">        }</span>
+
+<span class="nc bnc" id="L232" title="All 2 branches missed.">        switch (mod) {</span>
+            case EMP:
+            case AUC:
+            case SEC:
+            case INP:
+            case COP:
+<span class="nc bnc" id="L238" title="All 2 branches missed.">                if (modParam == null) {</span>
+<span class="nc" id="L239">                    throw new IllegalArgumentException(&quot;Se ha intentado crear un documento pero no se ha especificado el parametro&quot;);</span>
+                }
+                try {
+<span class="nc" id="L242">                    Integer id = Integer.valueOf(modParam);</span>
+<span class="nc" id="L243">                } catch (NumberFormatException e) {</span>
+<span class="nc" id="L244">                    throw new IllegalArgumentException(&quot;Se ha intentado crear un documento con identificador no válido&quot;);</span>
+<span class="nc" id="L245">                }</span>
+                break;
+        }
+
+<span class="nc" id="L249">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

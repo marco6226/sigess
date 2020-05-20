@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TareaDesviacion.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.sec</a> &gt; <span class="el_source">TareaDesviacion.java</span></div><h1>TareaDesviacion.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.sec;
+
+import co.sigess.entities.emp.Area;
+import co.sigess.entities.emp.Empresa;
+import co.sigess.entities.emp.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Table(name = &quot;tarea_desviacion&quot;, schema = &quot;sec&quot;)
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;TareaDesviacion.findAll&quot;, query = &quot;SELECT t FROM TareaDesviacion t&quot;)})
+public class TareaDesviacion implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = &quot;id&quot;)
+    private Integer id;
+
+    @Size(max = 256)
+    @Column(name = &quot;nombre&quot;)
+    private String nombre;
+
+    @Size(max = 1024)
+    @Column(name = &quot;descripcion&quot;)
+    private String descripcion;
+
+    @Size(max = 20)
+    @Column(name = &quot;modulo&quot;)
+    private String modulo;
+
+    @Basic(optional = false)
+    @Column(name = &quot;estado&quot;)
+    @Enumerated(EnumType.STRING)
+    private EstadoTarea estado;
+
+    @Size(max = 20)
+    @Column(name = &quot;tipo_accion&quot;)
+    private String tipoAccion;
+
+    @Column(name = &quot;realizada&quot;)
+    private Boolean realizada;
+
+    @Column(name = &quot;verificada&quot;)
+    private Boolean verificada;
+
+    @Column(name = &quot;fecha_proyectada&quot;)
+    @Temporal(TemporalType.DATE)
+    private Date fechaProyectada;
+
+    @Column(name = &quot;fecha_verificacion&quot;)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaVerificacion;
+
+    @Column(name = &quot;fecha_realizacion&quot;)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaRealizacion;
+
+    @Size(max = 512)
+    @Column(name = &quot;observaciones_realizacion&quot;)
+    private String observacionesRealizacion;
+
+    @Size(max = 512)
+    @Column(name = &quot;observaciones_verificacion&quot;)
+    private String observacionesVerificacion;
+
+    @JoinColumn(name = &quot;fk_usuario_realiza_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne
+    private Usuario usuarioRealiza;
+
+    @JoinColumn(name = &quot;fk_usuario_verifica_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne
+    private Usuario usuarioVerifica;
+
+    @JoinColumn(name = &quot;fk_area_responsable_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne
+    private Area areaResponsable;
+
+    @NotNull
+    @JoinTable(name = &quot;analisis_desviacion_tarea_desviacion&quot;, schema = &quot;sec&quot;, joinColumns = {
+        @JoinColumn(name = &quot;pk_tarea_desviacion_id&quot;, referencedColumnName = &quot;id&quot;)}, inverseJoinColumns = {
+        @JoinColumn(name = &quot;pk_analisis_desviacion_id&quot;, referencedColumnName = &quot;id&quot;)})
+    @ManyToMany
+    private List&lt;AnalisisDesviacion&gt; analisisDesviacionList;
+
+    @JoinColumn(name = &quot;fk_empresa_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne
+    private Empresa empresa;
+
+<span class="nc" id="L130">    public TareaDesviacion() {</span>
+<span class="nc" id="L131">    }</span>
+
+<span class="nc" id="L133">    public TareaDesviacion(Integer id) {</span>
+<span class="nc" id="L134">        this.id = id;</span>
+<span class="nc" id="L135">    }</span>
+
+    public Integer getId() {
+<span class="nc" id="L138">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="nc" id="L142">        this.id = id;</span>
+<span class="nc" id="L143">    }</span>
+
+    public String getNombre() {
+<span class="nc" id="L146">        return nombre;</span>
+    }
+
+    public void setNombre(String nombre) {
+<span class="nc" id="L150">        this.nombre = nombre;</span>
+<span class="nc" id="L151">    }</span>
+
+    public String getDescripcion() {
+<span class="nc" id="L154">        return descripcion;</span>
+    }
+
+    public void setDescripcion(String descripcion) {
+<span class="nc" id="L158">        this.descripcion = descripcion;</span>
+<span class="nc" id="L159">    }</span>
+
+    public String getModulo() {
+<span class="nc" id="L162">        return modulo;</span>
+    }
+
+    public void setModulo(String modulo) {
+<span class="nc" id="L166">        this.modulo = modulo;</span>
+<span class="nc" id="L167">    }</span>
+
+    public EstadoTarea getEstado() {
+<span class="nc" id="L170">        return estado;</span>
+    }
+
+    public void setEstado(EstadoTarea estado) {
+<span class="nc" id="L174">        this.estado = estado;</span>
+<span class="nc" id="L175">    }</span>
+
+    public String getTipoAccion() {
+<span class="nc" id="L178">        return tipoAccion;</span>
+    }
+
+    public void setTipoAccion(String tipoAccion) {
+<span class="nc" id="L182">        this.tipoAccion = tipoAccion;</span>
+<span class="nc" id="L183">    }</span>
+
+    public Boolean getRealizada() {
+<span class="nc" id="L186">        return realizada;</span>
+    }
+
+    public void setRealizada(Boolean realizada) {
+<span class="nc" id="L190">        this.realizada = realizada;</span>
+<span class="nc" id="L191">    }</span>
+
+    public Boolean getVerificada() {
+<span class="nc" id="L194">        return verificada;</span>
+    }
+
+    public void setVerificada(Boolean verificada) {
+<span class="nc" id="L198">        this.verificada = verificada;</span>
+<span class="nc" id="L199">    }</span>
+
+    public Date getFechaProyectada() {
+<span class="nc" id="L202">        return fechaProyectada;</span>
+    }
+
+    public void setFechaProyectada(Date fechaProyectada) {
+<span class="nc" id="L206">        this.fechaProyectada = fechaProyectada;</span>
+<span class="nc" id="L207">    }</span>
+
+    public Date getFechaVerificacion() {
+<span class="nc" id="L210">        return fechaVerificacion;</span>
+    }
+
+    public void setFechaVerificacion(Date fechaVerificacion) {
+<span class="nc" id="L214">        this.fechaVerificacion = fechaVerificacion;</span>
+<span class="nc" id="L215">    }</span>
+
+    public Date getFechaRealizacion() {
+<span class="nc" id="L218">        return fechaRealizacion;</span>
+    }
+
+    public void setFechaRealizacion(Date fechaRealizacion) {
+<span class="nc" id="L222">        this.fechaRealizacion = fechaRealizacion;</span>
+<span class="nc" id="L223">    }</span>
+
+    public String getObservacionesRealizacion() {
+<span class="nc" id="L226">        return observacionesRealizacion;</span>
+    }
+
+    public void setObservacionesRealizacion(String observacionesRealizacion) {
+<span class="nc" id="L230">        this.observacionesRealizacion = observacionesRealizacion;</span>
+<span class="nc" id="L231">    }</span>
+
+    public String getObservacionesVerificacion() {
+<span class="nc" id="L234">        return observacionesVerificacion;</span>
+    }
+
+    public void setObservacionesVerificacion(String observacionesVerificacion) {
+<span class="nc" id="L238">        this.observacionesVerificacion = observacionesVerificacion;</span>
+<span class="nc" id="L239">    }</span>
+
+    public Usuario getUsuarioRealiza() {
+<span class="nc" id="L242">        return usuarioRealiza;</span>
+    }
+
+    public void setUsuarioRealiza(Usuario usuarioRealiza) {
+<span class="nc" id="L246">        this.usuarioRealiza = usuarioRealiza;</span>
+<span class="nc" id="L247">    }</span>
+
+    public Usuario getUsuarioVerifica() {
+<span class="nc" id="L250">        return usuarioVerifica;</span>
+    }
+
+    public void setUsuarioVerifica(Usuario usuarioVerifica) {
+<span class="nc" id="L254">        this.usuarioVerifica = usuarioVerifica;</span>
+<span class="nc" id="L255">    }</span>
+
+    public Area getAreaResponsable() {
+<span class="nc" id="L258">        return areaResponsable;</span>
+    }
+
+    public void setAreaResponsable(Area areaResponsable) {
+<span class="nc" id="L262">        this.areaResponsable = areaResponsable;</span>
+<span class="nc" id="L263">    }</span>
+
+    @XmlTransient
+    @JsonIgnore
+    public List&lt;AnalisisDesviacion&gt; getAnalisisDesviacionList() {
+<span class="nc" id="L268">        return analisisDesviacionList;</span>
+    }
+
+    @JsonProperty(&quot;analisisDesviacionList&quot;)
+    public void setAnalisisDesviacionList(List&lt;AnalisisDesviacion&gt; analisisDesviacionList) {
+<span class="nc" id="L273">        this.analisisDesviacionList = analisisDesviacionList;</span>
+<span class="nc" id="L274">    }</span>
+
+    @XmlTransient
+    @JsonIgnore
+    public Empresa getEmpresa() {
+<span class="nc" id="L279">        return empresa;</span>
+    }
+
+    public void setEmpresa(Empresa empresa) {
+<span class="nc" id="L283">        this.empresa = empresa;</span>
+<span class="nc" id="L284">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L288">        int hash = 0;</span>
+<span class="nc bnc" id="L289" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L290">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L296" title="All 2 branches missed.">        if (!(object instanceof TareaDesviacion)) {</span>
+<span class="nc" id="L297">            return false;</span>
+        }
+<span class="nc" id="L299">        TareaDesviacion other = (TareaDesviacion) object;</span>
+<span class="nc bnc" id="L300" title="All 6 branches missed.">        return this.id != null &amp;&amp; other.id != null &amp;&amp; Objects.equals(this.id, other.id);</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L305">        return &quot;co.sigess.entities.sec.TareaDesviacion[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

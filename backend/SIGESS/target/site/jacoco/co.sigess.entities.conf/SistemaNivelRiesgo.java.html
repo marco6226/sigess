@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SistemaNivelRiesgo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.conf</a> &gt; <span class="el_source">SistemaNivelRiesgo.java</span></div><h1>SistemaNivelRiesgo.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.conf;
+
+import co.sigess.entities.emp.Empresa;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@Table(name = &quot;sistema_nivel_riesgo&quot;, schema = &quot;conf&quot;)
+@NamedQueries({
+    @NamedQuery(name = &quot;SistemaNivelRiesgo.findAll&quot;, query = &quot;SELECT s FROM SistemaNivelRiesgo s&quot;)})
+public class SistemaNivelRiesgo implements Serializable {
+
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @SequenceGenerator(name = &quot;sistema_nivel_riesgo_id_seq&quot;, schema = &quot;conf&quot;, sequenceName = &quot;sistema_nivel_riesgo_id_seq&quot;, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = &quot;sistema_nivel_riesgo_id_seq&quot;)
+    @Basic(optional = false)
+    @Column(name = &quot;id&quot;)
+    private Integer id;
+    
+    @Size(max = 45)
+    @Column(name = &quot;nombre&quot;)
+    private String nombre;
+    
+    @Size(max = 255)
+    @Column(name = &quot;descripcion&quot;)
+    private String descripcion;
+    
+    @Column(name = &quot;seleccionado&quot;)
+    private Boolean seleccionado;
+        
+    @OneToMany(mappedBy = &quot;sistemaNivelRiesgo&quot;)
+    private List&lt;Probabilidad&gt; probabilidadList;
+    
+    @OneToMany(mappedBy = &quot;sistemaNivelRiesgo&quot;)
+    private List&lt;Consecuencia&gt; consecuenciaList;
+    
+    @JsonIgnore
+    @JoinColumn(name = &quot;fk_empesa_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne()
+    private Empresa empresa;
+    
+    @OneToMany(mappedBy = &quot;sistemaNivelRiesgo&quot;)
+    private List&lt;NivelRiesgo&gt; nivelRiesgoList;
+
+<span class="nc" id="L72">    public SistemaNivelRiesgo() {</span>
+<span class="nc" id="L73">    }</span>
+
+<span class="nc" id="L75">    public SistemaNivelRiesgo(Integer id) {</span>
+<span class="nc" id="L76">        this.id = id;</span>
+<span class="nc" id="L77">    }</span>
+
+    public Integer getId() {
+<span class="nc" id="L80">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="nc" id="L84">        this.id = id;</span>
+<span class="nc" id="L85">    }</span>
+
+    public String getNombre() {
+<span class="nc" id="L88">        return nombre;</span>
+    }
+
+    public void setNombre(String nombre) {
+<span class="nc" id="L92">        this.nombre = nombre;</span>
+<span class="nc" id="L93">    }</span>
+
+    public String getDescripcion() {
+<span class="nc" id="L96">        return descripcion;</span>
+    }
+
+    public void setDescripcion(String descripcion) {
+<span class="nc" id="L100">        this.descripcion = descripcion;</span>
+<span class="nc" id="L101">    }</span>
+
+
+    public Empresa getEmpresa() {
+<span class="nc" id="L105">        return empresa;</span>
+    }
+
+    public void setEmpresa(Empresa empresa) {
+<span class="nc" id="L109">        this.empresa = empresa;</span>
+<span class="nc" id="L110">    }</span>
+
+    public List&lt;NivelRiesgo&gt; getNivelRiesgoList() {
+<span class="nc" id="L113">        return nivelRiesgoList;</span>
+    }
+
+    public void setNivelRiesgoList(List&lt;NivelRiesgo&gt; nivelRiesgoList) {
+<span class="nc" id="L117">        this.nivelRiesgoList = nivelRiesgoList;</span>
+<span class="nc" id="L118">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L122">        int hash = 0;</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L124">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        if (!(object instanceof SistemaNivelRiesgo)) {</span>
+<span class="nc" id="L131">            return false;</span>
+        }
+<span class="nc" id="L133">        SistemaNivelRiesgo other = (SistemaNivelRiesgo) object;</span>
+<span class="nc bnc" id="L134" title="All 8 branches missed.">        if ((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id))) {</span>
+<span class="nc" id="L135">            return false;</span>
+        }
+<span class="nc" id="L137">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L142">        return &quot;co.sigess.entities.conf.SistemaNivelRiesgo[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+
+    public Boolean getSeleccionado() {
+<span class="nc" id="L146">        return seleccionado;</span>
+    }
+
+    public void setSeleccionado(Boolean seleccionado) {
+<span class="nc" id="L150">        this.seleccionado = seleccionado;</span>
+<span class="nc" id="L151">    }</span>
+
+    public List&lt;Probabilidad&gt; getProbabilidadList() {
+<span class="nc" id="L154">        return probabilidadList;</span>
+    }
+
+    public void setProbabilidadList(List&lt;Probabilidad&gt; probabilidadList) {
+<span class="nc" id="L158">        this.probabilidadList = probabilidadList;</span>
+<span class="nc" id="L159">    }</span>
+
+    public List&lt;Consecuencia&gt; getConsecuenciaList() {
+<span class="nc" id="L162">        return consecuenciaList;</span>
+    }
+
+    public void setConsecuenciaList(List&lt;Consecuencia&gt; consecuenciaList) {
+<span class="nc" id="L166">        this.consecuenciaList = consecuenciaList;</span>
+<span class="nc" id="L167">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Evaluacion.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.sge</a> &gt; <span class="el_source">Evaluacion.java</span></div><h1>Evaluacion.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.sge;
+
+import co.sigess.entities.emp.Empresa;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Table(name = &quot;evaluacion&quot;, schema = &quot;sge&quot;)
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;Evaluacion.findAll&quot;, query = &quot;SELECT e FROM Evaluacion e&quot;)})
+public class Evaluacion implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @SequenceGenerator(name = &quot;evaluacion_id_seq&quot;, schema = &quot;sge&quot;, sequenceName = &quot;evaluacion_id_seq&quot;, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = &quot;evaluacion_id_seq&quot;)
+    @Column(name = &quot;id&quot;)
+    private Integer id;
+
+    @Size(max = 100)
+    @Column(name = &quot;nombre&quot;)
+    private String nombre;
+
+    @Size(max = 45)
+    @Column(name = &quot;codigo&quot;)
+    private String codigo;
+
+    @Size(max = 1024)
+    @Column(name = &quot;descripcion&quot;)
+    private String descripcion;
+
+    @Column(name = &quot;fecha_inicio&quot;, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar fechaInicio;
+
+    @Column(name = &quot;fecha_finalizacion&quot;, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaFinalizacion;
+
+    @Size(max = 100)
+    @Column(name = &quot;nombre_responsable&quot;)
+    private String nombreResponsable;
+
+    @Size(max = 45)
+    @Column(name = &quot;email_responsable&quot;)
+    private String emailResponsable;
+
+    @Size(max = 255)
+    @Column(name = &quot;ciudad&quot;)
+    private String ciudad;
+
+    @Size(max = 45)
+    @Column(name = &quot;direccion&quot;)
+    private String direccion;
+
+    @Size(max = 20)
+    @Column(name = &quot;telefono&quot;)
+    private String telefono;
+
+    @Size(max = 255)
+    @Column(name = &quot;actividad_economica&quot;)
+    private String actividadEconomica;
+
+    @Column(name = &quot;numero_trabajadores&quot;)
+    private Integer numeroTrabajadores;
+
+    @Size(max = 255)
+    @Column(name = &quot;nombre_evaluador&quot;)
+    private String nombreEvaluador;
+
+    @Size(max = 45)
+    @Column(name = &quot;licencia_evaluador&quot;)
+    private String licenciaEvaluador;
+
+    @NotNull
+    @JoinColumn(name = &quot;fk_empresa_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private Empresa empresa;
+
+    @JoinColumns({
+        @JoinColumn(name = &quot;fk_sistema_gestion_id&quot;, referencedColumnName = &quot;id&quot;)
+        , @JoinColumn(name = &quot;fk_sistema_gestion_version&quot;, referencedColumnName = &quot;version&quot;)})
+    @ManyToOne(optional = false)
+    private SistemaGestion sistemaGestion;
+
+    @OneToMany(mappedBy = &quot;evaluacion&quot;)
+    private List&lt;Respuesta&gt; respuestaList;
+
+<span class="nc" id="L127">    public Evaluacion() {</span>
+<span class="nc" id="L128">    }</span>
+
+<span class="nc" id="L130">    public Evaluacion(Integer id) {</span>
+<span class="nc" id="L131">        this.id = id;</span>
+<span class="nc" id="L132">    }</span>
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;METHODS&quot;&gt;
+    public int getNumeroPreguntas() {
+<span class="nc" id="L136">        return sistemaGestion.getNumeroPreguntas();</span>
+    }
+
+    public int getNumeroRespuestas() {
+<span class="nc bnc" id="L140" title="All 2 branches missed.">        return this.respuestaList == null ? 0 : this.respuestaList.size();</span>
+    }
+
+    public String getNombreSGE() {
+<span class="nc" id="L144">        return sistemaGestion.getNombre();</span>
+    }
+//&lt;/editor-fold&gt;
+
+    //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;GETTERS-SETTERS&quot;&gt;
+    public Integer getId() {
+<span class="nc" id="L150">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="nc" id="L154">        this.id = id;</span>
+<span class="nc" id="L155">    }</span>
+
+    public String getNombre() {
+<span class="nc" id="L158">        return nombre;</span>
+    }
+
+    public void setNombre(String nombre) {
+<span class="nc" id="L162">        this.nombre = nombre;</span>
+<span class="nc" id="L163">    }</span>
+
+    public String getCodigo() {
+<span class="nc" id="L166">        return codigo;</span>
+    }
+
+    public void setCodigo(String codigo) {
+<span class="nc" id="L170">        this.codigo = codigo;</span>
+<span class="nc" id="L171">    }</span>
+
+    public String getDescripcion() {
+<span class="nc" id="L174">        return descripcion;</span>
+    }
+
+    public void setDescripcion(String descripcion) {
+<span class="nc" id="L178">        this.descripcion = descripcion;</span>
+<span class="nc" id="L179">    }</span>
+
+    public Calendar getFechaInicio() {
+<span class="nc" id="L182">        return fechaInicio;</span>
+    }
+
+    public void setFechaInicio(Calendar fechaInicio) {
+<span class="nc" id="L186">        this.fechaInicio = fechaInicio;</span>
+<span class="nc" id="L187">    }</span>
+
+    public Date getFechaFinalizacion() {
+<span class="nc" id="L190">        return fechaFinalizacion;</span>
+    }
+
+    public void setFechaFinalizacion(Date fechaFinalizacion) {
+<span class="nc" id="L194">        this.fechaFinalizacion = fechaFinalizacion;</span>
+<span class="nc" id="L195">    }</span>
+
+    public Empresa getEmpresa() {
+<span class="nc" id="L198">        return empresa;</span>
+    }
+
+    public void setEmpresa(Empresa empresa) {
+<span class="nc" id="L202">        this.empresa = empresa;</span>
+<span class="nc" id="L203">    }</span>
+
+    @JsonIgnore
+    public SistemaGestion getSistemaGestion() {
+<span class="nc" id="L207">        return sistemaGestion;</span>
+    }
+
+    @JsonProperty(&quot;sistemaGestion&quot;)
+    public void setSistemaGestion(SistemaGestion sistemaGestion) {
+<span class="nc" id="L212">        this.sistemaGestion = sistemaGestion;</span>
+<span class="nc" id="L213">    }</span>
+
+    @XmlTransient
+    public List&lt;Respuesta&gt; getRespuestaList() {
+<span class="nc" id="L217">        return respuestaList;</span>
+    }
+
+    public void setRespuestaList(List&lt;Respuesta&gt; respuestaList) {
+<span class="nc" id="L221">        this.respuestaList = respuestaList;</span>
+<span class="nc" id="L222">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L226">        int hash = 0;</span>
+<span class="nc bnc" id="L227" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L228">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L234" title="All 2 branches missed.">        if (!(object instanceof Evaluacion)) {</span>
+<span class="nc" id="L235">            return false;</span>
+        }
+<span class="nc" id="L237">        Evaluacion other = (Evaluacion) object;</span>
+<span class="nc bnc" id="L238" title="All 8 branches missed.">        if ((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id))) {</span>
+<span class="nc" id="L239">            return false;</span>
+        }
+<span class="nc" id="L241">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L246">        return &quot;co.sigess.entities.sgeEvaluacion[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+
+    public String getNombreResponsable() {
+<span class="nc" id="L250">        return nombreResponsable;</span>
+    }
+
+    public void setNombreResponsable(String nombreResponsable) {
+<span class="nc" id="L254">        this.nombreResponsable = nombreResponsable;</span>
+<span class="nc" id="L255">    }</span>
+
+    public String getEmailResponsable() {
+<span class="nc" id="L258">        return emailResponsable;</span>
+    }
+
+    public void setEmailResponsable(String emailResponsable) {
+<span class="nc" id="L262">        this.emailResponsable = emailResponsable;</span>
+<span class="nc" id="L263">    }</span>
+
+    public String getCiudad() {
+<span class="nc" id="L266">        return ciudad;</span>
+    }
+
+    public void setCiudad(String ciudad) {
+<span class="nc" id="L270">        this.ciudad = ciudad;</span>
+<span class="nc" id="L271">    }</span>
+
+    public String getDireccion() {
+<span class="nc" id="L274">        return direccion;</span>
+    }
+
+    public void setDireccion(String direccion) {
+<span class="nc" id="L278">        this.direccion = direccion;</span>
+<span class="nc" id="L279">    }</span>
+
+    public String getTelefono() {
+<span class="nc" id="L282">        return telefono;</span>
+    }
+
+    public void setTelefono(String telefono) {
+<span class="nc" id="L286">        this.telefono = telefono;</span>
+<span class="nc" id="L287">    }</span>
+
+    public String getActividadEconomica() {
+<span class="nc" id="L290">        return actividadEconomica;</span>
+    }
+
+    public void setActividadEconomica(String actividadEconomica) {
+<span class="nc" id="L294">        this.actividadEconomica = actividadEconomica;</span>
+<span class="nc" id="L295">    }</span>
+
+    public Integer getNumeroTrabajadores() {
+<span class="nc" id="L298">        return numeroTrabajadores;</span>
+    }
+
+    public void setNumeroTrabajadores(Integer numeroTrabajadores) {
+<span class="nc" id="L302">        this.numeroTrabajadores = numeroTrabajadores;</span>
+<span class="nc" id="L303">    }</span>
+
+    public String getNombreEvaluador() {
+<span class="nc" id="L306">        return nombreEvaluador;</span>
+    }
+
+    public void setNombreEvaluador(String nombreEvaluador) {
+<span class="nc" id="L310">        this.nombreEvaluador = nombreEvaluador;</span>
+<span class="nc" id="L311">    }</span>
+
+    public String getLicenciaEvaluador() {
+<span class="nc" id="L314">        return licenciaEvaluador;</span>
+    }
+
+    public void setLicenciaEvaluador(String licenciaEvaluador) {
+<span class="nc" id="L318">        this.licenciaEvaluador = licenciaEvaluador;</span>
+<span class="nc" id="L319">    }</span>
+
+//&lt;/editor-fold&gt;
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

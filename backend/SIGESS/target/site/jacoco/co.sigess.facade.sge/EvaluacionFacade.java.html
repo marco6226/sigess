@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EvaluacionFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.facade.sge</a> &gt; <span class="el_source">EvaluacionFacade.java</span></div><h1>EvaluacionFacade.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.facade.sge;
+
+import co.sigess.entities.sge.DataSet;
+import co.sigess.entities.sge.Elemento;
+import co.sigess.entities.sge.Evaluacion;
+import co.sigess.entities.sge.IndicadoresData;
+import co.sigess.entities.sge.IndicadoresSGE;
+import co.sigess.entities.sge.SistemaGestion;
+import co.sigess.entities.sge.dto.DesviacionSGEDTO;
+import co.sigess.util.Util;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Stateless
+public class EvaluacionFacade extends co.sigess.facade.com.AbstractFacade&lt;Evaluacion&gt; {
+
+    @EJB
+    private SistemaGestionFacade sistemaGestionFacade;
+
+    @PersistenceContext(unitName = &quot;SIGESS_PU&quot;)
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+<span class="nc" id="L44">        return em;</span>
+    }
+
+    public EvaluacionFacade() {
+<span class="nc" id="L48">        super(Evaluacion.class);</span>
+<span class="nc" id="L49">    }</span>
+
+    @Override
+    public Evaluacion create(Evaluacion evaluacion) throws Exception {
+<span class="nc" id="L53">        this.comprobarDatos(evaluacion);</span>
+<span class="nc" id="L54">        evaluacion.setFechaInicio(Calendar.getInstance());</span>
+<span class="nc" id="L55">        return super.create(evaluacion);</span>
+    }
+
+    @Override
+    public Evaluacion edit(Evaluacion evaluacion) throws Exception {
+<span class="nc" id="L60">        this.comprobarDatos(evaluacion);</span>
+<span class="nc" id="L61">        evaluacion = super.edit(evaluacion);</span>
+<span class="nc" id="L62">        return evaluacion;</span>
+    }
+
+    private void comprobarDatos(Evaluacion evaluacion) {
+<span class="nc bnc" id="L66" title="All 4 branches missed.">        if (evaluacion.getSistemaGestion() == null || evaluacion.getSistemaGestion().getSistemaGestionPK() == null) {</span>
+<span class="nc" id="L67">            throw new IllegalArgumentException(&quot;Debe establecerse el sistema de gestión a usar&quot;);</span>
+        }
+<span class="nc" id="L69">        SistemaGestion sg = sistemaGestionFacade.find(evaluacion.getSistemaGestion().getSistemaGestionPK());        </span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (sg == null) {</span>
+<span class="nc" id="L71">            throw new IllegalArgumentException(&quot;El sistema de gestión seleccionado no es válido&quot;);</span>
+        }
+<span class="nc" id="L73">        evaluacion.setSistemaGestion(sg);</span>
+<span class="nc" id="L74">    }</span>
+
+    public List&lt;Evaluacion&gt; findByEmpresa(Integer empresaId, Map&lt;String, String&gt; filter, String sortField, String sortOrder) {
+<span class="nc" id="L77">        StringBuilder strQuery = new StringBuilder();</span>
+<span class="nc" id="L78">        strQuery.append(&quot;SELECT e FROM Evaluacion e WHERE e.empresa.id = :empresaId ORDER BY e.sistemaGestion.nombre, e.fechaInicio DESC&quot;);</span>
+
+<span class="nc" id="L80">        Map&lt;String, String&gt; filterParam = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L81" title="All 4 branches missed.">        if (filter != null &amp;&amp; !filter.isEmpty()) {</span>
+<span class="nc" id="L82">            int i = 0;</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">            for (String key : filter.keySet()) {</span>
+<span class="nc" id="L84">                strQuery.append(&quot; AND &quot;)</span>
+<span class="nc" id="L85">                        .append(&quot;e.&quot;)</span>
+<span class="nc" id="L86">                        .append(key)</span>
+<span class="nc" id="L87">                        .append(&quot; = :param&quot;).append(i);</span>
+<span class="nc" id="L88">                filterParam.put((&quot;param&quot; + i), filter.get(key));</span>
+<span class="nc" id="L89">                i++;</span>
+<span class="nc" id="L90">            }</span>
+        }
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        if (sortField != null) {</span>
+<span class="nc" id="L93">            strQuery.append(&quot; ORDER BY e.&quot;).append(sortField).append(&quot; &quot;);</span>
+        }
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (sortOrder != null) {</span>
+<span class="nc" id="L96">            strQuery.append(&quot; &quot;).append(sortOrder).append(&quot; &quot;);</span>
+        }
+
+<span class="nc" id="L99">        Query query = this.em.createQuery(strQuery.toString());</span>
+<span class="nc" id="L100">        query.setParameter(&quot;empresaId&quot;, empresaId);</span>
+
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        for (String key : filterParam.keySet()) {</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">            query.setParameter(key, Util.isNumber(filterParam.get(key)) ? Integer.parseInt(filterParam.get(key)) : filterParam.get(key));</span>
+<span class="nc" id="L104">        }</span>
+
+<span class="nc" id="L106">        List&lt;Evaluacion&gt; list = (List&lt;Evaluacion&gt;) query.getResultList();</span>
+<span class="nc" id="L107">        return list;</span>
+    }
+
+    public List&lt;IndicadoresSGE&gt; findIndicadoresSGE(Integer empresaId) {
+<span class="nc" id="L111">        List&lt;SistemaGestion&gt; sgeList = sistemaGestionFacade.findAllByEmpresa(empresaId);</span>
+<span class="nc" id="L112">        List&lt;IndicadoresSGE&gt; isgeList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        for (SistemaGestion sge : sgeList) {</span>
+<span class="nc" id="L114">            IndicadoresSGE isge = new IndicadoresSGE();</span>
+<span class="nc" id="L115">            isge.setNombre(sge.getNombre());</span>
+<span class="nc" id="L116">            isge.setData(new ArrayList&lt;IndicadoresData&gt;());</span>
+            
+<span class="nc" id="L118">            IndicadoresData indSge = new IndicadoresData();</span>
+<span class="nc" id="L119">            indSge.setLabels(new LinkedHashSet&lt;String&gt;());</span>
+<span class="nc" id="L120">            indSge.setDatasets(new ArrayList&lt;DataSet&gt;());</span>
+            
+<span class="nc" id="L122">            DataSet ds = new DataSet();</span>
+<span class="nc" id="L123">            ds.setData(new ArrayList&lt;Double&gt;());</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">            for (Evaluacion evaluacion : sge.getEvaluacionList()) {</span>
+<span class="nc" id="L125">                indSge.getLabels().add(Util.SIMPLE_DATE_FORMAT.format(evaluacion.getFechaInicio().getTime()));</span>
+<span class="nc" id="L126">                ds.getData().add(Math.random());</span>
+<span class="nc" id="L127">                ds.setLabel(sge.getNombre());</span>
+<span class="nc" id="L128">            }</span>
+<span class="nc" id="L129">            indSge.getDatasets().add(ds);</span>
+<span class="nc" id="L130">            isge.getData().add(indSge);</span>
+            
+            
+<span class="nc" id="L133">            IndicadoresData indElement = new IndicadoresData();</span>
+<span class="nc" id="L134">            indElement.setLabels(new LinkedHashSet&lt;String&gt;());</span>
+<span class="nc" id="L135">            indElement.setDatasets(new ArrayList&lt;DataSet&gt;());</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">            for (Elemento elemento : sge.getElementoList()) {</span>
+<span class="nc" id="L137">                DataSet dsElem = new DataSet();</span>
+<span class="nc" id="L138">                dsElem.setData(new ArrayList&lt;Double&gt;());</span>
+<span class="nc" id="L139">                dsElem.setLabel(elemento.getNombre());</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">                for (Evaluacion evaluacion : sge.getEvaluacionList()) {</span>
+<span class="nc" id="L141">                    indElement.getLabels().add(Util.SIMPLE_DATE_FORMAT.format(evaluacion.getFechaInicio().getTime()));</span>
+<span class="nc" id="L142">                    dsElem.getData().add(Math.random());</span>
+<span class="nc" id="L143">                }</span>
+<span class="nc" id="L144">                indElement.getDatasets().add(dsElem);</span>
+<span class="nc" id="L145">            }</span>
+<span class="nc" id="L146">            isge.getData().add(indElement);</span>
+<span class="nc" id="L147">            isgeList.add(isge);</span>
+<span class="nc" id="L148">        }</span>
+<span class="nc" id="L149">        return isgeList;</span>
+    }
+
+    public List&lt;DesviacionSGEDTO&gt; findDesviaciones(Integer evaluacionId) {
+<span class="nc" id="L153">        Query query = this.em.createNamedQuery(&quot;DesviacionesSGENativeQuery&quot;);</span>
+<span class="nc" id="L154">        query.setParameter(1, evaluacionId);</span>
+<span class="nc" id="L155">        List&lt;DesviacionSGEDTO&gt; list = query.getResultList();</span>
+<span class="nc" id="L156">        return list;</span>
+    }
+    
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
