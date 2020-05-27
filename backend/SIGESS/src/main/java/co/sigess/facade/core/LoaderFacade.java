@@ -50,14 +50,16 @@ public class LoaderFacade {
         getPlantillaMailCreacionUsuario();
         getApiVersion();
         getSmsProperties();
+       
     }
-
+   
    public String getPlantillaMail() {
         if (this.plantillaMail == null) {
             try {
+                    
                 String ruta = getClass().getResource(Recursos.PLANTILLA_MAIL.getRuta()).getPath();
                 int y = ruta.length(); 
-                String x = ruta.substring(1,y);
+               String x  = isWindows(ruta,y);
                 this.plantillaMail = new String(Files.readAllBytes(Paths.get(x)));               
             } catch (IOException ex) {
                 Logger.getLogger(LoaderFacade.class.getName()).log(Level.SEVERE, null, ex);
@@ -72,7 +74,7 @@ public class LoaderFacade {
             try {
                 String ruta = getClass().getResource(Recursos.PLANTILLA_MAIL_REC_PASSW.getRuta()).getPath();
                 int y = ruta.length(); 
-                String x = ruta.substring(1,y);
+                String x = isWindows(ruta,y);
                 this.plantillaMailRecPasswd = new String(Files.readAllBytes(Paths.get(x)));
             } catch (IOException ex) {
                 Logger.getLogger(LoaderFacade.class.getName()).log(Level.SEVERE, null, ex);
@@ -87,7 +89,7 @@ public class LoaderFacade {
             try {
                 String ruta = getClass().getResource(Recursos.PLANTILLA_MAIL_CAMBIO_PASSW.getRuta()).getPath();
                 int y = ruta.length(); 
-                String x = ruta.substring(1,y);
+                String x = isWindows(ruta,y);
                 this.plantillaMailCambioPasswd = new String(Files.readAllBytes(Paths.get(x)));
             } catch (IOException ex) {
                 Logger.getLogger(LoaderFacade.class.getName()).log(Level.SEVERE, null, ex);
@@ -102,7 +104,7 @@ public class LoaderFacade {
             try {
                 String ruta = getClass().getResource(Recursos.PLANTILLA_MAIL_CREACION_USUARIO.getRuta()).getPath();
                  int y = ruta.length(); 
-                String x = ruta.substring(1,y);
+                String x = isWindows(ruta,y);
                 this.plantillaMailCreacionUsuario = new String(Files.readAllBytes(Paths.get(x)));
             } catch (IOException ex) {
                 Logger.getLogger(LoaderFacade.class.getName()).log(Level.SEVERE, null, ex);
@@ -143,6 +145,12 @@ public class LoaderFacade {
             }
         }
         return this.smsProp;
+    }
+    
+    private String isWindows (String route,int y){
+       //System.out.println(System.getProperty("os.name").toLowerCase().contains("windows"));
+        route  =   System.getProperty("os.name").toLowerCase().contains("windows") ?  route.substring(1,y) : route;
+        return route; 
     }
 
 }
