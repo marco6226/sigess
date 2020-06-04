@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Mensaje.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.com</a> &gt; <span class="el_source">Mensaje.java</span></div><h1>Mensaje.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.com;
+
+import java.util.Map;
+
+/**
+ *
+ * @author fmoreno
+ */
+public class Mensaje {
+        
+    public static final int COD_MSG_SISTEMA = 1_000;
+    public static final int COD_TOKEN_EXPIRADO = 1_001;
+    public static final int COD_TOKEN_REFRESH_EXPIRADO = 1_002;
+    public static final int COD_USUARIO_BLOQUEADO = 1_003;    
+    public static final int COD_TOKEN_NO_VALIDO = 1_004;
+    public static final int COD_PERMISOS_INSUFICIENTES = 1_005;    
+    public static final int COD_TOKEN_ALTERADO = 1_006;
+    public static final int COD_TOKEN_FIRMA_INVALIDA = 1_007;
+    public static final int COD_USUARIO_NO_VALIDO = 1_008;
+    
+    public static final int COD_MSG_USUARIO = 2_000;
+    public static final int COD_PASSWD_EXPIRADO = 2_001;
+    public static final int COD_USUARIO_LOGIN_PREVIO = 2_002;
+    public static final int COD_VALIDACION_AREA = 2_003;
+    public static final int COD_VERSION_APP_NO_COMPATIBLE = 2_004;
+    public static final int COD_VERSION_APP_SUG_UPDATE = 2_005;
+    public static final int COD_IP_NO_PERMITIDA= 2_006;
+    public static final int COD_LOGIN_OK_SIN_MFA = 2_007;
+    public static final int COD_PIN_INCORRECTO = 2_008;
+    public static final int COD_MAX_INTENTOS_LOGIN = 2_009;
+    public static final int COD_USR_SIN_NUM_MOVIL = 2_010;
+    public static final int COD_MOVIL_NO_VALIDO = 2_011;
+    public static final int COD_ERROR_ENVIO_SMS = 2_012;
+    
+
+    private String mensaje;
+    private String detalle;
+    private TipoMensaje tipoMensaje;
+    private Integer codigo;
+    
+    private Map&lt;String, String&gt; metaData;
+
+<span class="fc" id="L48">    public Mensaje() {</span>
+<span class="fc" id="L49">    }</span>
+
+<span class="nc" id="L51">    public Mensaje(String mensaje) {</span>
+<span class="nc" id="L52">        this.mensaje = mensaje;</span>
+<span class="nc" id="L53">    }</span>
+
+<span class="nc" id="L55">    public Mensaje(String mensaje, String detalle) {</span>
+<span class="nc" id="L56">        this.mensaje = mensaje;</span>
+<span class="nc" id="L57">        this.detalle = detalle;</span>
+<span class="nc" id="L58">    }</span>
+
+<span class="fc" id="L60">    public Mensaje(String mensaje, String detalle, TipoMensaje tipoMensaje) {</span>
+<span class="fc" id="L61">        this.mensaje = mensaje;</span>
+<span class="fc" id="L62">        this.detalle = detalle;</span>
+<span class="fc" id="L63">        this.tipoMensaje = tipoMensaje;</span>
+<span class="fc" id="L64">    }</span>
+
+<span class="nc" id="L66">    public Mensaje(String mensaje, String detalle, TipoMensaje tipoMensaje, Integer codigo) {</span>
+<span class="nc" id="L67">        this.mensaje = mensaje;</span>
+<span class="nc" id="L68">        this.detalle = detalle;</span>
+<span class="nc" id="L69">        this.tipoMensaje = tipoMensaje;</span>
+<span class="nc" id="L70">        this.codigo = codigo;</span>
+<span class="nc" id="L71">    }</span>
+
+    public String getMensaje() {
+<span class="nc" id="L74">        return mensaje;</span>
+    }
+    
+    public void setMensaje(String mensaje) {
+<span class="fc" id="L78">        this.mensaje = mensaje;</span>
+<span class="fc" id="L79">    }</span>
+
+    public String getDetalle() {
+<span class="nc" id="L82">        return detalle;</span>
+    }
+
+    public void setDetalle(String detalle) {
+<span class="fc" id="L86">        this.detalle = detalle;</span>
+<span class="fc" id="L87">    }</span>
+
+    public TipoMensaje getTipoMensaje() {
+<span class="nc" id="L90">        return tipoMensaje;</span>
+    }
+
+    public void setTipoMensaje(TipoMensaje tipoMensaje) {
+<span class="fc" id="L94">        this.tipoMensaje = tipoMensaje;</span>
+<span class="fc" id="L95">    }</span>
+
+    public Integer getCodigo() {
+<span class="nc" id="L98">        return codigo;</span>
+    }
+
+    public void setCodigo(Integer codigo) {
+<span class="nc" id="L102">        this.codigo = codigo;</span>
+<span class="nc" id="L103">    }</span>
+
+    public Map&lt;String, String&gt; getMetaData() {
+<span class="nc" id="L106">        return metaData;</span>
+    }
+
+    public void setMetaData(Map&lt;String, String&gt; metaData) {
+<span class="nc" id="L110">        this.metaData = metaData;</span>
+<span class="nc" id="L111">    }</span>
+
+    @Override
+    public String toString() {
+<span class="fc" id="L115">        return &quot;#SIGESS_ MENSAJE{ codigo=&quot; + codigo + &quot;, mensaje=&quot; + mensaje + &quot;, detalle=&quot; + detalle + &quot;, tipoMensaje=&quot; + tipoMensaje + &quot;} _SIGESS#&quot;;</span>
+    }
+
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
