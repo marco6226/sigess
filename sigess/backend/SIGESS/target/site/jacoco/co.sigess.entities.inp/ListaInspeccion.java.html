@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListaInspeccion.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.entities.inp</a> &gt; <span class="el_source">ListaInspeccion.java</span></div><h1>ListaInspeccion.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.entities.inp;
+
+import co.sigess.entities.conf.Formulario;
+import co.sigess.entities.emp.Empresa;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+
+/**
+ *
+ * @author fmoreno
+ */
+@Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Table(name = &quot;lista_inspeccion&quot;, schema = &quot;inp&quot;)
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;ListaInspeccion.findAll&quot;, query = &quot;SELECT l FROM ListaInspeccion l&quot;)})
+public class ListaInspeccion implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @EmbeddedId
+    protected ListaInspeccionPK listaInspeccionPK;
+    
+ 
+    @Size(max = 50)
+    @Column(name = &quot;codigo&quot;)
+    private String codigo;
+    
+    @Size(max = 50)
+    @Column(name = &quot;nombre&quot;)
+    private String nombre;
+    
+    @Size(max = 50)
+    @Column(name = &quot;fk_perfil_id&quot;)
+    private String fkPerfilId;
+    
+    
+    @Size(max = 512)
+    @Column(name = &quot;descripcion&quot;)
+    private String descripcion;
+    
+    @Size(max = 45)
+    @Column(name = &quot;tipo_lista&quot;)
+    private String tipoLista;
+    
+    @Column(name = &quot;numero_preguntas&quot;)
+    private Integer numeroPreguntas; 
+    
+    @JoinColumn(name = &quot;fk_empresa_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private Empresa empresa;
+    
+    @JoinColumn(name = &quot;fk_formulario_id&quot;, referencedColumnName = &quot;id&quot;)
+    @ManyToOne(optional = false)
+    private Formulario formulario;
+    
+    @OrderBy(&quot;id&quot;)
+    @OneToMany(mappedBy = &quot;listaInspeccion&quot;)
+    private List&lt;OpcionCalificacion&gt; opcionCalificacionList;
+    
+    @OrderBy(&quot;id&quot;)
+    @OneToMany(mappedBy = &quot;listaInspeccion&quot;)
+    private List&lt;ElementoInspeccion&gt; elementoInspeccionList;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = &quot;listaInspeccion&quot;)
+    private List&lt;Programacion&gt; programacionList;
+    
+    @Column(name = &quot;usar_nivel_riesgo&quot;)
+    private Boolean usarNivelRiesgo;
+    
+    @Column(name = &quot;usar_tipo_hallazgo&quot;)
+    private Boolean usarTipoHallazgo;
+
+<span class="nc" id="L94">    public ListaInspeccion() {</span>
+<span class="nc" id="L95">    }</span>
+
+<span class="nc" id="L97">    public ListaInspeccion(ListaInspeccionPK listaInspeccionPK, String nombre,String fkPerfilId, String codigo, String descripcion, Integer numeroPreguntas) {</span>
+<span class="nc" id="L98">        this.listaInspeccionPK = listaInspeccionPK;</span>
+<span class="nc" id="L99">        this.nombre = nombre;</span>
+<span class="nc" id="L100">        this.codigo = codigo;</span>
+<span class="nc" id="L101">        this.fkPerfilId = fkPerfilId;</span>
+<span class="nc" id="L102">        this.descripcion = descripcion;</span>
+<span class="nc" id="L103">        this.numeroPreguntas = numeroPreguntas;</span>
+<span class="nc" id="L104">    }</span>
+
+<span class="nc" id="L106">    public ListaInspeccion(ListaInspeccionPK listaInspeccionPK) {</span>
+<span class="nc" id="L107">        this.listaInspeccionPK = listaInspeccionPK;</span>
+<span class="nc" id="L108">    }</span>
+
+<span class="nc" id="L110">    public ListaInspeccion(int id, int version) {</span>
+<span class="nc" id="L111">        this.listaInspeccionPK = new ListaInspeccionPK(id, version);</span>
+<span class="nc" id="L112">    }</span>
+
+    public ListaInspeccionPK getListaInspeccionPK() {
+<span class="nc" id="L115">        return listaInspeccionPK;</span>
+    }
+
+    public void setListaInspeccionPK(ListaInspeccionPK listaInspeccionPK) {
+<span class="nc" id="L119">        this.listaInspeccionPK = listaInspeccionPK;</span>
+<span class="nc" id="L120">    }</span>
+
+    public String getNombre() {
+<span class="nc" id="L123">        return nombre;</span>
+    }
+
+    public void setNombre(String nombre) {
+<span class="nc" id="L127">        this.nombre = nombre;</span>
+<span class="nc" id="L128">    }</span>
+
+    public String getCodigo() {
+<span class="nc" id="L131">        return codigo;</span>
+    }
+
+    public void setCodigo(String codigo) {
+<span class="nc" id="L135">        this.codigo = codigo;</span>
+<span class="nc" id="L136">    }</span>
+
+    public String getDescripcion() {
+<span class="nc" id="L139">        return descripcion;</span>
+    }
+
+    public void setDescripcion(String descripcion) {
+<span class="nc" id="L143">        this.descripcion = descripcion;</span>
+<span class="nc" id="L144">    }</span>
+
+    public Empresa getEmpresa() {
+<span class="nc" id="L147">        return empresa;</span>
+    }
+
+    public void setEmpresa(Empresa empresa) {
+<span class="nc" id="L151">        this.empresa = empresa;</span>
+<span class="nc" id="L152">    }</span>
+
+    public Integer getNumeroPreguntas() {
+<span class="nc" id="L155">        return numeroPreguntas;</span>
+    }
+
+    public void setNumeroPreguntas(Integer numeroPreguntas) {
+<span class="nc" id="L159">        this.numeroPreguntas = numeroPreguntas;</span>
+<span class="nc" id="L160">    }</span>
+
+    public List&lt;OpcionCalificacion&gt; getOpcionCalificacionList() {
+<span class="nc" id="L163">        return opcionCalificacionList;</span>
+    }
+
+    public void setOpcionCalificacionList(List&lt;OpcionCalificacion&gt; opcionCalificacionList) {
+<span class="nc" id="L167">        this.opcionCalificacionList = opcionCalificacionList;</span>
+<span class="nc" id="L168">    }</span>
+
+    public List&lt;ElementoInspeccion&gt; getElementoInspeccionList() {
+<span class="nc" id="L171">        return elementoInspeccionList;</span>
+    }
+
+    public void setElementoInspeccionList(List&lt;ElementoInspeccion&gt; elementoInspeccionList) {
+<span class="nc" id="L175">        this.elementoInspeccionList = elementoInspeccionList;</span>
+<span class="nc" id="L176">    }</span>
+
+    public List&lt;Programacion&gt; getProgramacionList() {
+<span class="nc" id="L179">        return programacionList;</span>
+    }
+
+    public void setProgramacionList(List&lt;Programacion&gt; programacionList) {
+<span class="nc" id="L183">        this.programacionList = programacionList;</span>
+<span class="nc" id="L184">    }</span>
+
+    public Formulario getFormulario() {
+<span class="nc" id="L187">        return formulario;</span>
+    }
+
+    public void setFormulario(Formulario formulario) {
+<span class="nc" id="L191">        this.formulario = formulario;</span>
+<span class="nc" id="L192">    }</span>
+
+    public String getTipoLista() {
+<span class="nc" id="L195">        return tipoLista;</span>
+    }
+
+    public void setTipoLista(String tipoLista) {
+<span class="nc" id="L199">        this.tipoLista = tipoLista;</span>
+<span class="nc" id="L200">    }</span>
+
+    public Boolean getUsarNivelRiesgo() {
+<span class="nc" id="L203">        return usarNivelRiesgo;</span>
+    }
+
+    public void setUsarNivelRiesgo(Boolean usarNivelRiesgo) {
+<span class="nc" id="L207">        this.usarNivelRiesgo = usarNivelRiesgo;</span>
+<span class="nc" id="L208">    }</span>
+
+    public Boolean getUsarTipoHallazgo() {
+<span class="nc" id="L211">        return usarTipoHallazgo;</span>
+    }
+
+    public void setUsarTipoHallazgo(Boolean usarTipoHallazgo) {
+<span class="nc" id="L215">        this.usarTipoHallazgo = usarTipoHallazgo;</span>
+<span class="nc" id="L216">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L220">        int hash = 0;</span>
+<span class="nc bnc" id="L221" title="All 2 branches missed.">        hash += (listaInspeccionPK != null ? listaInspeccionPK.hashCode() : 0);</span>
+<span class="nc" id="L222">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L228" title="All 2 branches missed.">        if (!(object instanceof ListaInspeccion)) {</span>
+<span class="nc" id="L229">            return false;</span>
+        }
+<span class="nc" id="L231">        ListaInspeccion other = (ListaInspeccion) object;</span>
+<span class="nc bnc" id="L232" title="All 8 branches missed.">        if ((this.listaInspeccionPK == null &amp;&amp; other.listaInspeccionPK != null) || (this.listaInspeccionPK != null &amp;&amp; !this.listaInspeccionPK.equals(other.listaInspeccionPK))) {</span>
+<span class="nc" id="L233">            return false;</span>
+        }
+<span class="nc" id="L235">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L240">        return &quot;co.sigess.entities.inp.ListaInspeccion[ listaInspeccionPK=&quot; + listaInspeccionPK + &quot; ]&quot;;</span>
+    }
+
+    /**
+     * @return the fkPerfilId
+     */
+    public String getFkPerfilId() {
+<span class="nc" id="L247">        return fkPerfilId;</span>
+    }
+
+    /**
+     * @param fkPerfilId the fkPerfilId to set
+     */
+    public void setFkPerfilId(String fkPerfilId) {
+<span class="nc" id="L254">        this.fkPerfilId = fkPerfilId;</span>
+<span class="nc" id="L255">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

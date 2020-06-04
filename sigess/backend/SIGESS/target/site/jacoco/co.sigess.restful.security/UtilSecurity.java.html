@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UtilSecurity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGESS</a> &gt; <a href="index.source.html" class="el_package">co.sigess.restful.security</a> &gt; <span class="el_source">UtilSecurity.java</span></div><h1>UtilSecurity.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.sigess.restful.security;
+
+import co.sigess.entities.com.Mensaje;
+import co.sigess.entities.com.TipoMensaje;
+import co.sigess.entities.emp.TokenActivo;
+import co.sigess.entities.emp.Usuario;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Header;
+import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.Jwts;
+import java.security.MessageDigest;
+
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.lang.Assert;
+
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.Key;
+import java.security.SecureRandom;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ *
+ * @author fmoreno
+ */
+<span class="nc" id="L35">public class UtilSecurity {</span>
+
+<span class="fc" id="L37">    private static final Key key = generateKey(SignatureAlgorithm.HS512);</span>
+
+    public static final String APP_VERSION_HEADER_NAME = &quot;app-version&quot;;
+    public static final String TOKEN_NAME = &quot;Authorization&quot;;
+<span class="fc" id="L41">    public static String TOKEN_REFRESH_NAME = &quot;refresh&quot;;</span>
+    public static final String TOKEN_ACCESS_ROLE = &quot;TOKEN_ACCESS_ROLE&quot;;
+    public static final String TOKEN_REFRESH_ROLE = &quot;TOKEN_REFRESH_ROLE&quot;;
+    public static final int CAMBIO_PASSWD_TIMEOUT = 600;
+    public static final int TOKEN_DURATION = 60 * 60 * 4;
+    public static final int TOKEN_REFRESH_DURATION = 60 * 60 * 24 * 15; // Corresponde a la cantidad de segundos en 15 dias
+    private static final String AB = &quot;1234567890&quot;;
+<span class="fc" id="L48">    private static final SecureRandom RND = new SecureRandom();</span>
+    private static final int MIN_LENGHT = 6;
+    private static final int MAX_LENGHT = 6;
+
+    public static String generatePassword() {
+<span class="nc" id="L53">        int size = RND.nextInt((MAX_LENGHT - MIN_LENGHT) + 1) + MIN_LENGHT;</span>
+<span class="nc" id="L54">        StringBuilder sb = new StringBuilder(size);</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        for (int i = 0; i &lt; size; i++) {</span>
+<span class="nc" id="L56">            sb.append(AB.charAt(RND.nextInt(AB.length())));</span>
+        }
+<span class="nc" id="L58">        return sb.toString();</span>
+    }
+
+    public static String toSHA256(String base) {
+        try {
+<span class="fc" id="L63">            MessageDigest digest = MessageDigest.getInstance(&quot;SHA-256&quot;);</span>
+<span class="fc" id="L64">            byte[] hash = digest.digest(base.getBytes(&quot;UTF-8&quot;));</span>
+<span class="fc" id="L65">            StringBuilder hexString = new StringBuilder();</span>
+
+<span class="fc bfc" id="L67" title="All 2 branches covered.">            for (int i = 0; i &lt; hash.length; i++) {</span>
+<span class="fc" id="L68">                String hex = Integer.toHexString(0xff &amp; hash[i]);</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">                if (hex.length() == 1) {</span>
+<span class="fc" id="L70">                    hexString.append('0');</span>
+                }
+<span class="fc" id="L72">                hexString.append(hex);</span>
+            }
+
+<span class="fc" id="L75">            return hexString.toString();</span>
+<span class="nc" id="L76">        } catch (Exception ex) {</span>
+<span class="nc" id="L77">            throw new RuntimeException(ex);</span>
+        }
+    }
+
+    public static String createEmailPasswordHash(String email, String password) {
+<span class="fc" id="L82">        return UtilSecurity.toSHA256(&quot;[&quot; + email + &quot;]:[&quot; + password + &quot;]&quot;);</span>
+       
+    }
+
+    /**
+     * Genera un nuevo token con el tiempo de expiración especificado como
+     * parámetro
+     *
+     * @param data
+     * @param expiration
+     * @param code
+     * @param refresher
+     * @return
+     */
+    public static String generateJWT(String data, Date expiration, String code, boolean refresher) {
+<span class="fc" id="L97">        Map&lt;String, Object&gt; claims = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        claims.put(&quot;scope&quot;, refresher ? TOKEN_REFRESH_ROLE : TOKEN_ACCESS_ROLE);</span>
+<span class="fc" id="L99">        claims.put(&quot;exp&quot;, expiration.getTime());</span>
+<span class="fc" id="L100">        claims.put(&quot;cod&quot;, code);</span>
+<span class="fc" id="L101">        String compactJws = Jwts.builder()</span>
+<span class="fc" id="L102">                .setClaims(claims)</span>
+<span class="fc" id="L103">                .setSubject(data)</span>
+<span class="fc" id="L104">                .signWith(SignatureAlgorithm.HS512, key)</span>
+<span class="fc" id="L105">                .setExpiration(expiration)</span>
+<span class="fc" id="L106">                .compact();</span>
+<span class="fc" id="L107">        return compactJws;</span>
+    }
+
+    /**
+     * Verifica la validés del token recibido como parametro
+     *
+     * @param compactJws
+     * @param verifyRefresher Flag que indica si se debe verificar el token como
+     * TOKEN_REFRESH_ROLE (true) o como TOKEN_ACCES_ROLE (false)
+     * @return
+     * @throws ExpiredJwtException
+     */
+    public static TokenActivo verifyJWT(String compactJws, boolean verifyRefresher) throws ExpiredJwtException {
+<span class="fc" id="L120">        Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(compactJws).getBody();</span>
+<span class="pc bpc" id="L121" title="2 of 4 branches missed.">        if (claims.getExpiration() == null || claims.getExpiration().before(new Date())) {</span>
+<span class="nc" id="L122">            throw new ExpiredJwtException(null, null, null);</span>
+        }
+<span class="fc" id="L124">        String scope = (String) claims.get(&quot;scope&quot;);</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        String tokenType = verifyRefresher ? TOKEN_REFRESH_ROLE : TOKEN_ACCESS_ROLE;</span>
+<span class="pc bpc" id="L126" title="1 of 4 branches missed.">        if (scope == null || !scope.equals(tokenType)) {</span>
+<span class="fc" id="L127">            throw new UnsupportedJwtException(null);</span>
+        }
+<span class="fc" id="L129">        String jsonUser = claims.getSubject();</span>
+<span class="fc" id="L130">        Usuario user = Usuario.jsonToUser(jsonUser);</span>
+
+<span class="fc" id="L132">        TokenActivo token = new TokenActivo((String) claims.get(&quot;cod&quot;));</span>
+<span class="fc" id="L133">        token.setExpira(claims.getExpiration());</span>
+<span class="fc" id="L134">        token.setTipo(claims.get(&quot;scope&quot;, String.class));</span>
+<span class="fc" id="L135">        token.setUsuario(user);</span>
+<span class="fc" id="L136">        return token;</span>
+    }
+
+    public static Claims getTokenClaims(String value) {
+<span class="fc" id="L140">        int signIndex = value.lastIndexOf('.');</span>
+<span class="fc" id="L141">        Jwt&lt;Header, Claims&gt; untrusted = Jwts.parser().parseClaimsJwt(value.substring(0, signIndex + 1));</span>
+<span class="fc" id="L142">        Claims claims = untrusted.getBody();</span>
+<span class="fc" id="L143">        return claims;</span>
+    }
+
+    public static SecretKey generateKey(SignatureAlgorithm alg) {
+
+        SecureRandom random;
+<span class="fc" id="L149">        random = new SecureRandom();</span>
+<span class="fc" id="L150">        random.nextBytes(new byte[64]);</span>
+<span class="fc" id="L151">        Assert.isTrue(alg.isHmac(), &quot;SignatureAlgorithm argument must represent an HMAC algorithm.&quot;);</span>
+
+        byte[] bytes;
+
+<span class="pc bpc" id="L155" title="2 of 3 branches missed.">        switch (alg) {</span>
+            case HS256:
+<span class="nc" id="L157">                bytes = new byte[32];</span>
+<span class="nc" id="L158">                break;</span>
+            case HS384:
+<span class="nc" id="L160">                bytes = new byte[48];</span>
+<span class="nc" id="L161">                break;</span>
+            default:
+<span class="fc" id="L163">                bytes = new byte[64];</span>
+        }
+
+<span class="fc" id="L166">        random.nextBytes(bytes);</span>
+
+<span class="fc" id="L168">        String stringKey = &quot;{{private secret key}}&quot;;</span>
+//        return new SecretKeySpec(bytes, alg.getJcaName());
+<span class="fc" id="L170">        return new SecretKeySpec(stringKey.getBytes(), alg.getJcaName());</span>
+    }
+
+    public static Mensaje validarPassword(String passwd) {
+<span class="fc" id="L174">        final String MIN_LENGHT = &quot;8&quot;;</span>
+//      final String MAX_LENGHT = &quot;20&quot;;
+
+<span class="fc" id="L177">        final String MIN_CHAR = &quot;.{&quot; + MIN_LENGHT + &quot;,}&quot;;  //.{12,} at least 12 characters</span>
+<span class="fc" id="L178">        final String ONE_DIGIT = &quot;(.)*(\\d)(.)*&quot;;  //(?=.*[0-9]) a digit must occur at least once</span>
+<span class="fc" id="L179">        final String LOWER_CASE = &quot;(.)*([a-z])(.)*&quot;;  //(?=.*[a-z]) a lower case letter must occur at least once</span>
+<span class="fc" id="L180">        final String UPPER_CASE = &quot;(.)*([A-Z])(.)*&quot;;  //(?=.*[A-Z]) an upper case letter must occur at least once</span>
+<span class="fc" id="L181">        final String NO_SPACE = &quot;(.)*(\\s)(.)*&quot;;  //(?=\\S+$) no whitespace allowed in the entire string</span>
+<span class="fc" id="L182">        final String SPECIAL_CHAR = &quot;(.)*([@#$%^&amp;+=_.])(.)*&quot;; //(?=.*[@#$%^&amp;+=]) a special character must occur at least once</span>
+//      final String MIN_MAX_CHAR = &quot;.{&quot; + MIN_LENGHT + &quot;,&quot; + MAX_LENGHT + &quot;}&quot;;  //.{5,10} represents minimum of 5 characters and maximum of 10 characters
+        
+<span class="fc bfc" id="L185" title="All 2 branches covered.">        if (!passwd.matches(MIN_CHAR)) {</span>
+<span class="fc" id="L186">            return new Mensaje(&quot;Contraseña no valida&quot;, &quot;La contraseña debe tener al menos 8 caractéres&quot;, TipoMensaje.warn);</span>
+        }
+<span class="fc bfc" id="L188" title="All 2 branches covered.">        if (!passwd.matches(ONE_DIGIT)) {</span>
+<span class="fc" id="L189">            return new Mensaje(&quot;Contraseña incompleta&quot;, &quot;La contraseña debe tener al menos un digito numérico&quot;, TipoMensaje.warn);</span>
+        }
+<span class="fc bfc" id="L191" title="All 2 branches covered.">        if (!passwd.matches(UPPER_CASE)) {</span>
+<span class="fc" id="L192">            return new Mensaje(&quot;Contraseña incompleta&quot;, &quot;La contraseña debe tener al menos un carácter en mayúscula&quot;, TipoMensaje.warn);</span>
+        }
+<span class="fc bfc" id="L194" title="All 2 branches covered.">        if (!passwd.matches(LOWER_CASE)) {</span>
+<span class="fc" id="L195">            return new Mensaje(&quot;Contraseña incompleta&quot;, &quot;La contraseña debe tener al menos un carácter en minuscula&quot;, TipoMensaje.warn);</span>
+        }
+<span class="fc bfc" id="L197" title="All 2 branches covered.">        if (passwd.matches(NO_SPACE)) {</span>
+<span class="fc" id="L198">            return new Mensaje(&quot;Contraseña no valida&quot;, &quot;La contraseña no puede contener espacios en blanco&quot;, TipoMensaje.warn);</span>
+        }
+<span class="fc bfc" id="L200" title="All 2 branches covered.">        if (!passwd.matches(SPECIAL_CHAR)) {</span>
+<span class="fc" id="L201">            return new Mensaje(&quot;Contraseña no valida&quot;, &quot;La contraseña debe tener al menos uno de los siguientes caractéres especiales: @ # $ % ^ &amp; + = _ .&quot;, TipoMensaje.warn);</span>
+        }
+<span class="fc" id="L203">        return null;</span>
+        //String pattern = &quot;(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&amp;+=])(?=\\S+$).{12,}&quot;;
+        //final String PATTERN = ONE_DIGIT + LOWER_CASE + UPPER_CASE + SPECIAL_CHAR + NO_SPACE + MIN_CHAR;                
+        //result = passwd.matches(PATTERN);
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

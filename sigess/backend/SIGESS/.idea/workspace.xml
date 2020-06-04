@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="SIGESS:war" />
+    </artifacts-to-build>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="52b07d63-6a72-49db-a836-3bfd8837dd9d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/nb-configuration.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nb-configuration.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/sigess/facade/core/Recursos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/sigess/facade/core/Recursos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/sigess/facade/rai/ReporteFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/sigess/facade/rai/ReporteFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/sigess/restful/security/UtilSecurity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/sigess/restful/security/UtilSecurity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/glassfish-resources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/glassfish-resources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SIGESS-1.0-SNAPSHOT.war" beforeDir="false" afterPath="$PROJECT_DIR$/target/SIGESS-1.0-SNAPSHOT.war" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SIGESS-1.0-SNAPSHOT/WEB-INF/classes/co/sigess/facade/core/LoaderFacade.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/SIGESS-1.0-SNAPSHOT/WEB-INF/classes/co/sigess/facade/core/LoaderFacade.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SIGESS-1.0-SNAPSHOT/WEB-INF/classes/co/sigess/facade/rai/ReporteFacade$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/SIGESS-1.0-SNAPSHOT/WEB-INF/classes/co/sigess/facade/rai/ReporteFacade$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SIGESS-1.0-SNAPSHOT/WEB-INF/classes/co/sigess/facade/rai/ReporteFacade.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/SIGESS-1.0-SNAPSHOT/WEB-INF/classes/co/sigess/facade/rai/ReporteFacade.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SIGESS-1.0-SNAPSHOT/WEB-INF/classes/co/sigess/restful/security/UtilSecurity$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/SIGESS-1.0-SNAPSHOT/WEB-INF/classes/co/sigess/restful/security/UtilSecurity$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SIGESS-1.0-SNAPSHOT/WEB-INF/classes/co/sigess/restful/security/UtilSecurity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/SIGESS-1.0-SNAPSHOT/WEB-INF/classes/co/sigess/restful/security/UtilSecurity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SIGESS-1.0-SNAPSHOT/WEB-INF/glassfish-resources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/SIGESS-1.0-SNAPSHOT/WEB-INF/glassfish-resources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/co/sigess/facade/core/LoaderFacade.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/co/sigess/facade/core/LoaderFacade.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/co/sigess/facade/rai/ReporteFacade$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/co/sigess/facade/rai/ReporteFacade$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/co/sigess/facade/rai/ReporteFacade.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/co/sigess/facade/rai/ReporteFacade.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/co/sigess/restful/security/UtilSecurity$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/co/sigess/restful/security/UtilSecurity$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/co/sigess/restful/security/UtilSecurity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/co/sigess/restful/security/UtilSecurity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/jacoco.exec" beforeDir="false" afterPath="$PROJECT_DIR$/target/jacoco.exec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ado/Directorio.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ado/Directorio.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ado/Documento.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ado/Documento.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ado/Modulo.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ado/Modulo.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ado/PermisoDirectorio.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ado/PermisoDirectorio.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ado/PermisoDirectorioPK.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ado/PermisoDirectorioPK.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.auc/Implicacion.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.auc/Implicacion.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.auc/Observacion.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.auc/Observacion.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.auc/Tarjeta.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.auc/Tarjeta.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.aus/CausaAusentismo.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.aus/CausaAusentismo.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.aus/ReporteAusentismo.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.aus/ReporteAusentismo.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Afp.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Afp.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/ApiVersion.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/ApiVersion.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Arl.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Arl.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Ccf.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Ccf.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Cie.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Cie.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Ciiu.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Ciiu.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Ciudad.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Ciudad.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Departamento.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Departamento.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Eps.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Eps.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Error.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Error.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Mensaje.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Mensaje.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Pais.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/Pais.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/TipoCie.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/TipoCie.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/TipoIdentificacion.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/TipoIdentificacion.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/TipoMensaje.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/TipoMensaje.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/TipoSede.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/TipoSede.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/TipoVinculacion.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/TipoVinculacion.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/index.source.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.com/index.source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.conf/Campo.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.conf/Campo.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.conf/ConfiguracionGeneral.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.conf/ConfiguracionGeneral.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.conf/Consecuencia.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.conf/Consecuencia.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.conf/Formulario.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.conf/Formulario.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.conf/Manual.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.conf/Manual.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.conf/NivelRiesgo.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.conf/NivelRiesgo.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.conf/Probabilidad.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.conf/Probabilidad.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.conf/RespuestaCampo.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.conf/RespuestaCampo.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.conf/SistemaNivelRiesgo.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.conf/SistemaNivelRiesgo.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.cop/Acta.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.cop/Acta.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp.dto/UsuarioDTO.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp.dto/UsuarioDTO.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Area.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Area.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/CalificacionDesempeno.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/CalificacionDesempeno.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Cargo.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Cargo.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Competencia.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Competencia.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/ConfiguracionJornada.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/ConfiguracionJornada.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/ContextoOrganizacion.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/ContextoOrganizacion.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Dia.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Dia.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Empleado.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Empleado.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Empresa.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Empresa.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/EstadoUsuario.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/EstadoUsuario.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Estructura.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Estructura.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/EvaluacionDesempeno.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/EvaluacionDesempeno.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/EventoLog.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/EventoLog.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/GrupoEmpresarial.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/GrupoEmpresarial.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Hht.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Hht.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/HorasExtra.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/HorasExtra.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Jornada.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Jornada.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/JornadaEmpresa.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/JornadaEmpresa.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Perfil.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Perfil.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Permiso.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Permiso.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Recurso.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Recurso.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/TipoArea.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/TipoArea.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/TokenActivo.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/TokenActivo.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Usuario.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/Usuario.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/UsuarioEmpresa.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/UsuarioEmpresa.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/UsuarioEmpresaPK.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/UsuarioEmpresaPK.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/index.source.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.emp/index.source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ind/AccesoTablero.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ind/AccesoTablero.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ind/Dataset.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ind/Dataset.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ind/FichaTecnicaIndicador.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ind/FichaTecnicaIndicador.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ind/Indicador.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ind/Indicador.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ind/IndicadorAusentismo.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ind/IndicadorAusentismo.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ind/IndicadorSge.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ind/IndicadorSge.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ind/ModeloGrafica.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ind/ModeloGrafica.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ind/ModeloIndicador.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ind/ModeloIndicador.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ind/Tablero.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ind/Tablero.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.inp/Calificacion.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.inp/Calificacion.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.inp/ElementoInspeccion.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.inp/ElementoInspeccion.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.inp/Inspeccion.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.inp/Inspeccion.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.inp/ListaInspeccion.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.inp/ListaInspeccion.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.inp/ListaInspeccionPK.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.inp/ListaInspeccionPK.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.inp/OpcionCalificacion.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.inp/OpcionCalificacion.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.inp/Programacion.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.inp/Programacion.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.inp/TipoHallazgo.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.inp/TipoHallazgo.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.inp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.inp/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.inp/index.source.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.inp/index.source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/Control.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/Control.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/Efecto.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/Efecto.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/Fuente.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/Fuente.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/Ipecr.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/Ipecr.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/ParticipanteIpecr.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/ParticipanteIpecr.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/Peligro.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/Peligro.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/PeligroIpecr.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/PeligroIpecr.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/TipoControl.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/TipoControl.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/TipoPeligro.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/TipoPeligro.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/index.source.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.ipr/index.source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.rai/EsquemaCarga.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.rai/EsquemaCarga.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.rai/Reporte.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.rai/Reporte.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.rai/TestigoReporte.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.rai/TestigoReporte.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec.dto/AnalisisDesviacionDTO.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec.dto/AnalisisDesviacionDTO.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/AnalisisCosto.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/AnalisisCosto.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/AnalisisDesviacion.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/AnalisisDesviacion.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/CausaInmediata.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/CausaInmediata.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/CausaRaiz.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/CausaRaiz.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/Desviacion.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/Desviacion.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/DesviacionInspeccion.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/DesviacionInspeccion.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/EstadoTarea.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/EstadoTarea.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/SistemaCausaAdministrativa.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/SistemaCausaAdministrativa.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/SistemaCausaInmediata.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/SistemaCausaInmediata.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/SistemaCausaRaiz.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/SistemaCausaRaiz.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/TareaDesviacion.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/TareaDesviacion.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/TipoAccion.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/TipoAccion.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/index.source.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sec/index.source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge.dto/DesviacionSGEDTO.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge.dto/DesviacionSGEDTO.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge.dto/EvaluacionDTO.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge.dto/EvaluacionDTO.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/DataSet.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/DataSet.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/Elemento.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/Elemento.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/EstadoEvaluacion.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/EstadoEvaluacion.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/Evaluacion.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/Evaluacion.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/IndicadoresData.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/IndicadoresData.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/IndicadoresSGE.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/IndicadoresSGE.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/OpcionRespuesta.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/OpcionRespuesta.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/Respuesta.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/Respuesta.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/ResultadoElemento.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/ResultadoElemento.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/SistemaGestion.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/SistemaGestion.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/SistemaGestionPK.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities.sge/SistemaGestionPK.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities/ConvertidorDTO.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities/ConvertidorDTO.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities/TipoParticipante.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.entities/TipoParticipante.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.exceptions/UserMessageException.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.exceptions/UserMessageException.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ado/DirectorioFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ado/DirectorioFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ado/DocumentoFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ado/DocumentoFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ado/PermisoDirectorioFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ado/PermisoDirectorioFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.auc/ObservacionFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.auc/ObservacionFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.auc/TarjetaFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.auc/TarjetaFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.aus/CausaAusentismoFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.aus/CausaAusentismoFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.aus/ReporteAusentismoFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.aus/ReporteAusentismoFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/AbstractFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/AbstractFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/AfpFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/AfpFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/ArlFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/ArlFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/CcfFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/CcfFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/CieFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/CieFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/CiiuFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/CiiuFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/CiudadFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/CiudadFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/DepartamentoFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/DepartamentoFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/EpsFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/EpsFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/OfflineServiceFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/OfflineServiceFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/PaisFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/PaisFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/index.source.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.com/index.source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.conf/CampoFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.conf/CampoFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.conf/ConfiguracionGeneralFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.conf/ConfiguracionGeneralFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.conf/FormularioFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.conf/FormularioFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.conf/ManualFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.conf/ManualFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.conf/RespuestaCampoFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.conf/RespuestaCampoFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.conf/SistemaNivelRiesgoFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.conf/SistemaNivelRiesgoFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.cop/ActaFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.cop/ActaFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.core/EmailFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.core/EmailFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.core/LoaderFacade.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.core/LoaderFacade.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.core/LoaderFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.core/LoaderFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.core/Recursos.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.core/Recursos.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.core/SMSFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.core/SMSFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.core/TipoMail.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.core/TipoMail.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.core/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.core/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.core/index.source.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.core/index.source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/AreaFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/AreaFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/CalificacionDesempenoFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/CalificacionDesempenoFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/CargoFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/CargoFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/CompetenciaFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/CompetenciaFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/ConfiguracionJornadaFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/ConfiguracionJornadaFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/ContextoOrganizacionFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/ContextoOrganizacionFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/EmpleadoFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/EmpleadoFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/EmpresaFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/EmpresaFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/EvaluacionDesempenoFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/EvaluacionDesempenoFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/EventoLogFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/EventoLogFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/GrupoEmpresarialFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/GrupoEmpresarialFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/HhtFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/HhtFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/HorasExtraFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/HorasExtraFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/JornadaFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/JornadaFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/PerfilFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/PerfilFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/PermisoFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/PermisoFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/RecursoFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/RecursoFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/TipoAreaFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/TipoAreaFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/TokenFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/TokenFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/UsuarioEmpresaFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/UsuarioEmpresaFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/UsuarioFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/UsuarioFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/index.source.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.emp/index.source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ind/AccesoTableroFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ind/AccesoTableroFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ind/IndicadorAusentismoFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ind/IndicadorAusentismoFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ind/IndicadorEmpresaFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ind/IndicadorEmpresaFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ind/IndicadorFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ind/IndicadorFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ind/IndicadorInpFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ind/IndicadorInpFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ind/IndicadorRaiFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ind/IndicadorRaiFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ind/IndicadorSgeFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ind/IndicadorSgeFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ind/TableroFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ind/TableroFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.inp/CalificacionFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.inp/CalificacionFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.inp/ElementoInspeccionFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.inp/ElementoInspeccionFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.inp/InspeccionFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.inp/InspeccionFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.inp/ListaInspeccionFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.inp/ListaInspeccionFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.inp/OpcionCalificacionFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.inp/OpcionCalificacionFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.inp/ProgramacionFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.inp/ProgramacionFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.inp/TipoHallazgoFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.inp/TipoHallazgoFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.inp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.inp/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.inp/index.source.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.inp/index.source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ipr/ControlFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ipr/ControlFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ipr/EfectoFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ipr/EfectoFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ipr/FuenteFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ipr/FuenteFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ipr/IpecrFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ipr/IpecrFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ipr/ParticipanteIpecrFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ipr/ParticipanteIpecrFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ipr/PeligroFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ipr/PeligroFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ipr/PeligroIpecrFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ipr/PeligroIpecrFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ipr/TipoControlFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ipr/TipoControlFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ipr/TipoPeligroFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.ipr/TipoPeligroFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.rai/ReporteFacade.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.rai/ReporteFacade.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.rai/ReporteFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.rai/ReporteFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.rai/TestigoReporteFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.rai/TestigoReporteFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.rai/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.rai/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.rai/index.source.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.rai/index.source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sec/AnalisisDesviacionFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sec/AnalisisDesviacionFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sec/DesviacionFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sec/DesviacionFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sec/DesviacionInspeccionFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sec/DesviacionInspeccionFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sec/SistemaCausaAdministrativaFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sec/SistemaCausaAdministrativaFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sec/SistemaCausaInmediataFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sec/SistemaCausaInmediataFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sec/SistemaCausaRaizFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sec/SistemaCausaRaizFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sec/TareaDesviacionFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sec/TareaDesviacionFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sge/AbstractFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sge/AbstractFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sge/ElementoFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sge/ElementoFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sge/EvaluacionFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sge/EvaluacionFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sge/OpcionRespuestaFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sge/OpcionRespuestaFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sge/ReporteSGEFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sge/ReporteSGEFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sge/RespuestaFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sge/RespuestaFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sge/SistemaGestionFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sge/SistemaGestionFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sge/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sge/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sge/index.source.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.facade.sge/index.source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.reports.sge/ChartModel.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.reports.sge/ChartModel.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.reports.sge/CustomRender.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.reports.sge/CustomRender.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.reports.sge/FieldModel.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.reports.sge/FieldModel.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.reports.sge/GeneradorPlanTrabajoXSLX.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.reports.sge/GeneradorPlanTrabajoXSLX.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.reports.sge/GeneradorReportesDOCX.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.reports.sge/GeneradorReportesDOCX.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.reports.sge/GeneradorReportesHTML.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.reports.sge/GeneradorReportesHTML.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.reports.sge/ReportDataSource.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.reports.sge/ReportDataSource.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.reports.sge/TipoReporte.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.reports.sge/TipoReporte.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.reports.sge/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.reports.sge/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.reports.sge/index.source.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.reports.sge/index.source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ado/DirectorioREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ado/DirectorioREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.auc/ObservacionREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.auc/ObservacionREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.auc/TarjetaREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.auc/TarjetaREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.aus/CausaAusentismoREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.aus/CausaAusentismoREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.aus/ReporteAusentismoREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.aus/ReporteAusentismoREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.com/AfpREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.com/AfpREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.com/ArlREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.com/ArlREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.com/CcfREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.com/CcfREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.com/CieREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.com/CieREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.com/CiiuREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.com/CiiuREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.com/CiudadREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.com/CiudadREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.com/DepartamentoREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.com/DepartamentoREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.com/EnumeracionesREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.com/EnumeracionesREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.com/EpsREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.com/EpsREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.conf/ConfiguracionGeneralREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.conf/ConfiguracionGeneralREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.conf/ManualREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.conf/ManualREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.conf/OfflineServiceREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.conf/OfflineServiceREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.conf/SistemaNivelRiesgoREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.conf/SistemaNivelRiesgoREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.cop/ActaREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.cop/ActaREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/AreaREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/AreaREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/AuthenticationREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/AuthenticationREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/CargoREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/CargoREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/CompetenciaREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/CompetenciaREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/ConfiguracionJornadaREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/ConfiguracionJornadaREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/ContextoOrganizacionREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/ContextoOrganizacionREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/EmpleadoREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/EmpleadoREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/EmpresaREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/EmpresaREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/EvaluacionDesempenoREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/EvaluacionDesempenoREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/GrupoEmpresarialREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/GrupoEmpresarialREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/HhtREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/HhtREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/HorasExtraREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/HorasExtraREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/NewServlet.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/NewServlet.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/PerfilREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/PerfilREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/PermisoREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/PermisoREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/RecursoREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/RecursoREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/TipoAreaREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/TipoAreaREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/UsuarioREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/UsuarioREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/UtilsREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/UtilsREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/index.source.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.emp/index.source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.exceptions/InternalServerErrorMapper.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.exceptions/InternalServerErrorMapper.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.exceptions/NotFoundExceptionMapper.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.exceptions/NotFoundExceptionMapper.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ind/IndicadorAusentismoREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ind/IndicadorAusentismoREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ind/IndicadorEmpresaREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ind/IndicadorEmpresaREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ind/IndicadorInpREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ind/IndicadorInpREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ind/IndicadorREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ind/IndicadorREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ind/IndicadorRaiREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ind/IndicadorRaiREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ind/IndicadorSgeREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ind/IndicadorSgeREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ind/TableroREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ind/TableroREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.inp/InspeccionREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.inp/InspeccionREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.inp/ListaInspeccionREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.inp/ListaInspeccionREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.inp/ProgramacionREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.inp/ProgramacionREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.inp/TipoHallazgoREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.inp/TipoHallazgoREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ipr/ControlREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ipr/ControlREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ipr/EfectoREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ipr/EfectoREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ipr/FuenteREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ipr/FuenteREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ipr/IpecrREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ipr/IpecrREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ipr/ParticipanteIpecrREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ipr/ParticipanteIpecrREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ipr/PeligroIpecrREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ipr/PeligroIpecrREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ipr/PeligroREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ipr/PeligroREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ipr/TipoControlREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ipr/TipoControlREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ipr/TipoPeligroREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.ipr/TipoPeligroREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.rai/ReporteREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.rai/ReporteREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sec/AnalisisDesviacionREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sec/AnalisisDesviacionREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sec/DesviacionREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sec/DesviacionREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sec/SistemaCausaAdministrativaREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sec/SistemaCausaAdministrativaREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sec/SistemaCausaInmediataREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sec/SistemaCausaInmediataREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sec/SistemaCausaRaizREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sec/SistemaCausaRaizREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sec/TareaDesviacionREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sec/TareaDesviacionREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/AuthorizationFacade.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/AuthorizationFacade.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/AuthorizationFilter.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/AuthorizationFilter.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/FileEncryption.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/FileEncryption.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/GZIPWriterInterceptor.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/GZIPWriterInterceptor.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/RequestAuditableFilter.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/RequestAuditableFilter.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/ResponseAuditableFilter.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/ResponseAuditableFilter.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/ResponseFilter.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/ResponseFilter.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/UtilSecurity.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/UtilSecurity.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/UtilSecurity.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/UtilSecurity.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/WriterResponseInterceptor.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/WriterResponseInterceptor.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/index.source.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.security/index.source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sge/ElementoREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sge/ElementoREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sge/EvaluacionREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sge/EvaluacionREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sge/ReportesSGEREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sge/ReportesSGEREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sge/RespuestaREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sge/RespuestaREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sge/SistemaGestionREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful.sge/SistemaGestionREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/ApplicationConfig.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/ApplicationConfig.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/ContactoREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/ContactoREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/CriteriaFilter.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/CriteriaFilter.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/Filter.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/Filter.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/FilterQuery.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/FilterQuery.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/FilterResponse.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/FilterResponse.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/LogicOperation.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/LogicOperation.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/Request.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/Request.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/ServiceREST.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/ServiceREST.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/index.source.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.restful/index.source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util.converter/DatasetListConverter.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util.converter/DatasetListConverter.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util.converter/DoubleListConverter.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util.converter/DoubleListConverter.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util.converter/DurationConverter.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util.converter/DurationConverter.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util.converter/JsonListConverter.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util.converter/JsonListConverter.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util.converter/JsonObjectConverter.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util.converter/JsonObjectConverter.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util.converter/StringArrayListConverter.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util.converter/StringArrayListConverter.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util.converter/StringListConverter.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util.converter/StringListConverter.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util/FileUtil.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util/FileUtil.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util/IntegerWrap.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util/IntegerWrap.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util/Util.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util/Util.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util/UtilStrings.java.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/co.sigess.util/UtilStrings.java.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/jacoco-resources/prettify.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/jacoco-resources/prettify.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/jacoco-resources/prettify.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/jacoco-resources/prettify.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/jacoco-resources/report.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/jacoco-resources/report.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/jacoco-resources/sort.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/jacoco-resources/sort.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/jacoco-sessions.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/jacoco-sessions.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/jacoco.csv" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/jacoco.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/jacoco.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/site/jacoco/jacoco.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-test.co.sigess.facade.emp.TestUsuarioFacade.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-test.co.sigess.facade.emp.TestUsuarioFacade.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-test.co.sigess.restful.emp.TestAuthenticationREST.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-test.co.sigess.restful.emp.TestAuthenticationREST.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-test.co.sigess.restful.security.TestFileEncryption.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-test.co.sigess.restful.security.TestFileEncryption.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-test.co.sigess.restful.security.TestUtilSecurity.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-test.co.sigess.restful.security.TestUtilSecurity.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-test.co.sigess.util.TestUtil.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-test.co.sigess.util.TestUtil.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/test.co.sigess.facade.emp.TestUsuarioFacade.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/test.co.sigess.facade.emp.TestUsuarioFacade.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/test.co.sigess.restful.emp.TestAuthenticationREST.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/test.co.sigess.restful.emp.TestAuthenticationREST.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/test.co.sigess.restful.security.TestFileEncryption.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/test.co.sigess.restful.security.TestFileEncryption.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/test.co.sigess.restful.security.TestUtilSecurity.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/test.co.sigess.restful.security.TestUtilSecurity.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/test.co.sigess.util.TestUtil.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/test.co.sigess.util.TestUtil.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/test/co/sigess/facade/emp/TestUsuarioFacade.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/test/co/sigess/facade/emp/TestUsuarioFacade.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/test/co/sigess/restful/emp/TestAuthenticationREST.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/test/co/sigess/restful/emp/TestAuthenticationREST.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/test/co/sigess/restful/security/TestUtilSecurity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/test/co/sigess/restful/security/TestUtilSecurity.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="ProjectId" id="1cV3B8xQh2gOaIu5TXI7vmtNxLt" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Payara" type="GlassfishConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="GlassFish 5.194.0" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="SIGESS:war">
+          <settings />
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="DOMAIN" value="domain1" />
+        <option name="PRESERVE" value="false" />
+        <option name="COMPATIBILITY" value="false" />
+        <option name="VIRTUAL_SERVER" />
+        <option name="USERNAME" value="admin" />
+        <option name="CREDENTIAL_ALIAS" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="GlassFish" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="9009" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="SIGESS:war" />
+        </option>
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="52b07d63-6a72-49db-a836-3bfd8837dd9d" name="Default Changelist" comment="" />
+      <created>1590599796474</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1590599796474</updated>
+      <workItem from="1590599815436" duration="1211000" />
+      <workItem from="1590681007743" duration="438000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="414" y="246" key="#Glassfish_Server" timestamp="1590600877621">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="414" y="246" key="#Glassfish_Server/0.0.1280.680@0.0.1280.680" timestamp="1590600877621" />
+    <state x="348" y="76" key="#Servers" timestamp="1590600649994">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="348" y="76" key="#Servers/0.0.1280.680@0.0.1280.680" timestamp="1590600649994" />
+    <state x="94" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1590600932072">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="94" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1590600932072" />
+    <state x="419" y="81" key="FileChooserDialogImpl" timestamp="1590600866809">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="419" y="81" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1590600866809" />
+    <state width="845" height="163" key="GridCell.Tab.0.bottom" timestamp="1590601046262">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="845" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1590601046262" />
+    <state width="845" height="163" key="GridCell.Tab.0.center" timestamp="1590601046262">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="845" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1590601046262" />
+    <state width="845" height="163" key="GridCell.Tab.0.left" timestamp="1590601046262">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="845" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1590601046262" />
+    <state width="845" height="163" key="GridCell.Tab.0.right" timestamp="1590601046262">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="845" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1590601046262" />
+    <state width="845" height="163" key="GridCell.Tab.1.bottom" timestamp="1590601046263">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="845" height="163" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1590601046263" />
+    <state width="845" height="163" key="GridCell.Tab.1.center" timestamp="1590601046263">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="845" height="163" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1590601046263" />
+    <state width="845" height="163" key="GridCell.Tab.1.left" timestamp="1590601046262">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="845" height="163" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1590601046262" />
+    <state width="845" height="163" key="GridCell.Tab.1.right" timestamp="1590601046263">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="845" height="163" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1590601046263" />
+    <state x="120" y="0" key="SettingsEditor" timestamp="1590600510854">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="120" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1590600510854" />
+  </component>
+</project>
