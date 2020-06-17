@@ -38,7 +38,7 @@ public class Desviacion implements Serializable {
     @Column(name = "concepto")
     private String concepto;
     
-    @Column(name = "fechaReporte")
+    @Column(name = "fecha_reporte")
     private String fechaReporte;
     
     @Column(name = "aspecto_causante")
