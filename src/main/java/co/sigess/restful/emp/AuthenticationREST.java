@@ -159,6 +159,7 @@ public class AuthenticationREST {
                 if (null == ume.getCodigo()) {
                     return Response.status(Response.Status.FORBIDDEN).entity(new Mensaje()).build();
                 } else {
+                    System.out.print(ume.getClass());
                     switch (ume.getCodigo()) {
                         case Mensaje.COD_USUARIO_LOGIN_PREVIO:
                         case Mensaje.COD_IP_NO_PERMITIDA:
@@ -176,6 +177,7 @@ public class AuthenticationREST {
                 return Util.manageException(ex, AuthenticationREST.class);
             }
         }
+        
     }
 
     @POST

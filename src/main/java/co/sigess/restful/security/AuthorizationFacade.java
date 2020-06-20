@@ -221,7 +221,7 @@ public class AuthorizationFacade {
                 expToken = (Date) tupla[7];
                 ipValida = (Boolean) tupla[8];
 
-                if (!ipValida) {
+               /* if (!ipValida) {
                     Mensaje msg = new Mensaje(
                             "ACCESO NO PERMITIDO",
                             "Su dirección IP no se encuentra autorizada para realizar peticiones. "
@@ -229,7 +229,7 @@ public class AuthorizationFacade {
                             TipoMensaje.warn
                     );
                     return Response.status(Response.Status.FORBIDDEN).entity(msg).build();
-                }
+                }*/
 
                 // TODO: Se debe determinar que tratamiento dar cuando no es posible recibir el id de empresa de la sesión
                 if (idToken != null) {
