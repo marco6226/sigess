@@ -116,6 +116,22 @@ public class ListaInspeccionFacade extends AbstractFacade<ListaInspeccion> {
         return listInp;
     }
 
+    public int editProfile(ListaInspeccion listInp) throws Exception {
+        if (listInp.getListaInspeccionPK() == null) {
+            throw new IllegalArgumentException("La lista de inspección a actualizar no cuenta con un id válido");
+        }
+
+             System.out.print(listInp.getFkPerfilId() + " " + listInp.getListaInspeccionPK().getId());
+             Query query = this.em.createNativeQuery("UPDATE inp.lista_inspeccion SET  fk_perfil_id = ? where id = ? ;");
+             query.setParameter(1, listInp.getFkPerfilId());
+             query.setParameter(2, listInp.getListaInspeccionPK().getId());
+                
+              int res = query.executeUpdate();
+
+        return res;
+    }
+
+    
     public ListaInspeccion actualizarVersion(ListaInspeccion listaInspeccion) throws Exception {
         if (listaInspeccion.getListaInspeccionPK() == null) {
             throw new IllegalArgumentException("La lista de inspección a actualizar no cuenta con un id válido");

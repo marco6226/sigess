@@ -120,12 +120,20 @@ public class ListaInspeccionREST extends ServiceREST {
 
     @PUT
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response edit(ListaInspeccion listaInspeccion, @QueryParam("actualizarVersion") Boolean actualizarVersion) {
+    public Response edit(ListaInspeccion listaInspeccion, @QueryParam("actualizarVersion") Boolean actualizarVersion ,@QueryParam("putProfile") Boolean putProfile) {
         try {
             listaInspeccion.setEmpresa(new Empresa(super.getEmpresaIdRequestContext()));
-            if (actualizarVersion == null || actualizarVersion.equals(Boolean.FALSE)) {
+              
+            int res;
+            if (putProfile == true){
+                res = listaInspeccionFacade.editProfile(listaInspeccion);
+                return Response.ok(res).build();
+            }
+            else if
+                    (actualizarVersion == null || actualizarVersion.equals(Boolean.FALSE)) {
                 listaInspeccion = listaInspeccionFacade.edit(listaInspeccion);
-            } else {
+            } 
+            else {
                 listaInspeccion = listaInspeccionFacade.actualizarVersion(listaInspeccion);
             }
             return Response.ok(listaInspeccion).build();
@@ -134,4 +142,22 @@ public class ListaInspeccionREST extends ServiceREST {
         }
     }
 
+    @POST
+    @Path("/profile")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response editProfile(ListaInspeccion listaInspeccion, @QueryParam("actualizarVersion") Boolean actualizarVersion) {
+        System.out.println("Aqui llego");
+        try {
+            listaInspeccion.setEmpresa(new Empresa(super.getEmpresaIdRequestContext()));
+            if (actualizarVersion == null || actualizarVersion.equals(Boolean.FALSE)) {
+              // listaInspeccion = listaInspeccionFacade.editProfile(listaInspeccion);
+            } else {
+                listaInspeccion = listaInspeccionFacade.actualizarVersion(listaInspeccion);
+            }
+            return Response.ok(listaInspeccion).build();
+        } catch (Exception ex) {
+            return Util.manageException(ex, ListaInspeccionREST.class);
+        }
+    }
+   
 }
