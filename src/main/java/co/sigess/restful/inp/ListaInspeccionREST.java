@@ -125,7 +125,7 @@ public class ListaInspeccionREST extends ServiceREST {
             listaInspeccion.setEmpresa(new Empresa(super.getEmpresaIdRequestContext()));
               
             int res;
-            if (putProfile == true){
+            if (putProfile != null & putProfile == true){
                 res = listaInspeccionFacade.editProfile(listaInspeccion);
                 return Response.ok(res).build();
             }
